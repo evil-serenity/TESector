@@ -321,7 +321,6 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
         deed.ShuttleName = String.Join(" ", nameParts.SkipLast(hasSuffix ? 1 : 0));
     }
 
-    /* Ship saving functionality commented out
     public void OnSaveMessage(EntityUid uid, ShipyardConsoleComponent component, ShipyardConsoleSaveMessage args)
     {
         if (args.Actor is not { Valid: true } player)
@@ -377,15 +376,11 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
 
         shipSaveSystem.RequestSaveShip(targetId, playerSession);
 
-        // Remove the deed from the ID card after successful save
-        RemComp<ShuttleDeedComponent>(targetId);
-
-        ConsolePopup(player, $"Ship {deed.ShuttleName} has been saved!");
+        // Note: Deed removal happens after server confirms save success in ShipSaveSystem
+        ConsolePopup(player, $"Saving ship {deed.ShuttleName}... Check your Exports folder.");
         PlayConfirmSound(player, uid, component);
     }
-    */
 
-    /* Ship loading functionality commented out  
     public void OnLoadMessage(EntityUid uid, ShipyardConsoleComponent component, ShipyardConsoleLoadMessage args)
     {
         if (args.Actor is not { Valid: true } player)
@@ -446,7 +441,7 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
                 string playerUserId = playerSession.UserId.ToString();
 
                 // Use the comprehensive ship loading system
-                bool success = await TryLoadShipComprehensive(uid, targetId, args.YamlData, shipName, playerUserId, playerSession, component.ShipyardChannel);
+                bool success = await TryLoadShipComprehensive(uid, targetId, args.YamlData, shipName, playerUserId, playerSession, component.ShipyardChannel, args.SourceFilePath);
 
                 if (success)
                 {
@@ -469,7 +464,6 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
             }
         });
     }
-    */
 
     public void OnSellMessage(EntityUid uid, ShipyardConsoleComponent component, ShipyardConsoleSellMessage args)
     {

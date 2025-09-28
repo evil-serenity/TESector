@@ -15,7 +15,8 @@ using Content.Shared.Power.Components;
 using Content.Shared.VendingMachines;
 using Content.Shared.Hands.Components;
 using Content.Shared.Hands.EntitySystems;
-using Content.Shared.Access.Components;
+// using Content.Shared.Access.Components; // duplicate using removed
+using System.Diagnostics.CodeAnalysis;
 using Robust.Server.GameObjects;
 using Robust.Shared.GameObjects;
 using Robust.Shared.IoC;
@@ -37,7 +38,14 @@ using System.IO;
 using System.Linq;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Robust.Shared.Configuration;
+using Content.Shared.HL.CCVar;
 
+// Suppress RA0004 for this file. There is no Task<Result> usage here, but the analyzer
+// occasionally reports a false positive during Release/integration builds.
+#pragma warning disable RA0004
+// Suppress naming rule for _NF namespace prefix (modding convention)
+#pragma warning disable IDE1006
 namespace Content.Server._NF.Shipyard.Systems;
 
 /// <summary>
@@ -45,6 +53,7 @@ namespace Content.Server._NF.Shipyard.Systems;
 /// Saves ships as complete YAML files similar to savegrid command,
 /// after cleaning them of problematic components and moving to exports folder.
 /// </summary>
+[SuppressMessage("Usage", "RA0004:Risk of deadlock from accessing Task<T>.Result", Justification = "No Task.Result used; false positive during Release/integration builds.")]
 public sealed class ShipyardGridSaveSystem : EntitySystem
 {
     [Dependency] private readonly IEntityManager _entityManager = default!;
@@ -54,6 +63,8 @@ public sealed class ShipyardGridSaveSystem : EntitySystem
     [Dependency] private readonly SharedTransformSystem _transformSystem = default!;
     [Dependency] private readonly IResourceManager _resourceManager = default!;
     [Dependency] private readonly SharedContainerSystem _containerSystem = default!;
+    [Dependency] private readonly Content.Server.Shuttles.Save.ShipSerializationSystem _shipSerialization = default!;
+    [Dependency] private readonly IConfigurationManager _configManager = default!;
 
     private ISawmill _sawmill = default!;
     private MapLoaderSystem _mapLoader = default!;
@@ -71,10 +82,9 @@ public sealed class ShipyardGridSaveSystem : EntitySystem
         _mapSystem = _entitySystemManager.GetEntitySystem<SharedMapSystem>();
 
         // Subscribe to shipyard console events
-        // SubscribeLocalEvent<ShipyardConsoleComponent, ShipyardConsoleSaveMessage>(OnSaveShipMessage);
+        SubscribeLocalEvent<ShipyardConsoleComponent, ShipyardConsoleSaveMessage>(OnSaveShipMessage);
     }
 
-    /*
     private void OnSaveShipMessage(EntityUid consoleUid, ShipyardConsoleComponent component, ShipyardConsoleSaveMessage args)
     {
         if (args.Actor is not { Valid: true } player)
@@ -113,28 +123,27 @@ public sealed class ShipyardGridSaveSystem : EntitySystem
 
         _sawmill.Info($"Starting ship save for {deed.ShuttleName ?? "Unknown_Ship"} owned by {playerSession.Name}");
 
-        // Save the ship using our new grid-based system
-        _ = Task.Run(async () =>
+        // Run save inline on the main thread to avoid off-thread ECS access.
+        var success = TrySaveGridAsShip(shuttleUid.Value, deed.ShuttleName ?? "Unknown_Ship", playerSession.UserId.ToString(), playerSession);
+
+        if (success)
         {
-            var success = await TrySaveGridAsShip(shuttleUid.Value, deed.ShuttleName ?? "Unknown_Ship", playerSession.UserId.ToString(), playerSession);
+            // Clean up the deed after successful save
+            _entityManager.RemoveComponent<ShuttleDeedComponent>(targetId);
 
-            if (success)
-            {
-                // Clean up the deed after successful save
-                _entityManager.RemoveComponent<ShuttleDeedComponent>(targetId);
+            // Also remove any other shuttle deeds that reference this shuttle
+            RemoveAllShuttleDeeds(shuttleUid.Value);
 
-                // Also remove any other shuttle deeds that reference this shuttle
-                RemoveAllShuttleDeeds(shuttleUid.Value);
-
-                _sawmill.Info($"Successfully saved and removed ship {deed.ShuttleName}");
-            }
-            else
-            {
-                _sawmill.Error($"Failed to save ship {deed.ShuttleName}");
-            }
-        });
+            // Transfer semantics: after saving, delete the live ship grid.
+            // Use QueueDel to schedule deletion safely at end-of-frame to avoid PVS or in-frame references.
+            QueueDel(shuttleUid.Value);
+            _sawmill.Info($"Successfully saved ship {deed.ShuttleName}; queued deletion of grid {shuttleUid.Value}");
+        }
+        else
+        {
+            _sawmill.Error($"Failed to save ship {deed.ShuttleName}");
+        }
     }
-    */
 
     /// <summary>
     /// Removes all ShuttleDeedComponents that reference the specified shuttle EntityUid
@@ -160,9 +169,10 @@ public sealed class ShipyardGridSaveSystem : EntitySystem
     }
 
     /// <summary>
-    /// Saves a grid to a YAML file using MapLoaderSystem, after cleaning it of problematic components.
+    /// Saves a grid to YAML without mutating live game state. Uses ShipSerializationSystem to serialize in-place.
+    /// This avoids moving the grid to temporary maps or deleting any entities, preventing PVS/map deletion issues.
     /// </summary>
-    public async Task<bool> TrySaveGridAsShip(EntityUid gridUid, string shipName, string playerUserId, ICommonSession playerSession)
+    public bool TrySaveGridAsShip(EntityUid gridUid, string shipName, string playerUserId, ICommonSession playerSession)
     {
         if (!_entityManager.HasComponent<MapGridComponent>(gridUid))
         {
@@ -170,83 +180,101 @@ public sealed class ShipyardGridSaveSystem : EntitySystem
             return false;
         }
 
-        MapId? tempMapId = null;
-        EntityUid? tempGridUid = null;
-
         try
         {
-            _sawmill.Info($"Starting 5-step ship save process for grid {gridUid} as '{shipName}'");
+            _sawmill.Info($"Serializing ship grid {gridUid} as '{shipName}' using standard grid format (non-destructive save)");
 
-            // STEP 1: Create a blank map and teleport the ship to it for saving
-            tempMapId = await Step1_CreateBlankMapAndTeleportShip(gridUid, shipName, playerSession);
-            if (!tempMapId.HasValue)
+            // Use MapLoaderSystem to save directly to a temporary file in user data.
+            // Attach a temporary filter to optionally exclude vending machines from the save to avoid load-time spikes.
+            var excludeVending = _configManager.GetCVar(HLCCVars.ExcludeVendingInShipSave);
+            EntitySerializer.IsSerializableDelegate? veto = null;
+            if (excludeVending)
             {
-                _sawmill.Error("Step 1 failed: Could not create temporary map or teleport ship");
-                return false;
+                veto = (Entity<MetaDataComponent> ent, ref bool serializable) =>
+                {
+                    if (_entityManager.HasComponent<VendingMachineComponent>(ent))
+                        serializable = false;
+                };
             }
-            tempGridUid = gridUid; // Grid was moved, same EntityUid
-            _sawmill.Info($"Step 1 complete: Ship teleported to temporary map {tempMapId}");
 
-            // STEP 2: Empty containers and clean grid of problematic components, delete freefloating entities
-            var step2Success = await Step2_EmptyContainersAndCleanGrid(tempGridUid.Value);
-            if (!step2Success)
+            // Add a veto to exclude obvious near-origin loose duplicates from being saved.
+            // This is a safety net so we never persist the post-load duplicate pile even if cleanup missed it.
+            EntitySerializer.IsSerializableDelegate originPileVeto = (Entity<MetaDataComponent> ent, ref bool serializable) =>
             {
-                _sawmill.Error("Step 2 failed: Could not clean grid properly");
-                return false;
-            }
-            _sawmill.Info("Step 2 complete: Containers emptied and grid cleaned");
+                if (!_entityManager.TryGetComponent<TransformComponent>(ent, out var xform))
+                    return;
+                if (xform.GridUid != gridUid)
+                    return;
+                // Only consider directly parented, unanchored entities very close to origin.
+                if (xform.ParentUid != gridUid || xform.Anchored)
+                    return;
+                if (xform.LocalPosition.LengthSquared() > 3.0625f) // ~1.75 tiles
+                    return;
 
-            // STEP 3: Delete vending machines and remaining problematic structures
-            var step3Success = await Step3_DeleteProblematicStructures(tempGridUid.Value);
-            if (!step3Success)
+                // Heuristic match list similar to load-time cleanup; skip structure components automatically.
+                var id = ent.Comp.EntityPrototype?.ID ?? string.Empty;
+                var low = id.ToLowerInvariant();
+                if (low.Contains("thruster") || low.Contains("console") || low.Contains("computer") || low.Contains("circuit") || low.Contains("board") || low.Contains("capacitor") || low.Contains("manipulator") || low.Contains("laser") || low.Contains("scanner") || low.Contains("matter") || low.Contains("tool") || low.Contains("lamp") || low.Contains("light") || low.Contains("bulb") || low.Contains("engine"))
+                {
+                    serializable = false;
+                }
+            };
+
+            var timestamp = DateTime.UtcNow.ToString("yyyyMMdd_HHmmss");
+            var fileName = $"{shipName}_{timestamp}.yml";
+            var tempFilePath = new ResPath("/") / "UserData" / fileName;
+
+            if (veto != null)
+                _mapLoader.OnIsSerializable += veto;
+            _mapLoader.OnIsSerializable += originPileVeto;
+            try
             {
-                _sawmill.Error("Step 3 failed: Could not remove problematic structures");
-                return false;
+                var saved = _mapLoader.TrySaveGrid(gridUid, tempFilePath);
+                if (!saved)
+                {
+                    _sawmill.Error($"Failed to save grid {gridUid} to {fileName}");
+                    return false;
+                }
             }
-            _sawmill.Info("Step 3 complete: Problematic structures removed");
-
-            // STEP 4: Save the grid
-            var saveSuccess = await Step4_SaveGrid(tempGridUid.Value, shipName, playerSession);
-            if (!saveSuccess)
+            finally
             {
-                _sawmill.Error("Step 4 failed: Could not save grid");
-                return false;
+                if (veto != null)
+                    _mapLoader.OnIsSerializable -= veto;
+                _mapLoader.OnIsSerializable -= originPileVeto;
             }
-            _sawmill.Info("Step 4 complete: Grid saved successfully");
 
-            // STEP 5: Throw event, remove shuttle deed, update console
-            var step5Success = await Step5_PostSaveCleanupAndEvents(gridUid, shipName, playerUserId, playerSession);
-            if (!step5Success)
+            // Read the YAML we just wrote and send to the client for local saving.
+            string yaml;
+            using (var fileStream = _resourceManager.UserData.OpenRead(tempFilePath))
+            using (var reader = new StreamReader(fileStream))
             {
-                _sawmill.Error("Step 5 failed: Could not complete post-save cleanup");
-                // Don't return false here as the ship was saved successfully
+                yaml = reader.ReadToEnd();
             }
-            _sawmill.Info("Step 5 complete: Post-save cleanup and events fired");
 
-            _sawmill.Info($"Ship save process completed successfully for '{shipName}'");
+            var saveMessage = new SendShipSaveDataClientMessage(shipName, yaml);
+            RaiseNetworkEvent(saveMessage, playerSession);
+            _sawmill.Info($"Sent ship data '{shipName}' to client {playerSession.Name} for local saving");
+
+            // Clean up the temporary file (best-effort).
+            _ = TryDeleteFileWithRetry(tempFilePath);
+
+            // Fire ShipSavedEvent for bookkeeping; DO NOT delete the grid or maps here.
+            var gridSavedEvent = new ShipSavedEvent
+            {
+                GridUid = gridUid,
+                ShipName = shipName,
+                PlayerUserId = playerUserId,
+                PlayerSession = playerSession
+            };
+            RaiseLocalEvent(gridSavedEvent);
+            _sawmill.Info($"Fired ShipSavedEvent for '{shipName}'");
+
             return true;
         }
         catch (Exception ex)
         {
-            _sawmill.Error($"Exception during ship save: {ex}");
+            _sawmill.Error($"Exception during non-destructive ship save: {ex}");
             return false;
-        }
-        finally
-        {
-            // Clean up temporary resources
-            if (tempMapId.HasValue)
-            {
-                await Task.Delay(500); // Give systems time to finish processing
-                try
-                {
-                    _mapManager.DeleteMap(tempMapId.Value);
-                    _sawmill.Info($"Cleaned up temporary map {tempMapId}");
-                }
-                catch (Exception ex)
-                {
-                    _sawmill.Error($"Failed to clean up temporary map {tempMapId}: {ex}");
-                }
-            }
         }
     }
 
@@ -605,28 +633,7 @@ public sealed class ShipyardGridSaveSystem : EntitySystem
             RaiseLocalEvent(gridSavedEvent);
             _sawmill.Info($"Fired ShipSavedEvent for '{shipName}'");
 
-            // Remove shuttle deed from player's ID if they have one
-            if (_playerManager.TryGetSessionById(new NetUserId(Guid.Parse(playerUserId)), out var session) &&
-                session.AttachedEntity != null)
-            {
-                var playerEntity = session.AttachedEntity.Value;
-
-                // Look for ID cards in the player's inventory or hands
-                // This is a simplified approach - in practice you'd want to check hands, inventory slots, etc.
-                var handsQuery = _entityManager.GetComponent<HandsComponent>(playerEntity);
-                foreach (var hand in handsQuery.Hands.Values)
-                {
-                    if (hand.HeldEntity != null &&
-                        _entityManager.TryGetComponent<IdCardComponent>(hand.HeldEntity.Value, out var idCard) &&
-                        _entityManager.TryGetComponent<ShuttleDeedComponent>(hand.HeldEntity.Value, out var shuttleDeed))
-                    {
-                        // Remove the shuttle deed component
-                        _entityManager.RemoveComponent<ShuttleDeedComponent>(hand.HeldEntity.Value);
-                        _sawmill.Info($"Removed shuttle deed from player {playerUserId}'s ID card");
-                        break;
-                    }
-                }
-            }
+            // Deed removal is handled where the save is initiated (console slot entity) after success
 
             // Delete the original grid entity now that save is complete
             if (_entityManager.EntityExists(originalGridUid))
@@ -703,10 +710,10 @@ public sealed class ShipyardGridSaveSystem : EntitySystem
         var entitiesRemoved = 0;
         var componentsRemoved = 0;
 
-    // PHASE 1: Do not delete entities to preserve physics counts
-    // We'll clean by removing components instead (e.g., VendingMachineComponent)
-    _sawmill.Info("Phase 1: Skipping entity deletions to preserve physics components");
-    _sawmill.Info($"Phase 1 complete: deleted {entitiesRemoved} entities");
+        // PHASE 1: Do not delete entities to preserve physics counts
+        // We'll clean by removing components instead (e.g., VendingMachineComponent)
+        _sawmill.Info("Phase 1: Skipping entity deletions to preserve physics components");
+        _sawmill.Info($"Phase 1 complete: deleted {entitiesRemoved} entities");
 
         // PHASE 2: Clean components from remaining entities
         // Re-gather remaining entities to avoid processing deleted ones

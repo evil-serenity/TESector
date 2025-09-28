@@ -24,7 +24,7 @@
   name: Vortex-12
   parent: [ WeaponShotgunBulldog, BaseGunMeleeBlunt ]
   id: WeaponShotgunVortex
-  description: Designed by SESWC. An automatic magazine-fed shotgun for close-quarters combat #with an auto magazine ejector
+  description: Designed by SESWC. A semi-automatic magazine-fed shotgun for close-quarters combat #with an auto magazine ejector
   components:
   - type: NFWeaponDetails
     manufacturer: weapon-details-manufacturer-SESWC-consortium
@@ -50,13 +50,17 @@
   - type: AmmoCounter
   - type: GunRequiresWield #remove when inaccuracy on spreads is fixed
   - type: Gun  # Have to do this to reduce the firerate
-    fireRate: 1.5
-    selectedMode: SemiAuto #bulldog is full auto
+    fireRate: 1
+    selectedMode: SemiAuto
     availableModes:
     - SemiAuto
     soundGunshot:
       path: /Audio/Weapons/Guns/Gunshots/shotgun.ogg
     soundEmpty:
       path: /Audio/Weapons/Guns/Empty/empty.ogg
+  - type: Contraband # Try to do parent but bulldog override it thus This
+    severity: Class1
+    # Pretty much everyone.
+    allowedDepartments: [ Civilian, Security, Command, Frontier, CentralCommand ]  #IF we had a merc department we can expand on it
   #- type: ChamberMagazineAmmoProvider
   #  autoEject: true

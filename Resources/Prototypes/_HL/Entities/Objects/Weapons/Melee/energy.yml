@@ -2,13 +2,14 @@
   name: energy halberd
   parent: EnergySwordDouble
   id: WeaponEnergyHalberd
-  description: A polarm with an energy-based axe head and spike. Produced by SESWC.
+  description: A polearm with an energy-based axe head and spike. Produced by SESWC.
   components:
   - type: ItemToggleSize
     activatedSize: Huge
   - type: MeleeWeapon
+    range: 2
     wideAnimationRotation: -135
-    attackRate: 0.75
+    attackRate: 0.70
     angle: 80
     damage:
       types:
@@ -22,8 +23,7 @@
         variation: 0.250
     activatedDamage:
         types:
-            Slash: 2
-            Heat: 20
+            Heat: 42
             Structural: 50
   - type: ItemToggleActiveSound
     activeSound:
@@ -31,7 +31,8 @@
       params:
         volume: 3
   - type: Reflect # so it doenst inherit the reflect from the Dsword
-    reflectProb: .00
+    reflectProb: .1
+    spread: 75
   - type: Item
     size: Huge
     sprite: _HL/Objects/Weapons/Melee/e_halberd-inhands.rsi
@@ -53,8 +54,8 @@
       right:
       - state: inhand-right-blade
         shader: unshaded
-  - type: IgniteOnMeleeHit
-    fireStacks: 5
+  # - type: IgniteOnMeleeHit
+  #   fireStacks: 0
   - type: NFWeaponDetails
     manufacturer: weapon-details-manufacturer-SESWC-consortium
 
@@ -62,7 +63,7 @@
   name: antique energy halberd
   parent: WeaponEnergyHalberd
   id: WeaponEnergyHalberdAntique
-  description: A two-handed polarm, also know as a halberd. Ideal for a warden looking to protect their armoury. Designed and produced by SESWC.
+  description: A two-handed polearm, also known as a halberd. Ideal for a warden looking to protect their armoury. Designed and produced by SESWC.
   components:
   - type: Sprite
     sprite: _HL/Objects/Weapons/Melee/e_halberd.rsi
@@ -73,17 +74,17 @@
         visible: false
         shader: unshaded
         map: [ "blade" ]
-  - type: IgniteOnMeleeHit
-    fireStacks: 0
-  - type: Reflect # placeholder until I give them a speical thing like Syndicates have and Cartels have
-    reflectProb: .50
-    spread: 75
+  # - type: IgniteOnMeleeHit
+  #   fireStacks: 0
+  # - type: Reflect # placeholder until I give them a speical thing like Syndicates have and Cartels have
+  #   reflectProb: .1
+  #   spread: 75
 
 - type: entity
   name: cartel energy halberd
   parent: WeaponEnergyHalberd
   id: WeaponEnergyHalberdC
-  description: A two-handed polarm, also know as a halberd. This variant uses a purple focusing crystal, and the branding has been painted over.
+  description: A two-handed polearm, also known as a halberd. This variant uses a purple focusing crystal, and the branding has been painted over.
   components:
   - type: Sprite
     sprite: _HL/Objects/Weapons/Melee/e_halberd.rsi
@@ -103,11 +104,12 @@
       right:
       - state: inhand-right-blade-P
         shader: unshaded
-  - type: IgniteOnMeleeHit
-    fireStacks: 0
+  # - type: IgniteOnMeleeHit
+  #   fireStacks: 0
   - type: MeleeWeapon
+    range: 2
     wideAnimationRotation: -135
-    attackRate: 0.75
+    attackRate: 0.70
     angle: 80
     damage:
       types:
@@ -121,18 +123,5 @@
         variation: 0.250
     activatedDamage:
         types:
-            Caustic: 20
+            Heat: 42
             Structural: 50
-  - type: MeleeChemicalInjector
-    solution: Ruin
-    transferAmount: 1.7
-  - type: SolutionContainerManager
-    solutions:
-      Ruin:
-        maxVol: 10
-  - type: SolutionRegeneration
-    solution: Ruin
-    generated:
-      reagents:
-      - ReagentId: Ruin
-        Quantity: 5

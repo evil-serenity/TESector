@@ -174,7 +174,7 @@
   - MercenaryLaserCarbineLoadout
   - MercenaryLaserCannonLoadout
   - MercenaryDisablerSMGLoadout
-  - MercenaryVortexLoadout # hard light
+  - MercenaryShotgunVortexLoadout # hard light
   fallbacks:
   - MercenaryWt550Loadout
 

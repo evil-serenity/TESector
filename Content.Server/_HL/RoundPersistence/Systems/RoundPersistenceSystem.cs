@@ -22,7 +22,7 @@ using Content.Shared._NF.ShuttleRecords;
 using RobustTimer = Robust.Shared.Timing.Timer;
 using Content.Shared.StationRecords;
 using Content.Shared.CrewManifest;
-using Content.Shared.HL.CCVar;
+using Content.Shared.HL.CCVar; // HardLight CCVar namespace
 using Content.Shared.GameTicking;
 using Content.Shared.Shuttles.Components;
 using Content.Shared.Station.Components;
@@ -48,18 +48,18 @@ namespace Content.Server.HL.RoundPersistence.Systems;
 /// </summary>
 public sealed class RoundPersistenceSystem : EntitySystem
 {
-    [Dependency] private readonly IGameTiming _timing = default!;
-    [Dependency] private readonly IMapManager _mapManager = default!;
-    [Dependency] private readonly GameTicker _gameTicker = default!;
-    [Dependency] private readonly StationSystem _station = default!;
-    [Dependency] private readonly StationRecordsSystem _stationRecords = default!;
-    [Dependency] private readonly CrewManifestSystem _crewManifest = default!;
-    [Dependency] private readonly ShuttleRecordsSystem _shuttleRecords = default!;
-    [Dependency] private readonly UserInterfaceSystem _ui = default!;
-    [Dependency] private readonly IConfigurationManager _cfg = default!;
-    [Dependency] private readonly MetaDataSystem _metaDataSystem = default!;
-    [Dependency] private readonly SalvageSystem _salvageSystem = default!;
-    [Dependency] private readonly ShuttleSystem _shuttle = default!;
+    [Dependency] private IGameTiming _timing = default!;
+    [Dependency] private IMapManager _mapManager = default!;
+    [Dependency] private GameTicker _gameTicker = default!;
+    [Dependency] private StationSystem _station = default!;
+    [Dependency] private StationRecordsSystem _stationRecords = default!;
+    [Dependency] private CrewManifestSystem _crewManifest = default!;
+    [Dependency] private ShuttleRecordsSystem _shuttleRecords = default!;
+    [Dependency] private UserInterfaceSystem _ui = default!;
+    [Dependency] private IConfigurationManager _cfg = default!;
+    [Dependency] private MetaDataSystem _metaDataSystem = default!;
+    [Dependency] private SalvageSystem _salvageSystem = default!;
+    [Dependency] private ShuttleSystem _shuttle = default!;
 
     private ISawmill _sawmill = default!;
 
