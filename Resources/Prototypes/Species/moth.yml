@@ -43,7 +43,7 @@
 
 - type: markingPoints
   id: MobMothMarkingLimits
-  onlyWhitelisted: true
+  # onlyWhitelisted: true # Hardlight
   points:
     Hair:
       points: 1

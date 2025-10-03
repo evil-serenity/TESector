@@ -1,5 +1,6 @@
 using Content.Server.Chat.Systems;
 using Content.Server.Popups;
+using Content.Shared.Chat; // For InGameICChatType
 using Content.Server.Power.EntitySystems;
 using Content.Server.Speech.Components;
 using Content.Server.Telephone;

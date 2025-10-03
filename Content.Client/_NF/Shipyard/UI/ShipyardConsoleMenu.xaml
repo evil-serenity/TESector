@@ -67,6 +67,8 @@
             </BoxContainer>
         </GridContainer>
 
+        <!-- Docked grids deed creation is intentionally not available on Shipyard console -->
+
         <BoxContainer Orientation="Vertical" HorizontalExpand="True" Margin="0 8 0 2">
             <Label Text="Saved Ships:" />
             <ItemList Name="SavedShipsList"

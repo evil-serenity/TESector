@@ -18,10 +18,6 @@ public sealed class EntitySpawnProfilerSystem : EntitySystem
         // Subscribe to entity added / removed events for MetaDataComponent here if profiling is reinstated.
     }
 
-    // Placeholder methods retained for future implementation.
-    private void OnEntityAdded(Entity<MetaDataComponent> ent) { }
-    private void OnEntityRemoved(Entity<MetaDataComponent> ent) { }
-
     public override void Shutdown()
     {
         base.Shutdown();

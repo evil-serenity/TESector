@@ -254,8 +254,11 @@ namespace Content.Client.Shuttles.Save
                 {
                     var filePath = file.ToString();
 
-                    // Accept any .yml file in Exports (not just ship_index)
-                    if (filePath.Contains("Exports") && filePath.EndsWith(".yml") && !filePath.Contains("ship_index"))
+                    // Accept any .yml file in Exports (not just ship_index), but exclude backups
+                    if (filePath.Contains("Exports")
+                        && !filePath.Contains("Exports/backup")
+                        && filePath.EndsWith(".yml")
+                        && !filePath.Contains("ship_index"))
                     {
                         if (!AvailableShips.Contains(filePath))
                         {
@@ -483,15 +486,46 @@ namespace Content.Client.Shuttles.Save
         {
             try
             {
-                // Delete from disk if exists
-                var path = new Robust.Shared.Utility.ResPath(message.FilePath);
-                if (_resourceManager.UserData.Exists(path))
+                // Move the loaded ship file into /Exports/backup instead of deleting.
+                var originalPath = new Robust.Shared.Utility.ResPath(message.FilePath);
+                if (_resourceManager.UserData.Exists(originalPath))
                 {
-                    _resourceManager.UserData.Delete(path);
-                    Logger.Info($"Deleted local ship file: {message.FilePath}");
+                    // Ensure backup directory exists
+                    var backupDir = new Robust.Shared.Utility.ResPath("/Exports/backup");
+                    _resourceManager.UserData.CreateDir(backupDir);
+
+                    // Compute destination file path under backup directory
+                    var fileName = ExtractFileNameWithoutExtension(message.FilePath);
+                    // Reconstruct original extension (assumed .yml)
+                    var destBase = new Robust.Shared.Utility.ResPath($"/Exports/backup/{fileName}");
+                    var destinationPath = new Robust.Shared.Utility.ResPath(destBase.ToString() + ".yml");
+
+                    // If a file with the same name already exists in backup, append a timestamp
+                    if (_resourceManager.UserData.Exists(destinationPath))
+                    {
+                        var timestamped = new Robust.Shared.Utility.ResPath($"/Exports/backup/{fileName}_loaded_{DateTime.Now:yyyyMMdd_HHmmss}.yml");
+                        destinationPath = timestamped;
+                    }
+
+                    // Read original content
+                    string fileContents;
+                    using (var reader = _resourceManager.UserData.OpenText(originalPath))
+                    {
+                        fileContents = reader.ReadToEnd();
+                    }
+
+                    // Write to destination
+                    using (var writer = _resourceManager.UserData.OpenWriteText(destinationPath))
+                    {
+                        writer.Write(fileContents);
+                    }
+
+                    // Delete original file
+                    _resourceManager.UserData.Delete(originalPath);
+                    Logger.Info($"Moved local ship file to backup: {message.FilePath} -> {destinationPath}");
                 }
 
-                // Remove from caches and list
+                // Remove original entry from caches and list (do not add backup to menu)
                 CachedShipData.Remove(message.FilePath);
                 ShipMetadataCache.Remove(message.FilePath);
                 AvailableShips.Remove(message.FilePath);
@@ -502,7 +536,7 @@ namespace Content.Client.Shuttles.Save
             }
             catch (Exception ex)
             {
-                Logger.Warning($"Failed to delete local ship file '{message.FilePath}': {ex.Message}");
+                Logger.Warning($"Failed to move local ship file '{message.FilePath}' to backup: {ex.Message}");
             }
         }
 

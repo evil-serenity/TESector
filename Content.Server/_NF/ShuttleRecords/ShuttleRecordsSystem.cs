@@ -10,6 +10,8 @@ using Content.Shared.Access.Systems;
 using Robust.Server.GameObjects;
 using Robust.Shared.Timing;
 
+// Suppress naming rule for _NF namespace prefix (modding convention)
+#pragma warning disable IDE1006
 namespace Content.Server._NF.ShuttleRecords;
 
 public sealed partial class ShuttleRecordsSystem : SharedShuttleRecordsSystem

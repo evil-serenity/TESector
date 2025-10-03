@@ -4,6 +4,8 @@ using Content.Server.Shuttles.Components;
 using Content.Server.Shuttles.Systems;
 using Content.Server.Shuttles.Components;
 using Content.Server.Station.Components;
+using Content.Shared.Station.Components; // For StationMemberComponent
+using StationMemberComponent = Content.Shared.Station.Components.StationMemberComponent;
 using Content.Server.Cargo.Systems;
 using Content.Server.Station.Systems;
 using Content.Shared._NF.Shipyard.Components;
@@ -20,6 +22,7 @@ using System.Linq;
 using System.Numerics;
 using System.Threading.Tasks;
 using Content.Shared._NF.Shipyard.Events;
+using Content.Shared._NF.Bank.Components; // For BankAccountComponent
 using Content.Shared.Mobs.Components;
 using Robust.Shared.Containers;
 using Content.Server._NF.Station.Components;
@@ -61,6 +64,7 @@ using Robust.Shared.Physics.Collision.Shapes; // PolygonShape
 using Robust.Shared.Physics; // Physics Transform
 using Robust.Shared.Utility; // Box2 helpers
 using Robust.Shared.Map.Events; // For BeforeEntityReadEvent
+using Robust.Shared.Containers; // For SharedContainerSystem, ContainerManagerComponent
 
 // Suppress naming rule for _NF namespace prefix (modding convention)
 #pragma warning disable IDE1006
@@ -94,6 +98,8 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
     [Dependency] private readonly Content.Server.Shuttles.Save.ShipSerializationSystem _shipSerialization = default!; // For loading saved ships
     [Dependency] private readonly ITileDefinitionManager _tileDefManager = default!; // For tile lookups in clipping resolver
     [Dependency] private readonly EntityLookupSystem _lookup = default!; // For physics overlap checks
+    [Dependency] private readonly SharedContainerSystem _container = default!; // For safe container removal before deletion
+    [Dependency] private readonly SharedPopupSystem _popupSystem = default!; // For user feedback popups
 
     public MapId? ShipyardMap { get; private set; }
     private float _shuttleIndex;
@@ -134,6 +140,7 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
         SubscribeLocalEvent<ShipyardConsoleComponent, ComponentStartup>(OnShipyardStartup);
         SubscribeLocalEvent<ShipyardConsoleComponent, BoundUIOpenedEvent>(OnConsoleUIOpened);
         SubscribeLocalEvent<ShipyardConsoleComponent, ShipyardConsoleSellMessage>(OnSellMessage);
+        // Docked-grid deed creation is handled in Shuttle Records, not Shipyard
         SubscribeLocalEvent<ShipyardConsoleComponent, ShipyardConsolePurchaseMessage>(OnPurchaseMessage);
         // Ship saving/loading functionality
         SubscribeLocalEvent<ShipyardConsoleComponent, ShipyardConsoleLoadMessage>(OnLoadMessage);
@@ -178,6 +185,8 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
         _baseSaleRate = Math.Clamp(value, 0.0f, 1.0f);
     }
 
+    // Docked-grid deed creation logic removed from Shipyard; use Shuttle Records console instead
+
     /// <summary>
     /// Adds a ship to the shipyard, calculates its price, and attempts to ftl-dock it to the given station
     /// </summary>
@@ -217,6 +226,17 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
         var targetGrid = consoleXform.GridUid.Value;
 
         _sawmill.Info($"Shuttle {shuttlePath} was purchased at {ToPrettyString(consoleUid)} for {price:f2}");
+
+        // Ensure required components for docking and identification
+        EntityManager.EnsureComponent<Robust.Shared.Physics.Components.PhysicsComponent>(grid);
+        EntityManager.EnsureComponent<ShuttleComponent>(grid);
+        var iff = EntityManager.EnsureComponent<IFFComponent>(grid);
+        // Add new grid to the same station as the console's grid (for IFF / ownership), if any
+        if (TryComp<StationMemberComponent>(consoleXform.GridUid, out var stationMember))
+        {
+            _station.AddGridToStation(stationMember.Station, grid);
+        }
+
         _shuttle.TryFTLDock(grid, shuttleComponent, targetGrid);
         shuttleEntityUid = grid;
         return true;
@@ -255,6 +275,28 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
         var targetGrid = consoleXform.GridUid.Value;
 
         _sawmill.Info($"Shuttle loaded from file {shuttlePath} at {ToPrettyString(consoleUid)}");
+
+        // Ensure required components for docking and identification
+        EntityManager.EnsureComponent<Robust.Shared.Physics.Components.PhysicsComponent>(grid);
+        EntityManager.EnsureComponent<ShuttleComponent>(grid);
+        var iff = EntityManager.EnsureComponent<IFFComponent>(grid);
+
+        // Load-time sanitation: purge any deserialized joints and reset dock joint references
+        // to avoid physics processing invalid joint bodies (e.g., Entity 0) from YAML.
+        try
+        {
+            PurgeJointsAndResetDocks(grid);
+        }
+        catch (Exception ex)
+        {
+            _sawmill.Warning($"[ShipLoad] PurgeJointsAndResetDocks failed on {grid}: {ex.Message}");
+        }
+        // Add new grid to the same station as the console's grid (for IFF / ownership), if any
+        if (TryComp<StationMemberComponent>(consoleXform.GridUid, out var stationMember))
+        {
+            _station.AddGridToStation(stationMember.Station, grid);
+        }
+
         _shuttle.TryFTLDock(grid, shuttleComponent, targetGrid);
         shuttleEntityUid = grid;
         return true;
@@ -300,104 +342,98 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
             return false;
         }
 
-        var targetGrid = consoleXform.GridUid.Value;
-
         try
         {
-            // Setup shipyard
-            SetupShipyardIfNeeded();
-            if (ShipyardMap == null)
-                return false;
-
-            // Load ship directly from YAML data (bypassing file system)
-            if (!TryLoadGridFromYamlData(yamlData, ShipyardMap.Value, new Vector2(500f + _shuttleIndex, 1f), out var grid))
+            // Write YAML to a temporary file and reuse the exact ship purchase-from-file path.
+            if (!TryPurchaseShuttleFromYamlData(consoleUid, yamlData, out var loadedGrid))
             {
-                _sawmill.Error($"Unable to load ship from YAML data");
+                _sawmill.Error("Unable to load ship from YAML via purchase flow");
                 return false;
             }
 
-            var shuttleGrid = grid.Value.Owner;
-
-            if (!TryComp<ShuttleComponent>(shuttleGrid, out var shuttleComponent))
-            {
-                _sawmill.Error("Loaded entity is not a shuttle");
-                return false;
-            }
-
-            // Update shuttle index for spacing
-            _shuttleIndex += grid.Value.Comp.LocalAABB.Width + ShuttleSpawnBuffer;
-
-            _sawmill.Info($"Ship loaded from YAML data at {ToPrettyString(consoleUid)}");
-            // Immediately attempt to dock the loaded ship to the console's grid (station) just like purchase flow.
-            // This ensures the loaded vessel appears docked instead of floating.
+            // Post-load maintenance after docking: cleanup duplicate origin piles and anchor infra.
             try
             {
-                // Pre-align shuttle to best docking angle to reduce clipping/rotation mismatch
-                try
-                {
-                    var config = _docking.GetDockingConfig(shuttleGrid, targetGrid);
-                    if (config != null && TryComp<TransformComponent>(shuttleGrid, out var preXform))
-                    {
-                        preXform.LocalRotation = config.Angle;
-                        _sawmill.Info($"Pre-aligned shuttle rotation to docking angle {config.Angle.Degrees:F2}°");
-                    }
-                }
-                catch (Exception alignEx)
-                {
-                    _sawmill.Debug($"Pre-dock alignment skipped: {alignEx.Message}");
-                }
-                if (TryComp<TransformComponent>(shuttleGrid, out var shipXform) && TryComp<TransformComponent>(targetGrid, out var targetXform))
-                {
-                    _sawmill.Info($"Pre-dock orientation: shipRot={shipXform.LocalRotation.Degrees:F2}° shipPos={shipXform.WorldPosition} targetRot={targetXform.LocalRotation.Degrees:F2}° targetPos={targetXform.WorldPosition}");
-                }
-                if (_shuttle.TryFTLDock(shuttleGrid, shuttleComponent, targetGrid))
-                {
-                    if (TryComp<TransformComponent>(shuttleGrid, out var shipXform2))
-                        _sawmill.Info($"Post-dock orientation: shipRot={shipXform2.LocalRotation.Degrees:F2}° shipPos={shipXform2.WorldPosition}");
-                    _sawmill.Info($"Auto-docked loaded ship {shuttleGrid} to grid {targetGrid}");
-                }
-                else
-                {
-                    // Fallback: try with Gas-type ports instead of Airlock (DockType.Docking does not exist)
-                    if (_shuttle.TryFTLDock(shuttleGrid, shuttleComponent, targetGrid, dockType: DockType.Gas))
-                    {
-                        if (TryComp<TransformComponent>(shuttleGrid, out var shipXform3))
-                            _sawmill.Info($"Post-dock (fallback) orientation: shipRot={shipXform3.LocalRotation.Degrees:F2}° shipPos={shipXform3.WorldPosition}");
-                        _sawmill.Info($"Auto-docked (fallback) loaded ship {shuttleGrid} to grid {targetGrid}");
-                    }
-                    else
-                    {
-                        _sawmill.Warning($"Auto-dock attempt for loaded ship {shuttleGrid} to grid {targetGrid} failed (no matching docks?)");
-                    }
-                }
+                // Defensive: ensure any stale joints from YAML are purged prior to post-processing
+                PurgeJointsAndResetDocks(loadedGrid.Value);
+                CleanupDuplicateLooseParts(loadedGrid.Value);
+                AutoAnchorInfrastructure(loadedGrid.Value);
 
-                // Post-load maintenance: cleanup duplicates & auto-anchor infrastructure.
-                // IMPORTANT: Do NOT move a grid after docking (joints expect a fixed transform). Any nudging while docked
-                // can cause position desync and wild teleporting on undock. Only resolve overlaps if NOT docked (handled in method).
-                try
+                // Important: Treat loaded ships like independent shuttles, not part of the station.
+                // The purchase-from-file path temporarily adds the grid to the console's station for IFF/ownership.
+                // That causes station-wide events (alerts, etc.) to target the loaded ship. Remove that membership.
+                if (TryComp<StationMemberComponent>(loadedGrid.Value, out var member))
                 {
-                    // Only resolves clipping if shuttle is not currently docked.
-                    ResolvePostDockClipping(shuttleGrid, targetGrid);
-                    CleanupDuplicateLooseParts(shuttleGrid);
-                    AutoAnchorInfrastructure(shuttleGrid);
-                }
-                catch (Exception postEx)
-                {
-                    _sawmill.Error($"Post-load maintenance error on {shuttleGrid}: {postEx.Message}");
+                    try
+                    {
+                        _station.RemoveGridFromStation(member.Station, loadedGrid.Value);
+                        _sawmill.Info($"[ShipLoad] Removed station membership from loaded ship grid {loadedGrid.Value} (station {member.Station})");
+                    }
+                    catch (Exception rmEx)
+                    {
+                        _sawmill.Warning($"[ShipLoad] Failed to remove station membership from {loadedGrid.Value}: {rmEx.Message}");
+                    }
                 }
             }
-            catch (Exception dockEx)
+            catch (Exception postEx)
             {
-                _sawmill.Error($"Exception during auto-dock of loaded ship {shuttleGrid}: {dockEx.Message}");
+                _sawmill.Error($"Post-load maintenance error on {loadedGrid}: {postEx.Message}");
             }
 
-            shuttleEntityUid = shuttleGrid;
+            shuttleEntityUid = loadedGrid.Value;
             return true;
         }
         catch (Exception ex)
         {
-            _sawmill.Error($"Exception while loading ship from YAML: {ex}");
+            _sawmill.Error($"Exception while loading ship from YAML (purchase flow): {ex}");
             return false;
+        }
+    }
+
+    /// <summary>
+    /// Writes YAML data to a temporary file and loads it using the exact same method as purchasing a shuttle from a file.
+    /// Ensures identical setup/docking logic.
+    /// </summary>
+    private bool TryPurchaseShuttleFromYamlData(EntityUid consoleUid, string yamlData, [NotNullWhen(true)] out EntityUid? shuttleEntityUid)
+    {
+        shuttleEntityUid = null;
+        ResPath tempPath = default;
+        try
+        {
+            // Create a temp path under UserData/ShipyardTemp
+            var fileName = $"shipyard_load_{DateTime.UtcNow:yyyyMMdd_HHmmss_fff}_{Guid.NewGuid():N}.yml";
+            var dir = new ResPath("/") / "UserData" / "ShipyardTemp";
+            tempPath = dir / fileName;
+
+            // Ensure directory exists and write file
+            _resources.UserData.CreateDir(dir);
+            using (var writer = _resources.UserData.OpenWriteText(tempPath))
+            {
+                writer.Write(yamlData);
+            }
+
+            // Reuse purchase-from-file flow
+            if (!TryPurchaseShuttleFromFile(consoleUid, tempPath, out shuttleEntityUid))
+                return false;
+
+            return true;
+        }
+        catch (Exception ex)
+        {
+            _sawmill.Error($"Failed to purchase shuttle from YAML data: {ex.Message}");
+            return false;
+        }
+        finally
+        {
+            try
+            {
+                if (tempPath != default && _resources.UserData.Exists(tempPath))
+                    _resources.UserData.Delete(tempPath);
+            }
+            catch
+            {
+                // Best-effort cleanup
+            }
         }
     }
 
@@ -415,9 +451,9 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
         var partKeywords = new[] {
             // Machine parts / boards
             "capacitor", "matter bin", "board", "manipulator", "laser", "scanner",
-            // Added per request: tools, electronics, lights
+            // Added per request: tools and electronics (EXCLUDE lights to avoid removing bulbs from fixtures)
             "tool", "wrench", "screwdriver", "crowbar", "multitool",
-            "electronics", "circuit", "light", "lamp", "bulb"
+            "electronics", "circuit"
         };
         var transformQuery = GetEntityQuery<TransformComponent>();
         var metaQuery = GetEntityQuery<MetaDataComponent>();
@@ -447,9 +483,7 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
             return;
 
         foreach (var ent in toDelete)
-        {
-            QueueDel(ent);
-        }
+            SafeDelete(ent);
         _sawmill.Info($"Removed {toDelete.Count} loose duplicate machine part items on loaded ship {shuttleGrid}");
     }
 
@@ -567,12 +601,14 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
     }
 
     /// <summary>
-    /// Anchors atmos and infrastructure entities (vents, scrubbers, pipes, manifolds, cables) that should be anchored but aren't.
+    /// Anchors atmos and infrastructure entities that should be anchored but aren't.
+    /// Expanded: Anchor any entity on the loaded grid that has AnchorableComponent and is currently unanchored.
     /// </summary>
     private void AutoAnchorInfrastructure(EntityUid shuttleGrid)
     {
         var transformQuery = GetEntityQuery<TransformComponent>();
         var metaQuery = GetEntityQuery<MetaDataComponent>();
+        var anchorableQuery = GetEntityQuery<Content.Shared.Construction.Components.AnchorableComponent>();
         var anchored = 0;
 
         foreach (var uid in EntityManager.GetEntities())
@@ -583,17 +619,23 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
                 continue;
             if (xform.Anchored)
                 continue;
-            if (!metaQuery.TryGetComponent(uid, out var meta) || meta.EntityPrototype == null)
-                continue;
-            var id = meta.EntityPrototype.ID;
-            // Heuristic match list (can expand):
-            if (!(id.Contains("Vent", StringComparison.OrdinalIgnoreCase)
-                || id.Contains("Scrubber", StringComparison.OrdinalIgnoreCase)
-                || id.Contains("Pipe", StringComparison.OrdinalIgnoreCase)
-                || id.Contains("Manifold", StringComparison.OrdinalIgnoreCase)
-                || id.Contains("Cable", StringComparison.OrdinalIgnoreCase)
-                || id.Contains("Conduit", StringComparison.OrdinalIgnoreCase)))
-                continue;
+            // If the entity is anchorable, prefer anchoring based on the component rather than string heuristics.
+            var canAnchor = anchorableQuery.HasComponent(uid);
+            if (!canAnchor)
+            {
+                // Fallback: heuristic by prototype id for things missing AnchorableComponent.
+                if (!metaQuery.TryGetComponent(uid, out var meta) || meta.EntityPrototype == null)
+                    continue;
+                var id = meta.EntityPrototype.ID;
+                canAnchor = (id.Contains("Vent", StringComparison.OrdinalIgnoreCase)
+                    || id.Contains("Scrubber", StringComparison.OrdinalIgnoreCase)
+                    || id.Contains("Pipe", StringComparison.OrdinalIgnoreCase)
+                    || id.Contains("Manifold", StringComparison.OrdinalIgnoreCase)
+                    || id.Contains("Cable", StringComparison.OrdinalIgnoreCase)
+                    || id.Contains("Conduit", StringComparison.OrdinalIgnoreCase));
+                if (!canAnchor)
+                    continue;
+            }
 
             try
             {
@@ -663,6 +705,9 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
                 if (fastGridUid != null && EntityManager.TryGetComponent<MapGridComponent>(fastGridUid.Value, out var fastGrid))
                 {
                     grid = new Entity<MapGridComponent>(fastGridUid.Value, fastGrid);
+                    // Ensure required components for physical docking on standard path
+                    EntityManager.EnsureComponent<Robust.Shared.Physics.Components.PhysicsComponent>(fastGridUid.Value);
+                    EntityManager.EnsureComponent<ShuttleComponent>(fastGridUid.Value);
                     _sawmill.Info($"[ShipLoad] Loaded via standard MapLoader-compatible path: {fastGridUid.Value}");
                     LogGridChildDiagnostics(fastGridUid.Value, "post-standard-load");
                     LogPotentialOrphanedEntities(fastGridUid.Value, "post-standard-load");
@@ -699,6 +744,8 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
                         if (EntityManager.TryGetComponent<MapGridComponent>(shipGridUid, out var shipGrid))
                         {
                             grid = new Entity<MapGridComponent>(shipGridUid, shipGrid);
+                            // Ensure physics for weld joint creation on reconstructed grids (redundant safeguard)
+                            EntityManager.EnsureComponent<Robust.Shared.Physics.Components.PhysicsComponent>(shipGridUid);
                             _sawmill.Info($"[ShipLoad] Successfully reconstructed ship grid: {shipGridUid}");
                             LogGridChildDiagnostics(shipGridUid, "post-reconstruct");
                             LogPotentialOrphanedEntities(shipGridUid, "post-reconstruct");
@@ -802,6 +849,9 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
             if (deserializer.Result.Grids.Count == 1)
             {
                 grid = deserializer.Result.Grids.Single();
+                // Ensure physics and shuttle components on fallback path as well
+                EntityManager.EnsureComponent<Robust.Shared.Physics.Components.PhysicsComponent>(grid.Value.Owner);
+                EntityManager.EnsureComponent<ShuttleComponent>(grid.Value.Owner);
                 LogGridChildDiagnostics(grid.Value.Owner, "post-fallback-deserializer");
                 LogPotentialOrphanedEntities(grid.Value.Owner, "post-fallback-deserializer");
                 ReconcileGridChildren(grid.Value.Owner);
@@ -903,15 +953,13 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
     }
 
     /// <summary>
-    /// Deletes unanchored loose entities piled very close to the grid origin that appear to be duplicates of
-    /// properly contained / anchored equipment (e.g. machine parts, thrusters, consoles) created by legacy
-    /// deserialization quirks. We identify candidates by:
+    /// Aggressively deletes any unanchored loose entities piled very close to the grid origin.
+    /// Criteria:
     ///   - Unanchored
     ///   - Parent is the grid (not inside a container / machine)
-    ///   - Within a small radius (default 1.75 tiles) of origin
-    ///   - Prototype matches a whitelist of typical duplicated categories OR there are multiple entities of same proto clustered
-    /// For safety we only delete if at least one anchored instance of that prototype exists elsewhere on the grid OR there
-    /// are 2+ loose copies in the pile (suggesting duplication rather than a legitimate loose item).
+    ///   - Within a small radius (~1.75 tiles) of origin
+    /// Exclusions: docking ports, shuttles, and any entity with a MobStateComponent (players / mobs).
+    /// This implements the request to fully clear the origin pile rather than trying to de-duplicate heuristically.
     /// </summary>
     private void CleanupDuplicateOriginPile(EntityUid gridUid, string stage)
     {
@@ -919,104 +967,73 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
         {
             if (!TryComp<MapGridComponent>(gridUid, out _))
                 return;
-
-            var origin = Transform(gridUid);
-            // Collect anchored prototypes to know what "legitimate" instances exist.
-            var anchoredProtoCounts = new Dictionary<string, int>();
-            // Collect container-contained prototype counts on this grid (used to identify duplicates dumped from containers)
-            var containerProtoCounts = GetContainerProtoCountsOnGrid(gridUid);
-            var pileCandidates = new List<EntityUid>();
-            var pileByProto = new Dictionary<string, List<EntityUid>>();
-
+            var toDelete = new List<EntityUid>();
             foreach (var ent in _entityManager.GetEntities())
             {
                 if (ent == gridUid) continue;
                 if (!TryComp<TransformComponent>(ent, out var xform)) continue;
                 if (xform.GridUid != gridUid) continue;
-                var meta = MetaData(ent);
-                var proto = meta.EntityPrototype?.ID;
-                if (proto == null) continue;
-
-                if (xform.Anchored)
-                {
-                    anchoredProtoCounts.TryGetValue(proto, out var count);
-                    anchoredProtoCounts[proto] = count + 1;
-                    continue;
-                }
-
-                // Only consider unanchored directly parented items very near origin (<= ~1.75 tile radius)
+                if (xform.Anchored) continue;
                 if (xform.ParentUid != gridUid) continue;
-                if (xform.LocalPosition.LengthSquared() > 3.0625f) continue; // 1.75^2
+                if (xform.LocalPosition.LengthSquared() > 3.0625f) continue; // ~1.75 tiles
 
-                // Ignore players / mobs / docking parts etc.
-                if (HasComp<DockingComponent>(ent) || HasComp<ShuttleComponent>(ent))
+                // Exclusions for safety
+                if (HasComp<DockingComponent>(ent) || HasComp<ShuttleComponent>(ent) || HasComp<Content.Shared.Mobs.Components.MobStateComponent>(ent))
                     continue;
 
-                pileCandidates.Add(ent);
-                if (!pileByProto.TryGetValue(proto, out var list))
-                {
-                    list = new List<EntityUid>();
-                    pileByProto[proto] = list;
-                }
-                list.Add(ent);
-            }
-
-            if (pileCandidates.Count == 0)
-                return; // nothing to do
-
-            // Whitelist patterns frequently duplicated. Lowercase compare.
-            bool IsWhitelisted(string p)
-            {
-                p = p.ToLowerInvariant();
-                return p.Contains("thruster") || p.Contains("console") || p.Contains("computer") || p.Contains("circuit") || p.Contains("board") || p.Contains("capacitor") || p.Contains("manipulator") || p.Contains("laser") || p.Contains("scanner") || p.Contains("matter") || p.Contains("tool") || p.Contains("lamp") || p.Contains("light") || p.Contains("bulb") || p.Contains("engine");
-            }
-
-            var toDelete = new List<EntityUid>();
-            foreach (var (proto, list) in pileByProto)
-            {
-                // Safety: Only delete if more than 1 loose copy OR an anchored version exists somewhere else.
-                var looseCount = list.Count;
-                anchoredProtoCounts.TryGetValue(proto, out var anchoredCount);
-                containerProtoCounts.TryGetValue(proto, out var containedCount);
-                if (looseCount == 0) continue;
-
-                // If there are anchored instances somewhere on the grid, purge all loose copies near origin.
-                if (anchoredCount > 0)
-                {
-                    toDelete.AddRange(list);
-                    continue;
-                }
-
-                // If containers on this grid already contain this prototype, treat near-origin copies as duplicates.
-                if (containedCount > 0)
-                {
-                    // Delete up to the number of contained instances to avoid over-deleting if the map legitimately had extras.
-                    var delCount = Math.Min(looseCount, containedCount);
-                    foreach (var ent in list.Take(delCount))
-                        toDelete.Add(ent);
-                    continue;
-                }
-
-                // Otherwise, keep a single copy for safety unless on whitelist, where duplication is common.
-                if (looseCount == 1 && !IsWhitelisted(proto))
-                    continue;
-
-                foreach (var ent in list.Skip(1))
-                    toDelete.Add(ent);
+                toDelete.Add(ent);
             }
 
             if (toDelete.Count == 0)
                 return;
 
             foreach (var ent in toDelete)
-                QueueDel(ent);
+                SafeDelete(ent);
 
-            _sawmill.Info($"[ShipLoad] Deleted {toDelete.Count} duplicate loose entities near origin on grid {gridUid} ({stage})");
+            _sawmill.Info($"[ShipLoad] Aggressively deleted {toDelete.Count} loose entities near origin on grid {gridUid} ({stage})");
         }
         catch (Exception ex)
         {
             _sawmill.Warning($"[ShipLoad] CleanupDuplicateOriginPile failed: {ex.Message}");
         }
+    }
+
+    /// <summary>
+    /// Safely deletes an entity by ensuring it is first removed from any container relationships, and
+    /// recursively clears any contents if the entity itself owns containers. This avoids client-side
+    /// asserts when an entity is detached to null-space while still flagged as InContainer.
+    /// </summary>
+    private void SafeDelete(EntityUid uid)
+    {
+        try
+        {
+            // If this entity owns containers, empty them first.
+            if (TryComp<ContainerManagerComponent>(uid, out var manager))
+            {
+                foreach (var container in manager.Containers.Values)
+                {
+                    // Copy to avoid modifying during iteration
+                    foreach (var contained in container.ContainedEntities.ToArray())
+                    {
+                        try
+                        {
+                            _container.Remove(contained, container, force: true);
+                        }
+                        catch { /* best-effort */ }
+
+                        // Recursively ensure any nested containers are emptied then delete.
+                        SafeDelete(contained);
+                    }
+                }
+            }
+
+            // Ensure the entity itself is not inside a container anymore (paranoia in case callers misclassify parent).
+            _container.TryRemoveFromContainer(uid);
+        }
+        catch { /* best-effort */ }
+
+        // Finally queue the deletion of the entity itself.
+        QueueDel(uid);
     }
 
     /// <summary>
@@ -1264,6 +1281,47 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
                 }
             }
         }
+    }
+
+    /// <summary>
+    /// Removes any JointComponent instances that may have been deserialized with the ship and clears
+    /// DockingComponent joint references. This prevents the physics solver from encountering joints
+    /// with invalid body UIDs (e.g., default/zero) originating from stale YAML state. The DockingSystem
+    /// will recreate proper weld joints during docking.
+    /// </summary>
+    private void PurgeJointsAndResetDocks(EntityUid gridUid)
+    {
+        // Remove any JointComponent on the grid or its children
+        var removed = 0;
+        foreach (var uid in _entityManager.GetEntities())
+        {
+            if (!TryComp<TransformComponent>(uid, out var xform))
+                continue;
+            if (uid != gridUid && xform.GridUid != gridUid)
+                continue;
+
+            // Purge joints first
+            if (EntityManager.RemoveComponent<Robust.Shared.Physics.JointComponent>(uid))
+                removed++;
+
+            // Reset docking joint references to force clean joint creation later
+            if (TryComp<DockingComponent>(uid, out var dock))
+            {
+                dock.DockJoint = null;
+                dock.DockJointId = null;
+
+                // Clear malformed DockedWith values that might have come from YAML
+                if (dock.DockedWith != null)
+                {
+                    var other = dock.DockedWith.Value;
+                    if (!other.IsValid() || !TryComp<MetaDataComponent>(other, out _))
+                        dock.DockedWith = null;
+                }
+            }
+        }
+
+        if (removed > 0)
+            _sawmill.Info($"[ShipLoad] Purged {removed} deserialized JointComponent(s) on grid {gridUid}");
     }
 
     /// <summary>
@@ -1677,6 +1735,8 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
             RaiseLocalEvent(shipLoadedEvent);
             _sawmill.Info($"Fired ShipLoadedEvent for ship '{shipName}'");
 
+            // Commented out for now
+            /*
             // If this load originated from a client-side file, notify the client to delete it now
             if (!string.IsNullOrEmpty(filePath) && playerSession != null)
             {
@@ -1690,7 +1750,7 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
                     _sawmill.Warning($"Failed to send delete local ship file message: {ex}");
                 }
             }
-
+            */
             // Console updates are handled by the calling method (UI feedback)
             // Additional console-specific updates could go here if needed
 
