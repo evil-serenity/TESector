@@ -164,6 +164,13 @@ public sealed partial class SalvageSystem
         Log.Info($"Mission {args.Index} successfully claimed on independent console {ToPrettyString(uid)}");
     }
 
+    // HARDLIGHT: manual refresh handler to re-link console with station expedition data
+    private void OnSalvageRefreshMessage(EntityUid uid, SalvageExpeditionConsoleComponent component, RefreshSalvageConsoleMessage args)
+    {
+        Log.Info($"Manual salvage console refresh requested for {ToPrettyString(uid)}");
+        UpdateConsole((uid, component));
+    }
+
     // Frontier: early expedition end
     private void OnSalvageFinishMessage(EntityUid entity, SalvageExpeditionConsoleComponent component, FinishSalvageMessage e)
     {

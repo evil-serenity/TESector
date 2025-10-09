@@ -121137,7 +121137,7 @@ entities:
     - type: Transform
       pos: -26.5,8.5
       parent: 2
-  - uid: 383
+  - uid: 300000
     components:
     - type: Transform
       pos: 16.5,17.5

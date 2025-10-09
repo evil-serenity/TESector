@@ -359,21 +359,20 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
                 CleanupDuplicateLooseParts(loadedGrid.Value);
                 AutoAnchorInfrastructure(loadedGrid.Value);
 
-                // Important: Treat loaded ships like independent shuttles, not part of the station.
-                // The purchase-from-file path temporarily adds the grid to the console's station for IFF/ownership.
-                // That causes station-wide events (alerts, etc.) to target the loaded ship. Remove that membership.
-                if (TryComp<StationMemberComponent>(loadedGrid.Value, out var member))
-                {
-                    try
-                    {
-                        _station.RemoveGridFromStation(member.Station, loadedGrid.Value);
-                        _sawmill.Info($"[ShipLoad] Removed station membership from loaded ship grid {loadedGrid.Value} (station {member.Station})");
-                    }
-                    catch (Exception rmEx)
-                    {
-                        _sawmill.Warning($"[ShipLoad] Failed to remove station membership from {loadedGrid.Value}: {rmEx.Message}");
-                    }
-                }
+                // IMPORTANT:
+                // Previously we removed the StationMemberComponent from loaded ships so that station-wide
+                // events (alerts, random events, etc.) would not include them. However, a number of systems
+                // (expedition consoles, salvage / persistence restoration, ownership queries, pricing, etc.)
+                // rely on the ship retaining its station membership. Stripping it caused consoles to lose
+                // their backing SalvageExpeditionData and "station member" lookups to fail.
+                //
+                // Purchased shuttles never had this problem because we never removed their membership; the
+                // regression only affected the YAML load path. We now keep the membership exactly like a
+                // purchased shuttle. If we still need to suppress certain station-wide events from targeting
+                // loaded ships, the correct follow-up is to introduce a marker component (e.g.
+                // ExcludeFromStationEventsComponent) and have the station event system filter on that marker
+                // instead of mutating core membership state here.
+                // (No action needed here; membership is intentionally preserved.)
             }
             catch (Exception postEx)
             {

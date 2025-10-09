@@ -4,7 +4,7 @@ meta:
   engineVersion: 255.0.0
   forkId: ""
   forkVersion: ""
-  time: 09/23/2025 04:30:02
+  time: 10/07/2025 23:18:06
   entityCount: 1085
 maps: []
 grids:
@@ -1307,6 +1307,19 @@ entities:
       rot: 1.5707963267948966 rad
       pos: 0.5,18.5
       parent: 1
+- proto: bluespacestash
+  entities:
+  - uid: 986
+    components:
+    - type: Transform
+      pos: -0.5,7.5
+      parent: 1
+    - type: Physics
+      bodyType: Static
+    - type: ContainerContainer
+      containers:
+        storagebase: !type:Container
+          ents: []
 - proto: BoxBeaker
   entities:
   - uid: 87
@@ -5598,8 +5611,7 @@ entities:
   - uid: 747
     components:
     - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: -0.5,7.5
+      pos: -1.5,11.5
       parent: 1
 - proto: SignDirectionalAtmos
   entities:
@@ -7154,12 +7166,6 @@ entities:
     components:
     - type: Transform
       pos: -0.5,0.5
-      parent: 1
-  - uid: 986
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: -0.5,7.5
       parent: 1
   - uid: 987
     components:
