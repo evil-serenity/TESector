@@ -179,6 +179,9 @@
         Holy: 0.4
   - type: ToggleableClothing
     clothingPrototype: ClothingHeadHelmetHardsuitSUNS
+  - type: ClothingSpeedModifier
+    walkModifier: 0.9
+    sprintModifier: 0.75
 
 # Syndicate Navy Hardsuit
 - type: entity

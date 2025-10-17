@@ -1,0 +1,10 @@
+﻿- type: entity
+  id: ActionXenoEvolve
+  name: Evolve # TODO CM14 description
+  components:
+  - type: InstantAction
+    itemIconStyle: NoItem
+    icon:
+      sprite: .CM14/Actions/xeno_actions.rsi
+      state: evolve
+    event: !type:XenoOpenEvolutionsEvent

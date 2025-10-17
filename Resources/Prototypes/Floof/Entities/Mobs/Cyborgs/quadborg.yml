@@ -195,7 +195,7 @@
       - BorgModuleSyndicateAssault
       - BorgModuleJanitor
   - type: AccessReader
-    access: [["Security"], ["Armory"], ["Command"]]
+    access: [["Security"], ["Armory"], ["Command"], ["CentralCommand"]]
   - type: SpriteMovement
     movementLayers:
       movement:

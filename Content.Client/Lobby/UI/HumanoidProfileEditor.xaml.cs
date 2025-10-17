@@ -723,7 +723,7 @@ namespace Content.Client.Lobby.UI
         public void RefreshAntags()
         {
             // Frontier: no antags
-            
+
             AntagList.DisposeAllChildren();
             var items = new[]
             {
@@ -782,7 +782,7 @@ namespace Content.Client.Lobby.UI
 
                 AntagList.AddChild(antagContainer);
             }
-            
+
             // End Frontier: no antags
         }
 

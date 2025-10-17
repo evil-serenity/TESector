@@ -65,6 +65,7 @@ using Robust.Shared.Physics; // Physics Transform
 using Robust.Shared.Utility; // Box2 helpers
 using Robust.Shared.Map.Events; // For BeforeEntityReadEvent
 using Robust.Shared.Containers; // For SharedContainerSystem, ContainerManagerComponent
+using Content.Shared.Timing;
 using Content.Server.Gravity; // For GravitySystem
 
 // Suppress naming rule for _NF namespace prefix (modding convention)
@@ -101,6 +102,7 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
     [Dependency] private readonly EntityLookupSystem _lookup = default!; // For physics overlap checks
     [Dependency] private readonly SharedContainerSystem _container = default!; // For safe container removal before deletion
     [Dependency] private readonly SharedPopupSystem _popupSystem = default!; // For user feedback popups
+    [Dependency] private readonly UseDelaySystem _useDelay = default!;
     [Dependency] private readonly GravitySystem _gravitySystem = default!; // For post-load gravity refresh
 
     public MapId? ShipyardMap { get; private set; }
@@ -293,6 +295,16 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
         {
             _sawmill.Warning($"[ShipLoad] PurgeJointsAndResetDocks failed on {grid}: {ex.Message}");
         }
+
+        try
+        {
+            TryResetUseDelays(grid);
+        }
+        catch (Exception ex)
+        {
+            _sawmill.Warning($"[ShipLoad] TryResetUseDelays failed on {grid}: {ex.Message}");
+        }
+
         // Add new grid to the same station as the console's grid (for IFF / ownership), if any
         if (TryComp<StationMemberComponent>(consoleXform.GridUid, out var stationMember))
         {
@@ -661,6 +673,23 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
 
         if (anchored > 0)
             _sawmill.Info($"Auto-anchored {anchored} infrastructure entities on loaded ship {shuttleGrid}");
+    }
+
+    /// <summary>
+    /// Tries to reset the delays on any entities with the UseDelayComponent.
+    /// Needed to ensure items don't have prolonged delays after saving.
+    /// </summary>
+    private void TryResetUseDelays(EntityUid shuttleGrid)
+    {
+        var useDelayQuery = _entityManager.EntityQueryEnumerator<UseDelayComponent, TransformComponent>();
+
+        while (useDelayQuery.MoveNext(out var uid, out var comp, out var xform))
+        {
+            if (xform.GridUid != shuttleGrid)
+                continue;
+
+            _useDelay.ResetAllDelays((uid, comp));
+        }
     }
 
     /// <summary>

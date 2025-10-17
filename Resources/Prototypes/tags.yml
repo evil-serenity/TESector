@@ -1527,3 +1527,11 @@
   id: WriteIgnoreStamps
 
 # ALPHABETICAL
+
+# Mono
+
+- type: Tag
+  id: CartridgeMachineGun
+
+- type: Tag
+  id: CartridgeShell

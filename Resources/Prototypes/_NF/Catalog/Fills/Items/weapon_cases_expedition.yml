@@ -651,6 +651,23 @@
       amount: 1
     - id: 40mmGrenadeFragmentation
       amount: 2
+      
+- type: entity
+  parent: WeaponCaseHeavy
+  id: WeaponCaseHeavyFlamethrowerFG
+  suffix: Dungeon, Flamethrower
+#  categories: [ HideSpawnMenu ]
+  components:
+  - type: StorageFill
+    contents:
+    - id: WeaponFlamethrowerFG
+      amount: 1
+    - id: JerryCanWeldingFuel
+      amount: 3
+    - id: ClothingOuterSuitAtmosFire
+      amount: 1
+    - id: ClothingHeadHelmetAtmosFire
+      amount: 1
 
 #region LMG
 - type: entity
