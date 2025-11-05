@@ -3,11 +3,9 @@
   parent: SuitStorageBase
   suffix: HL, Captain
   components:
-  - type: StorageFill
-    contents:
-    - id: ClothingOuterHardsuitCap
-    - id: ClothingMaskGasCaptain
-    - id: JetpackCaptainFilled
-    - id: NFTankO2N2EqualFilled
+  - type: EntityTableContainerFill
+    containers:
+      entity_storage: !type:NestedSelector
+        tableId: HLFillCaptainHardsuit
   - type: AccessReader
-    access: [["Command"]]
+    access: [["StationCaptain"]]

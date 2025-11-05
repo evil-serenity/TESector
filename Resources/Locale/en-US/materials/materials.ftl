@@ -38,3 +38,13 @@ materials-raw-uranium = raw uranium
 materials-raw-bananium = raw bananium
 materials-raw-salt = raw salt
 materials-raw-diamond = raw diamond
+
+stack-Resin = { $count ->
+    [one] 1 blob of resin
+   *[other] { $count } blobs of resin
+}
+
+stack-Royal-Resin = { $count ->
+    [one] 1 blob of royal resin
+   *[other] { $count } blobs of royal resin
+}

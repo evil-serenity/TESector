@@ -265,6 +265,7 @@
     runningState: icon
     staticPacks:
     - NFEngineeringTechfabDeprecatedStatic
+    - NFInflatablesStatic
     dynamicPacks:
     - NFEngineeringTechfabDeprecated
   - type: OreSiloClient
@@ -299,6 +300,7 @@
     runningState: icon
     staticPacks:
     - NFSalvageTechfabDeprecatedStatic
+    - NFInflatablesStatic
     dynamicPacks:
     - NFSalvageTechfabDeprecated
   - type: EmagLatheRecipes
@@ -338,11 +340,13 @@
     - NFNfsdTechfabDeprecatedStatic
     - CivilianAmmoRecipePack
     dynamicPacks:
-    - NFNfsdTechfabDynamicDeprecated
-    - AdvancedAmmoRecipePack
-#  - type: EmagLatheRecipes
-#    emagStaticPacks:
-#    - NFNfsdTechfabDeprecatedEmag
+      - NFNfsdTechfabDynamicDeprecated
+      - AdvancedAmmoRecipePack
+      - UniversalShellAmmo
+      - UniversalRailgunAmmo
+      - UniversalMissileAmmo
+      - UniversalOrdinance
+  # Emag recipes removed: missing NFNfsdTechfabDeprecatedEmag pack
   - type: PirateBountyItem # Mono
     id: Techfab
   - type: OreSiloClient

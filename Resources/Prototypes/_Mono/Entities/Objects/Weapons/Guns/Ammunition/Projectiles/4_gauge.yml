@@ -14,6 +14,22 @@
         Structural: 200
 
 - type: entity
+  id: Pellet23x75mmImprovised
+  name: pellet (4 gauge improvised)
+  parent: BaseBullet
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Sprite
+    sprite: Objects/Weapons/Guns/Projectiles/projectiles2.rsi
+    state: slug
+  - type: Projectile
+    damage:
+      types:
+        Piercing: 34
+        Blunt: 34
+        Structural: 170
+
+- type: entity
   id: Pellet23x75mmFlashbang
   name: pellet (4 gauge flashbang)
   categories: [ HideSpawnMenu ]

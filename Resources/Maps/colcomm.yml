@@ -43132,7 +43132,7 @@ entities:
     - type: Transform
       pos: 15.5,9.5
       parent: 1668
-- proto: LockerChemistryFilled
+- proto: HLLockerChemistryFilled
   entities:
   - uid: 756
     components:

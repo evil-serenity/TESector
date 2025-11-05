@@ -1,6 +1,6 @@
 using Robust.Shared.GameStates;
 
-namespace Content.Shared._CM14.Status;
+namespace Content.Shared.CM14.Status;
 
 [RegisterComponent, NetworkedComponent, ComponentProtoName("Flashable")]
 public sealed partial class FlashableComponent : Component

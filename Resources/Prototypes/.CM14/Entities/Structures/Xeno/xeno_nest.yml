@@ -29,7 +29,7 @@
         hard: false
   - type: Clickable
   - type: Damageable
-    damageContainer: Resin
+    damageContainer: StructuralXeno
   - type: Destructible
     thresholds:
     - trigger:
@@ -39,3 +39,6 @@
       - !type:DoActsBehavior
         acts: ["Destruction"]
   - type: XenoNest
+  - type: Construction
+    graph: ResinStructures
+    node: XenoNest

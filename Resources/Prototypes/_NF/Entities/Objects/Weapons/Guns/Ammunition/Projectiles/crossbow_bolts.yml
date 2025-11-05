@@ -314,7 +314,7 @@
 - type: entity
   parent: CrossbowBoltSponge
   id: CrossbowBoltSyringe
-  name: syringe-bolt
+  name: syringe bolt
   description: A bolt with a syringe for a tip. Very inefficient.
   components:
   - type: Tag

@@ -1,6 +1,6 @@
 ﻿using Content.Shared.Sprite;
 
-namespace Content.Client._CM14.IconSmoothing;
+namespace Content.Client.CM14.IconSmoothing;
 
 [RegisterComponent]
 public sealed partial class IconSmoothRandomComponent : Component

@@ -105,6 +105,9 @@
     fireRate: 1
     selectedMode: FullAuto
     soundGunshot: /Audio/Weapons/Xeno/alien_spitacid.ogg
+  - type: Construction
+    graph: ResinStructures
+    node: XenoTurret
   - type: HTN
     rootTask:
       task: TurretCompound
@@ -203,7 +206,7 @@
     vendPrice: 12000
 
 - type: entity
-  parent: BaseWeaponBallisticTurret
+  parent: BaseWeaponTurret
   id: WeaponTurretGestio
   name: automated gestio turret
   description: A modified gestio bolted to a turret mounting, don't forget to feed and change its magazines. Can be unanchored and repacked into the smaller form for transport. A note on the side reads "if uncooperative, drag it around".
@@ -233,17 +236,17 @@
         priority: 2
         whitelist:
           tags:
-            - Magazine7.62x39mmLowCapacityFMJ
-            - Magazine7.62x39mmFMJ
-            - Magazine7.62x39mmBox
+            - Magazine762x39mmLowCapacityFMJ
+            - Magazine762x39mmFMJ
+            - Magazine762x39mmBox
         whitelistFailPopup: gun-magazine-whitelist-fail
       gun_chamber:
         name: Chamber
-        startingItem: Cartridge7.62x39mmFMJ
+        startingItem: Cartridge762x39mmFMJ
         priority: 1
         whitelist:
           tags:
-            - Cartridge7.62x39mmFMJ
+            - Cartridge762x39mmFMJ
   - type: ContainerContainer
     containers:
       gun_magazine: !type:ContainerSlot

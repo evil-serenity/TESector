@@ -52,9 +52,9 @@ entities:
     - type: Transform
     - type: Map
       mapPaused: True
-    - type: PhysicsMap
+
     - type: GridTree
-    - type: MovedGrids
+    
     - type: Broadphase
     - type: OccluderTree
   - uid: 2
@@ -84889,28 +84889,28 @@ entities:
     - type: Transform
       pos: 9.5,9.5
       parent: 2
-- proto: LockerCaptainFilledNoLaser
+- proto: HLLockerCaptainFilledNoLaser
   entities:
   - uid: 14573
     components:
     - type: Transform
       pos: -27.5,1.5
       parent: 2
-- proto: LockerChemistryFilled
+- proto: HLLockerChemistryFilled
   entities:
   - uid: 10906
     components:
     - type: Transform
       pos: 24.5,15.5
       parent: 2
-- proto: LockerChiefEngineerFilled
+- proto: HLLockerChiefEngineerFilled
   entities:
   - uid: 2977
     components:
     - type: Transform
       pos: 41.5,-16.5
       parent: 2
-- proto: LockerChiefMedicalOfficerFilled
+- proto: HLLockerChiefMedicalOfficerFilled
   entities:
   - uid: 3909
     components:
@@ -85042,14 +85042,14 @@ entities:
     - type: Transform
       pos: -16.5,-5.5
       parent: 2
-- proto: LockerHeadOfPersonnelFilled
+- proto: HLLockerHeadOfPersonnelFilled
   entities:
   - uid: 1782
     components:
     - type: Transform
       pos: 8.5,-21.5
       parent: 2
-- proto: LockerHeadOfSecurityFilled
+- proto: HLLockerHeadOfSecurityFilled
   entities:
   - uid: 2077
     components:
@@ -85161,14 +85161,14 @@ entities:
     - type: Transform
       pos: 19.5,17.5
       parent: 2
-- proto: LockerQuarterMasterFilled
+- proto: HLLockerQuarterMasterFilled
   entities:
   - uid: 6587
     components:
     - type: Transform
       pos: 0.5,35.5
       parent: 2
-- proto: LockerResearchDirectorFilled
+- proto: HLLockerResearchDirectorFilled
   entities:
   - uid: 5132
     components:
@@ -98457,7 +98457,7 @@ entities:
     - type: Transform
       pos: 39.5,-31.5
       parent: 2
-- proto: SuitStorageCaptain
+- proto: HLSuitStorageCaptain
   entities:
   - uid: 1116
     components:

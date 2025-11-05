@@ -59,9 +59,9 @@ entities:
     - type: Transform
     - type: Map
       mapPaused: True
-    - type: PhysicsMap
+
     - type: GridTree
-    - type: MovedGrids
+
     - type: Broadphase
     - type: OccluderTree
   - uid: 2
@@ -77089,14 +77089,14 @@ entities:
     - type: Transform
       pos: -41.5,5.5
       parent: 2
-- proto: LockerCaptainFilledNoLaser
+- proto: HLLockerCaptainFilledNoLaser
   entities:
   - uid: 6601
     components:
     - type: Transform
       pos: -8.5,68.5
       parent: 2
-- proto: LockerChemistryFilled
+- proto: HLLockerChemistryFilled
   entities:
   - uid: 4236
     components:
@@ -77137,14 +77137,14 @@ entities:
           showEnts: False
           occludes: True
           ent: null
-- proto: LockerChiefEngineerFilled
+- proto: HLLockerChiefEngineerFilled
   entities:
   - uid: 2921
     components:
     - type: Transform
       pos: -29.5,0.5
       parent: 2
-- proto: LockerChiefMedicalOfficerFilled
+- proto: HLLockerChiefMedicalOfficerFilled
   entities:
   - uid: 5580
     components:
@@ -77255,14 +77255,14 @@ entities:
     - type: Transform
       pos: -12.5,74.5
       parent: 2
-- proto: LockerHeadOfPersonnelFilled
+- proto: HLLockerHeadOfPersonnelFilled
   entities:
   - uid: 6645
     components:
     - type: Transform
       pos: -30.5,67.5
       parent: 2
-- proto: LockerHeadOfSecurityFilled
+- proto: HLLockerHeadOfSecurityFilled
   entities:
   - uid: 4670
     components:
@@ -77357,7 +77357,7 @@ entities:
     - type: Transform
       pos: -25.5,23.5
       parent: 2
-- proto: LockerQuarterMasterFilled
+- proto: HLLockerQuarterMasterFilled
   entities:
   - uid: 6063
     components:
@@ -77382,7 +77382,7 @@ entities:
         - 0
         - 0
         - 0
-- proto: LockerResearchDirectorFilled
+- proto: HLLockerResearchDirectorFilled
   entities:
   - uid: 5867
     components:
@@ -93569,7 +93569,7 @@ entities:
     - type: Transform
       pos: -2.5,8.5
       parent: 2
-- proto: SuitStorageCaptain
+- proto: HLSuitStorageCaptain
   entities:
   - uid: 6613
     components:

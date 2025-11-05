@@ -5,10 +5,10 @@
   description: When you need to punch just a little harder. Design by SESWC  #Hardlight
   components:
   - type: Sprite
-    sprite: _NF/Objects/Weapons/Melee/brassknuckles.rsi
-    state: icon
+    sprite: Clothing/Hands/Gloves/KnuckleDusters/brassknuckleduster.rsi
+    state: brassknuckleduster
   - type: Clothing
-    sprite: _NF/Objects/Weapons/Melee/brassknuckles.rsi
+    sprite: Clothing/Hands/Gloves/KnuckleDusters/brassknuckleduster.rsi
   - type: MeleeWeapon
     autoAttack: true
     attackRate: 2 # ~12 dps
@@ -27,7 +27,6 @@
     coefficient: 1.5
   - type: Tag
     tags:
-    - BrassKnucklesNF
     - WhitelistChameleon
   - type: PhysicalComposition
     materialComposition:
@@ -47,12 +46,16 @@
   - type: Clothing
     sprite: _NF/Objects/Weapons/Melee/crassknuckles.rsi
   - type: MeleeWeapon
+    autoAttack: true
+    attackRate: 2 # ~12 dps
     damage:
       types:
        Blunt: 0 # ~0 dps :^)
        Structural: 0
     soundHit:
       collection: Parp
+    animation: WeaponArcFist
+    mustBeEquippedToUse: true
   - type: Construction
     graph: GraphWeaponBrassKnucklesWhoopie
     node: WeaponBrassKnucklesWhoopie
@@ -67,3 +70,8 @@
   - type: Tag
     tags:
     - WhitelistChameleon
+  - type: PhysicalComposition
+    materialComposition:
+      Brass: 100
+  - type: StaticPrice
+    price: 30 # Ensures these can be sold and have a reasonable vending value

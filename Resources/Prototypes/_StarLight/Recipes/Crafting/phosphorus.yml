@@ -1,0 +1,7 @@
+﻿- type: construction
+  id: CrushedPhosphorus
+  graph: CrushedPhosphorus
+  startNode: start
+  targetNode: crushed
+  category: construction-category-misc
+  objectType: Item

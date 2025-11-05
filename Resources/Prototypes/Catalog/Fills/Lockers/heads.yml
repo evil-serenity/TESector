@@ -17,7 +17,9 @@
     - id: RubberStampApproved
     - id: RubberStampDenied
     - id: RubberStampQm
-    - id: AstroNavCartridge # Frontier
+    - id: AstroNavCartridge
+    - id: ClothingHandsKnuckleDustersQM
+    - id: MailTeleporterMachineCircuitboard
     - id: ClothingBeltUtilityEngineering # Frontier
 
 - type: entity
@@ -291,6 +293,7 @@
     - id: ProtolatheMachineCircuitboard # Frontier
     - id: ResearchComputerCircuitboard # Frontier
     # - id: CargoRequestScienceComputerCircuitboard # Frontier
+    - id: StationAiFixerCircuitboard
     - id: RubberStampRd
 
 # Hardsuit table, used for suit storage as well

@@ -1,0 +1,13 @@
+- type: stack
+  id: Resin
+  name: stack-Resin
+  icon: { sprite: /Textures/_HL/Objects/Materials/resin.rsi, state: icon }
+  spawn: MaterialResin
+  maxCount: 50
+  
+- type: stack
+  id: RoyalResin
+  name: stack-Royal-Resin
+  icon: { sprite: /Textures/_HL/Objects/Materials/royalresin.rsi, state: icon }
+  spawn: MaterialRoyalResin
+  maxCount: 50

@@ -45,6 +45,5 @@
       - state: base
         map: [ "enum.AmmoVisualLayers.Base" ]
       - state: tip
-        map: [ "enum.AmmoVisualLayers.Tip" ]
         color: "#dbdbdb"
 

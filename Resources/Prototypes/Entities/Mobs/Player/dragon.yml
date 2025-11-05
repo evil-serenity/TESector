@@ -19,6 +19,7 @@
     - MindRoleGhostRoleTeamAntagonist
     raffle:
       settings: default
+  - type: BankAccount
   - type: GhostTakeoverAvailable
   - type: HTN
     rootTask:
@@ -41,7 +42,7 @@
   - type: MovementSpeedModifier
     baseWalkSpeed: 3
     baseSprintSpeed: 5
-    weightlessModifier: 1.5
+    baseWeightlessModifier: 1.5
   - type: RandomSprite
     available:
     - enum.DamageStateVisualLayers.Base:

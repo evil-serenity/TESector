@@ -4,7 +4,7 @@ using JetBrains.Annotations;
 using Robust.Client.GameObjects;
 using Robust.Shared.Prototypes;
 
-namespace Content.Client._CM14.Xenos.Evolution;
+namespace Content.Client.CM14.Xenos.Evolution;
 
 [UsedImplicitly]
 public sealed class XenoEvolutionBoundUserInterface : BoundUserInterface

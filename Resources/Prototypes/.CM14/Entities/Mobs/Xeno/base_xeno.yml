@@ -8,6 +8,7 @@
   components:
   - type: Sprite
     drawdepth: Mobs
+  - type: Appearance
   - type: MobState
     allowedStates:
     - Alive
@@ -27,6 +28,11 @@
   components:
   - type: Sprite
     drawdepth: Mobs
+  - type: Appearance
+  - type: UserInterface
+    interfaces:
+      enum.XenoChooseStructureUI.Key:
+        type: XenoChooseStructureBui
   - type: MobState
     allowedStates:
     - Alive

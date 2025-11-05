@@ -30,4 +30,5 @@ public enum GunVisualLayers : byte
     BaseUnshaded,
     Mag,
     MagUnshaded,
+    Tip, // Starlight: added for speedloader bullet tips
 }

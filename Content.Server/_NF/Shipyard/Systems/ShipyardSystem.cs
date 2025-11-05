@@ -839,7 +839,7 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
             var ev = new BeforeEntityReadEvent();
             RaiseLocalEvent(ev);
 
-            opts.DeserializationOptions.AssignMapids = opts.ForceMapId == null;
+            opts.DeserializationOptions.AssignMapIds = opts.ForceMapId == null;
 
             if (opts.MergeMap is { } targetId && !_map.MapExists(targetId))
                 throw new Exception($"Target map {targetId} does not exist");

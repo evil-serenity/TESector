@@ -262,6 +262,10 @@ public sealed partial class GunSystem : SharedGunSystem
                         FireEffects(fromEffect, hitscan.MaxLength, dir.ToAngle(), hitscan);
                     }
 
+                    // Notify listeners about hitscan raycast result (e.g., to spawn effects/entities on hit)
+                    var firedEv = new HitscanRaycastFiredEvent(lastHit, user, gunUid);
+                    RaiseLocalEvent(gunUid, ref firedEv);
+
                     Audio.PlayPredicted(gun.SoundGunshotModified, gunUid, user);
                     break;
                 default:
@@ -272,6 +276,7 @@ public sealed partial class GunSystem : SharedGunSystem
         RaiseLocalEvent(gunUid, new AmmoShotEvent()
         {
             FiredProjectiles = shotProjectiles,
+            Shooter = user, //starlight
         });
 
         void CreateAndFireProjectiles(EntityUid ammoEnt, AmmoComponent ammoComp)

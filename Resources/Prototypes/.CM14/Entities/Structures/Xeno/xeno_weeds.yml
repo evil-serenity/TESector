@@ -11,6 +11,8 @@
     anchored: true
   - type: XenoWeeds
   - type: Clickable
+  - type: Physics
+    bodyType: Static
   - type: EdgeSpreader
     id: XenoWeeds
   - type: ActiveEdgeSpreader
@@ -19,7 +21,54 @@
     drawdepth: FloorTiles
     layers:
     - state: weed0
-    - state: constructionnode
+  - type: Fixtures
+    fixtures:
+      fix1:
+        hard: false
+        density: 7
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.5,-0.5,0.5,0.5"
+        layer:
+        - MidImpassable
+  - type: Damageable
+    damageModifierSet: Wood
+  - type: Kudzu
+    growthTickChance: 0.1
+    spreadChance: 0.2
+    # Heals each time it manages to do a growth tick:
+    damageRecovery:
+      types:
+        Slash: -0.5
+        Heat: -1.0
+        Cold: -1.0
+        Blunt: -0.5 # Needs to be balanced (approx 3x) with vacuum damage to stall but not kill Kudzu
+  - type: Temperature
+    heatDamage:
+      types:
+        Heat: 10
+    coldDamage:
+      types:
+        Cold: 5 #per second, scales with temperature & other constants
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 10
+      behaviors:
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+  - type: Barotrauma
+    damage:
+      types:
+        Blunt: 0.10 #per second, scales with pressure and other constants.
+  - type: Flammable
+    fireSpread: true
+    damage:
+      types:
+        Heat: 3
+  - type: AtmosExposed
+  - type: GrowingKudzu
   - type: IconSmooth
     key: cm_xeno_weeds
     base: weed_dir
@@ -72,6 +121,9 @@
 #      collection: FootstepWater
 #      params:
 #        volume: 8
+  - type: Construction
+    graph: ResinStructures
+    node: XenoWeeds
 
 - type: entity # TODO CM14 description and sound
   id: XenoWeedsEntity
@@ -85,6 +137,8 @@
     anchored: true
   - type: XenoWeeds
   - type: Clickable
+  - type: Physics
+    bodyType: Static
   - type: EdgeSpreader
     id: XenoWeeds
   - type: ActiveEdgeSpreader
@@ -168,6 +222,8 @@
     snap:
     - Wall
   components:
+  - type: Physics
+    bodyType: Static
   - type: XenoWeeds
     spawns: XenoHiveWeeds
   - type: EdgeSpreader
@@ -177,6 +233,16 @@
     drawdepth: FloorTiles
     layers:
     - state: hive_weed0
+  - type: Kudzu
+    growthTickChance: 0.1
+    spreadChance: 0.4
+    # Heals each time it manages to do a growth tick:
+    damageRecovery:
+      types:
+        Slash: -0.8
+        Heat: -2.0
+        Cold: -2.0
+        Blunt: -0.8 # Needs to be balanced (approx 3x) with vacuum damage to stall but not kill Kudzu
   - type: IconSmooth
     key: cm_xeno_weeds
     base: hive_weed
@@ -219,6 +285,9 @@
         hive_weed14: ""
     - 0:
         hive_weed15: ""
+  - type: Construction
+    graph: ResinStructures
+    node: XenoHiveWeeds
 
 - type: entity # TODO CM14 sound
   parent: XenoHiveWeeds

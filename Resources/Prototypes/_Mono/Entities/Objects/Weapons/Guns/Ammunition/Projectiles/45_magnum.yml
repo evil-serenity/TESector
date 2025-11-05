@@ -10,6 +10,18 @@
         Piercing: 35
 
 - type: entity
+  id: Bullet45_magnumImprovised
+  name: bullet (.45 magnum improvised)
+  parent: BaseBullet
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Projectile
+    damage:
+      types:
+        Piercing: 15
+        Blunt: 15
+
+- type: entity
   id: Bullet45_magnumPractice
   name: bullet (.45 magnum practice)
   parent: BaseBulletPractice

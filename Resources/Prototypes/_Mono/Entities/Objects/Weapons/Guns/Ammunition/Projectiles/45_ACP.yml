@@ -10,6 +10,18 @@
         Piercing: 18
 
 - type: entity
+  id: Bullet45_ACPImprovised
+  name: bullet (.45 ACP improvised)
+  parent: BaseBullet
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Projectile
+    damage:
+      types:
+        Piercing: 7.5
+        Blunt: 7.5
+
+- type: entity
   id: Bullet45_ACPPractice
   name: bullet (.45 ACP practice)
   parent: BaseBulletPractice

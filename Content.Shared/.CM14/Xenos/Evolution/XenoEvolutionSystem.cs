@@ -27,12 +27,4 @@ public sealed class XenoEvolutionSystem : EntitySystem
         _action.SetCooldown(ent, _timing.CurTime, _timing.CurTime + ent.Comp.Cooldown);
     }
 
-    private void OnXenoEvolve(Entity<XenoComponent> ent, ref XenoOpenEvolutionsEvent args)
-    {
-        if (_net.IsClient || !TryComp(ent, out ActorComponent? actor))
-            return;
-
-        _ui.TryOpenUi(ent.Owner, XenoEvolutionUIKey.Key, actor.Owner);
-    }
-
 }

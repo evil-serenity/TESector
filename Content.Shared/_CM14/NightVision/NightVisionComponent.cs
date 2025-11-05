@@ -1,6 +1,6 @@
 using Robust.Shared.GameStates;
 
-namespace Content.Shared._CM14.NightVision;
+namespace Content.Shared.CM14.NightVision;
 
 [RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
 public sealed partial class NightVisionComponent : Component

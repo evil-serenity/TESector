@@ -2,6 +2,6 @@
 
 namespace Content.Shared.CM14.Xenos.Rest;
 
-public sealed partial class XenoRestEvent : InstantActionEvent
+public sealed partial class XenoRestActionEvent : InstantActionEvent
 {
 }

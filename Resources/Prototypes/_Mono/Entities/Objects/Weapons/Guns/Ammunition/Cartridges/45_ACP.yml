@@ -40,7 +40,6 @@
        - state: base
          map: [ "enum.AmmoVisualLayers.Base" ]
        - state: tip
-         map: [ "enum.AmmoVisualLayers.Tip" ]
          color: "#dbdbdb"
 
 - type: entity
@@ -55,7 +54,6 @@
       - state: base
         map: [ "enum.AmmoVisualLayers.Base" ]
       - state: tip
-        map: [ "enum.AmmoVisualLayers.Tip" ]
         color: "#ff6e52"
 
 - type: entity
@@ -70,7 +68,6 @@
       - state: base
         map: [ "enum.AmmoVisualLayers.Base" ]
       - state: tip
-        map: [ "enum.AmmoVisualLayers.Tip" ]
         color: "#65fe08"
 
 # Upstream
@@ -86,7 +83,6 @@
       - state: base
         map: [ "enum.AmmoVisualLayers.Base" ]
       - state: tip
-        map: [ "enum.AmmoVisualLayers.Tip" ]
         color: "#43c4f7"
 
 # Frontier

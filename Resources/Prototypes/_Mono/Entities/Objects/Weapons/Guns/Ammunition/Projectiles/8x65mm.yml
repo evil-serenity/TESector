@@ -7,4 +7,16 @@
   - type: Projectile
     damage:
       types:
-        Piercing: 45
+        Piercing: 35
+
+- type: entity
+  id: Bullet8x65mmImprovised
+  name: bullet (8x65mm improvised)
+  parent: BaseBullet
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Projectile
+    damage:
+      types:
+        Piercing: 19
+        Blunt: 19

@@ -1,0 +1,189 @@
+#Atmospherics
+- type: entity
+  parent: AirlockAssemblyMining
+  id: AirlockAssemblyMiningAtmospherics
+  suffix: Atmospherics
+  components:
+  - type: Sprite
+    sprite: _HL/Structures/Doors/Airlocks/Standard/eidoatmospherics.rsi
+    state: "assembly"
+
+- type: entity
+  parent: AirlockAssemblyMining
+  id: AirlockAssemblyMiningAtmosphericsGlass
+  suffix: Atmospherics, Glass
+  components:
+  - type: Sprite
+    sprite: _HL/Structures/Doors/Airlocks/Glass/eidoatmospherics.rsi
+    state: "assembly"
+
+#Cargo
+- type: entity
+  parent: AirlockAssemblyMining
+  id: AirlockAssemblyMiningCargo
+  suffix: Cargo
+  components:
+  - type: Sprite
+    sprite: _HL/Structures/Doors/Airlocks/Standard/eidocargo.rsi
+    state: "assembly"
+
+- type: entity
+  parent: AirlockAssemblyMining
+  id: AirlockAssemblyMiningCargoGlass
+  suffix: Cargo, Glass
+  components:
+  - type: Sprite
+    sprite: _HL/Structures/Doors/Airlocks/Glass/eidocargo.rsi
+    state: "assembly"
+
+#Command
+- type: entity
+  parent: AirlockAssemblyMining
+  id: AirlockAssemblyMiningCommand
+  suffix: Command
+  components:
+  - type: Sprite
+    sprite: _HL/Structures/Doors/Airlocks/Standard/eidocommand.rsi
+    state: "assembly"
+
+- type: entity
+  parent: AirlockAssemblyMining
+  id: AirlockAssemblyMiningCommandGlass
+  suffix: Command, Glass
+  components:
+  - type: Sprite
+    sprite: _HL/Structures/Doors/Airlocks/Glass/eidocommand.rsi
+    state: "assembly"
+
+#Engineering
+- type: entity
+  parent: AirlockAssemblyMining
+  id: AirlockAssemblyMiningEngineering
+  suffix: Engineering
+  components:
+  - type: Sprite
+    sprite: _HL/Structures/Doors/Airlocks/Standard/eidoengineering.rsi
+    state: "assembly"
+
+- type: entity
+  parent: AirlockAssemblyMining
+  id: AirlockAssemblyMiningEngineeringGlass
+  suffix: Engineering, Glass
+  components:
+  - type: Sprite
+    sprite: _HL/Structures/Doors/Airlocks/Glass/eidoengineering.rsi
+    state: "assembly"
+
+#Hydroponics
+- type: entity
+  parent: AirlockAssemblyMining
+  id: AirlockAssemblyMiningHydroponics
+  suffix: Hydroponics
+  components:
+  - type: Sprite
+    sprite: _HL/Structures/Doors/Airlocks/Standard/eidohydroponics.rsi
+    state: "assembly"
+
+- type: entity
+  parent: AirlockAssemblyMining
+  id: AirlockAssemblyMiningHydroponicsGlass
+  suffix: Hydroponics, Glass
+  components:
+  - type: Sprite
+    sprite: _HL/Structures/Doors/Airlocks/Glass/eidohydroponics.rsi
+    state: "assembly"
+
+#Medical
+- type: entity
+  parent: AirlockAssemblyMining
+  id: AirlockAssemblyMiningMedical
+  suffix: Medical
+  components:
+  - type: Sprite
+    sprite: _HL/Structures/Doors/Airlocks/Standard/eidomedical.rsi
+    state: "assembly"
+
+- type: entity
+  parent: AirlockAssemblyMining
+  id: AirlockAssemblyMiningMedicalGlass
+  suffix: Medical, Glass
+  components:
+  - type: Sprite
+    sprite: _HL/Structures/Doors/Airlocks/Glass/eidomedical.rsi
+    state: "assembly"
+
+#Salvage
+- type: entity
+  parent: AirlockAssemblyMining
+  id: AirlockAssemblyMiningSalvage
+  suffix: Salvage
+  components:
+  - type: Sprite
+    sprite: _HL/Structures/Doors/Airlocks/Standard/eidosalvage.rsi
+    state: "assembly"
+
+- type: entity
+  parent: AirlockAssemblyMining
+  id: AirlockAssemblyMiningSalvageGlass
+  suffix: Salvage, Glass
+  components:
+  - type: Sprite
+    sprite: _HL/Structures/Doors/Airlocks/Glass/eidosalvage.rsi
+    state: "assembly"
+
+#Science
+- type: entity
+  parent: AirlockAssemblyMining
+  id: AirlockAssemblyMiningScience
+  suffix: Science
+  components:
+  - type: Sprite
+    sprite: _HL/Structures/Doors/Airlocks/Standard/eidoscience.rsi
+    state: "assembly"
+
+- type: entity
+  parent: AirlockAssemblyMining
+  id: AirlockAssemblyMiningScienceGlass
+  suffix: Science, Glass
+  components:
+  - type: Sprite
+    sprite: _HL/Structures/Doors/Airlocks/Glass/eidoscience.rsi
+    state: "assembly"
+
+#Security
+- type: entity
+  parent: AirlockAssemblyMining
+  id: AirlockAssemblyMiningSecurity
+  suffix: Security
+  components:
+  - type: Sprite
+    sprite: _HL/Structures/Doors/Airlocks/Standard/eidosecurity.rsi
+    state: "assembly"
+
+- type: entity
+  parent: AirlockAssemblyMining
+  id: AirlockAssemblyMiningSecurityGlass
+  suffix: Security, Glass
+  components:
+  - type: Sprite
+    sprite: _HL/Structures/Doors/Airlocks/Glass/eidosecurity.rsi
+    state: "assembly"
+
+#Virology
+- type: entity
+  parent: AirlockAssemblyMining
+  id: AirlockAssemblyMiningVirology
+  suffix: Virology
+  components:
+  - type: Sprite
+    sprite: _HL/Structures/Doors/Airlocks/Standard/eidovirology.rsi
+    state: "assembly"
+
+- type: entity
+  parent: AirlockAssemblyMining
+  id: AirlockAssemblyMiningVirologyGlass
+  suffix: Virology, Glass
+  components:
+  - type: Sprite
+    sprite: _HL/Structures/Doors/Airlocks/Glass/eidovirology.rsi
+    state: "assembly"

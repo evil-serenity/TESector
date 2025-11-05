@@ -95,7 +95,7 @@
     soundGunshot:
       path: /Audio/Weapons/Guns/Gunshots/gun_sentry.ogg
   - type: ProjectileBatteryAmmoProvider
-    proto: Cartridge6.35x40mmCaseless
+    proto: Cartridge635x40mmCaseless
     fireCost: 1
   - type: BatterySelfRecharger
     autoRecharge: true
@@ -131,7 +131,7 @@
     fireCost: 100
   - type: Battery
     maxCharge: 2000
-    startingCharge: 0
+    startingCharge: 2000
   - type: ApcPowerReceiverBattery
     idleLoad: 5
     batteryRechargeRate: 200
@@ -142,3 +142,5 @@
   - type: HTN
     rootTask:
       task: EnergyTurretCompound
+  - type: StaticPrice
+    price: 200

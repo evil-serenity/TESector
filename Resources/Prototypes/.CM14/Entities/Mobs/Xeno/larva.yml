@@ -37,3 +37,9 @@
     - CMXenoDrone
     maxPlasma: 10 # TODO CM14
     plasmaRegen: 1
+    restHealing:
+      types:
+        Blunt: -0.2
+        Slash: -0.1
+        Piercing: -0.1
+    restHealingCritMultiplier: 1.5

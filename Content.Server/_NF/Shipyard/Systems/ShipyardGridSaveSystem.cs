@@ -15,6 +15,9 @@ using Content.Shared.Power.Components;
 using Content.Shared.VendingMachines;
 using Content.Shared.Hands.Components;
 using Content.Shared.Hands.EntitySystems;
+using Content.Shared.CriminalRecords.Components;
+using Content.Shared._NF.ShuttleRecords.Components;
+using Content.Server.StationRecords.Components;
 // using Content.Shared.Access.Components; // duplicate using removed
 using System.Diagnostics.CodeAnalysis;
 using Robust.Server.GameObjects;
@@ -50,6 +53,10 @@ using Robust.Shared.Serialization;
 using Content.Shared.Storage.Components;
 using Robust.Shared.GameStates;
 using Content.Shared.Wall; // WallMountComponent for preserving wall-mounted fixtures
+using Robust.Shared.Physics;
+using Content.Shared.Chemistry.Components;
+using Content.Shared.Chemistry.Components.SolutionManager;
+using Content.Server.Construction.Components;
 
 // Suppress RA0004 for this file. There is no Task<Result> usage here, but the analyzer
 // occasionally reports a false positive during Release/integration builds.
@@ -431,41 +438,61 @@ public sealed class ShipyardGridSaveSystem : EntitySystem
         }
     }
 
-    private bool TryQueueLoose(EntityUid ent, List<EntityUid> list, HashSet<EntityUid> processed)
+    /// <summary>
+    /// Checks if this entity being saved is valid for deletion.
+    /// </summary>
+    private bool IsInvalidEntity(EntityUid uid)
     {
-        if (!_entityManager.EntityExists(ent))
+        if (!_entityManager.EntityExists(uid))
             return false;
-        if (!processed.Add(ent))
-            return false; // already processed
         // Skip if terminating
-        if (_entityManager.GetComponent<MetaDataComponent>(ent).EntityLifeStage >= EntityLifeStage.Terminating)
+        if (_entityManager.GetComponent<MetaDataComponent>(uid).EntityLifeStage >= EntityLifeStage.Terminating)
             return false;
-        if (_entityManager.HasComponent<SecretStashComponent>(ent) || IsBluespaceStashPrototype(ent))
+        if (_entityManager.HasComponent<SecretStashComponent>(uid) || IsBluespaceStashPrototype(uid))
             return false; // preserve stash root outright
-        if (_entityManager.HasComponent<MapGridComponent>(ent))
+        if (_entityManager.HasComponent<MapGridComponent>(uid))
             return false; // never delete grid root or nested grids here
         // Preserve wall-mounted fixtures (buttons, levers, posters, etc.) regardless of anchored state
-        if (_entityManager.HasComponent<WallMountComponent>(ent))
+        if (_entityManager.HasComponent<WallMountComponent>(uid))
+            return false;
+        // Preserve entities with static body types, such as drains or sinks.
+        if (_entityManager.TryGetComponent<PhysicsComponent>(uid, out var physics) && physics.BodyType == BodyType.Static)
+            return false;
+        // Preserve solutions
+        if (_entityManager.HasComponent<ContainedSolutionComponent>(uid) || _entityManager.HasComponent<SolutionComponent>(uid))
             return false;
         var anchored = false;
-        if (_entityManager.TryGetComponent<TransformComponent>(ent, out var xform))
+        if (_entityManager.TryGetComponent<TransformComponent>(uid, out var xform))
             anchored = xform.Anchored;
-        var inContainer = _containerSystem.IsEntityInContainer(ent);
+        var inContainer = _containerSystem.IsEntityInContainer(uid);
         // Per updated requirements: anchored entities must never be deleted under any circumstance.
         if (anchored)
             return false;
         if (inContainer)
         {
             // If this entity (at any ancestor depth) is ultimately inside a secret stash preserve it.
-            if (IsInsideSecretStash(ent))
+            if (IsInsideSecretStash(uid))
                 return false;
         }
+
         // Only unanchored entities are eligible for deletion. If it's unanchored (loose) or unanchored-in-container, delete.
-        if (!anchored || inContainer)
+        return true;
+    }
+
+    private bool TryQueueLoose(EntityUid ent, List<EntityUid> list, HashSet<EntityUid> processed)
+    {
+        if (!_entityManager.EntityExists(ent))
+            return false;
+        if (!processed.Add(ent))
+            return false; // already processed
+
+        // Delete any entities invalid for saving
+        if (IsInvalidEntity(ent))
         {
             list.Add(ent);
             return true;
         }
+
         return false;
     }
 
@@ -478,12 +505,9 @@ public sealed class ShipyardGridSaveSystem : EntitySystem
                 continue;
             if (!processed.Add(ent))
                 continue;
-            // If the entity is a secret stash root, preserve it and do not descend or queue its contents.
-            if (_entityManager.HasComponent<SecretStashComponent>(ent) || IsBluespaceStashPrototype(ent))
+            if (!IsInvalidEntity(ent))
                 continue;
-            // If this entity (or an ancestor) is inside a secret stash we preserve it (do not queue) but still must not descend further since entire subtree should be kept.
-            if (IsInsideSecretStash(ent))
-                continue;
+
             // Preserve wall-mounted fixtures explicitly but still traverse their child containers.
             var isWallMount = _entityManager.HasComponent<WallMountComponent>(ent);
             // Preserve anchored entities even if they appear within containers; still traverse their child containers.
@@ -523,6 +547,8 @@ public sealed class ShipyardGridSaveSystem : EntitySystem
                 return false;
             if (_entityManager.HasComponent<SecretStashComponent>(owner))
                 return true; // Found stash root above.
+            if (_entityManager.HasComponent<MachineComponent>(owner))
+                return true; // This is so machines keep their upgraded parts.
             // Also treat bluespacestash prototype (storage-based) as a preservation root.
             if (IsBluespaceStashPrototype(owner))
                 return true; // Found stash root above.
@@ -1003,7 +1029,20 @@ public sealed class ShipyardGridSaveSystem : EntitySystem
                     structuresRemoved++;
                     continue;
                 }
-
+                if (_entityManager.HasComponent<CriminalRecordsConsoleComponent>(entity))
+                {
+                    _sawmill.Info($"Removing criminal records console entity {entity}");
+                    _entityManager.DeleteEntity(entity);
+                    structuresRemoved++;
+                    continue;
+                }
+                if (_entityManager.HasComponent<GeneralStationRecordConsoleComponent>(entity))
+                {
+                    _sawmill.Info($"Removing general station records console entity {entity}");
+                    _entityManager.DeleteEntity(entity);
+                    structuresRemoved++;
+                    continue;
+                }
                 // Remove problematic components from remaining entities
 
                 // Note: Removed PhysicsComponent deletion that was causing collision issues in loaded ships

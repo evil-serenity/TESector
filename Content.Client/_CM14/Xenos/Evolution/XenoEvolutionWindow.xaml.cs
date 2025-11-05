@@ -2,7 +2,7 @@
 using Robust.Client.UserInterface.CustomControls;
 using Robust.Client.UserInterface.XAML;
 
-namespace Content.Client._CM14.Xenos.Evolution;
+namespace Content.Client.CM14.Xenos.Evolution;
 
 [GenerateTypedNameReferences]
 public sealed partial class XenoEvolutionWindow : DefaultWindow

@@ -40,7 +40,6 @@
       - state: base
         map: [ "enum.AmmoVisualLayers.Base" ]
       - state: tip
-        map: [ "enum.AmmoVisualLayers.Tip" ]
         color: "#dbdbdb"
 
 - type: entity
@@ -55,7 +54,6 @@
       - state: base
         map: [ "enum.AmmoVisualLayers.Base" ]
       - state: tip
-        map: [ "enum.AmmoVisualLayers.Tip" ]
         color: "#ff6e52"
 
 - type: entity
@@ -70,7 +68,6 @@
       - state: base
         map: [ "enum.AmmoVisualLayers.Base" ]
       - state: tip
-        map: [ "enum.AmmoVisualLayers.Tip" ]
         color: "#65fe08"
 
 - type: entity
@@ -85,7 +82,6 @@
       - state: base
         map: [ "enum.AmmoVisualLayers.Base" ]
       - state: tip
-        map: [ "enum.AmmoVisualLayers.Tip" ]
         color: "#fff600"
 
 - type: entity
@@ -100,7 +96,6 @@
       - state: base
         map: [ "enum.AmmoVisualLayers.Base" ]
       - state: tip
-        map: [ "enum.AmmoVisualLayers.Tip" ]
         color: "#950ea9"
   - type: ChemicalAmmo
   - type: SolutionContainerManager

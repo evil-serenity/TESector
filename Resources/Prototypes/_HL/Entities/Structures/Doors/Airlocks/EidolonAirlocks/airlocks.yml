@@ -1,0 +1,250 @@
+- type: entity
+  parent: AirlockMining
+  id: AirlockEidoEngineering
+  suffix: Engineering
+  components:
+  - type: Sprite
+    sprite: _HL/Structures/Doors/Airlocks/Standard/eidoengineering.rsi
+
+- type: entity
+  parent: AirlockEidoEngineering
+  id: AirlockEidoAtmospherics
+  suffix: Atmospherics
+  components:
+  - type: Sprite
+    sprite: _HL/Structures/Doors/Airlocks/Standard/eidoatmospherics.rsi
+
+- type: entity
+  parent: AirlockMining
+  id: AirlockEidoCargo
+  suffix: Cargo
+  components:
+  - type: Sprite
+    sprite: _HL/Structures/Doors/Airlocks/Standard/eidocargo.rsi
+  - type: Wires
+    layoutId: AirlockCargo
+
+- type: entity
+  parent: AirlockMining
+  id: AirlockEidoSalvage
+  suffix: Salvage
+  components:
+  - type: Sprite
+    sprite: _HL/Structures/Doors/Airlocks/Standard/eidosalvage.rsi
+  - type: Wires
+    layoutId: AirlockCargo
+
+- type: entity
+  parent: AirlockMining
+  id: AirlockEidoHydroponics
+  suffix: Hydroponics
+  components:
+  - type: Sprite
+    sprite: _HL/Structures/Doors/Airlocks/Standard/eidohydroponics.rsi
+  - type: Wires
+    layoutId: AirlockService
+
+- type: entity
+  parent: AirlockMining
+  id: AirlockEidoService
+  suffix: Service
+  components:
+  - type: Sprite
+    sprite: _HL/Structures/Doors/Airlocks/Standard/eidoservice.rsi
+  - type: Wires
+    layoutId: AirlockService
+
+- type: entity
+  parent: AirlockMining
+  id: AirlockEidoMedical
+  suffix: Medical
+  components:
+  - type: Sprite
+    sprite: _HL/Structures/Doors/Airlocks/Standard/eidomedical.rsi
+  - type: Wires
+    layoutId: AirlockMedical
+
+- type: entity
+  parent: AirlockMedical
+  id: AirlockEidoVirology
+  suffix: Virology
+  components:
+  - type: Sprite
+    sprite: _HL/Structures/Doors/Airlocks/Standard/eidovirology.rsi
+
+- type: entity
+  parent: AirlockMedical
+  id: AirlockEidoChemistry
+  suffix: Chemistry
+  components:
+  - type: Sprite
+    sprite: _HL/Structures/Doors/Airlocks/Standard/eidochemistry.rsi
+
+- type: entity
+  parent: AirlockMining
+  id: AirlockEidoScience
+  suffix: Science
+  components:
+  - type: Sprite
+    sprite: _HL/Structures/Doors/Airlocks/Standard/eidoscience.rsi
+  - type: Wires
+    layoutId: AirlockScience
+
+- type: entity
+  parent: AirlockMining
+  id: AirlockEidoCommand
+  suffix: Command
+  components:
+  - type: Sprite
+    sprite: _HL/Structures/Doors/Airlocks/Standard/eidocommand.rsi
+  - type: WiresPanelSecurity
+    securityLevel: medSecurity
+  - type: Wires
+    layoutId: AirlockCommand
+
+- type: entity
+  parent: AirlockMining
+  id: AirlockEidoSecurity
+  suffix: Security
+  components:
+  - type: Sprite
+    sprite: _HL/Structures/Doors/Airlocks/Standard/eidosecurity.rsi
+  - type: Wires
+    layoutId: AirlockSecurity
+
+# Glass
+- type: entity
+  parent: AirlockMiningGlass
+  id: AirlockEidoEngineeringGlass
+  suffix: Engineering
+  components:
+  - type: Sprite
+    sprite: _HL/Structures/Doors/Airlocks/Glass/eidoengineering.rsi
+  - type: Wires
+    layoutId: AirlockEngineering
+
+- type: entity
+  parent: AirlockEngineeringGlass
+  id: AirlockEidoAtmosphericsGlass
+  suffix: Atmospherics
+  components:
+  - type: Sprite
+    sprite: _HL/Structures/Doors/Airlocks/Glass/eidoatmospherics.rsi
+
+- type: entity
+  parent: AirlockMiningGlass
+  id: AirlockEidoCargoGlass
+  suffix: Cargo
+  components:
+  - type: Sprite
+    sprite: _HL/Structures/Doors/Airlocks/Glass/eidocargo.rsi
+  - type: Wires
+    layoutId: AirlockCargo
+
+- type: entity
+  parent: AirlockMiningGlass
+  id: AirlockEidoSalvageGlass
+  suffix: Salvage
+  components:
+  - type: Sprite
+    sprite: _HL/Structures/Doors/Airlocks/Glass/eidosalvage.rsi
+  - type: Wires
+    layoutId: AirlockCargo
+
+- type: entity
+  parent: AirlockMiningGlass
+  id: AirlockEidoHydroponicsGlass
+  suffix: Hydroponics
+  components:
+  - type: Sprite
+    sprite: _HL/Structures/Doors/Airlocks/Glass/eidohydroponics.rsi
+  - type: Wires
+    layoutId: AirlockService
+
+- type: entity
+  parent: AirlockMining
+  id: AirlockEidoServiceGlass
+  suffix: Service
+  components:
+  - type: Sprite
+    sprite: _HL/Structures/Doors/Airlocks/Glass/eidoservice.rsi
+  - type: Wires
+    layoutId: AirlockService
+
+- type: entity
+  parent: AirlockMiningGlass
+  id: AirlockEidoMedicalGlass
+  suffix: Medical
+  components:
+  - type: Sprite
+    sprite: _HL/Structures/Doors/Airlocks/Glass/eidomedical.rsi
+  - type: Wires
+    layoutId: AirlockMedical
+
+- type: entity
+  parent: AirlockMedicalGlass
+  id: AirlockEidoChemistryGlass
+  suffix: Chemistry
+  components:
+  - type: Sprite
+    sprite: _HL/Structures/Doors/Airlocks/Glass/eidochemistry.rsi
+
+- type: entity
+  parent: AirlockMedicalGlass
+  id: AirlockEidoVirologyGlass
+  suffix: Virology
+  components:
+  - type: Sprite
+    sprite: _HL/Structures/Doors/Airlocks/Glass/eidovirology.rsi
+
+- type: entity
+  parent: AirlockMiningGlass
+  id: AirlockEidoScienceGlass
+  suffix: Science
+  components:
+  - type: Sprite
+    sprite: _HL/Structures/Doors/Airlocks/Glass/eidoscience.rsi
+  - type: Wires
+    layoutId: AirlockScience
+
+- type: entity
+  parent: AirlockMiningGlass
+  id: AirlockEidoCommandGlass
+  suffix: Command
+  components:
+  - type: Sprite
+    sprite: _HL/Structures/Doors/Airlocks/Glass/eidocommand.rsi
+  - type: WiresPanelSecurity
+    securityLevel: medSecurity
+  - type: Wires
+    layoutId: AirlockCommand
+
+- type: entity
+  parent: AirlockMiningGlass
+  id: AirlockEidoSecurityGlass
+  suffix: Security
+  components:
+  - type: Sprite
+    sprite: _HL/Structures/Doors/Airlocks/Glass/eidosecurity.rsi
+  - type: Wires
+    layoutId: AirlockSecurity
+
+- type: entity
+  parent: AirlockShuttle
+  id: AirlockShuttleMining
+  suffix: Docking
+  name: external airlock
+  description: Necessary for connecting two space craft together.
+  components:
+  - type: Sprite
+    sprite: _HL/Structures/Doors/Airlocks/Standard/eidoshuttle.rsi
+
+- type: entity
+  parent: AirlockGlassShuttle
+  id: AirlockGlassShuttleMining
+  suffix: Docking
+  name: external airlock
+  description: Necessary for connecting two space craft together.
+  components:
+  - type: Sprite
+    sprite: _HL/Structures/Doors/Airlocks/Glass/eidoshuttle.rsi

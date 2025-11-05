@@ -557,3 +557,55 @@
     sprite: _HL/Clothing/Uniforms/eveningsuitwhite.rsi
   - type: StaticPrice # Frontier: setting base price to make material arbitrage happier
     price: 80 # Frontier
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformWhiteSleevelessTop
+  name: white sleeveless top
+  description: a casual clothing for casual means.
+  components:
+  - type: Sprite
+    sprite: _HL/Clothing/Uniforms/whitesleevelesstop.rsi
+  - type: Clothing
+    sprite: _HL/Clothing/Uniforms/whitesleevelesstop.rsi
+  - type: StaticPrice # Frontier: setting base price to make material arbitrage happier
+    price: 10 # Frontier
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformWhiteSleevelessCropTop
+  name: white sleeveless crop top
+  description: a casual clothing for casual means.
+  components:
+  - type: Sprite
+    sprite: _HL/Clothing/Uniforms/whitesleevelesscroptop.rsi
+  - type: Clothing
+    sprite: _HL/Clothing/Uniforms/whitesleevelesscroptop.rsi
+  - type: StaticPrice # Frontier: setting base price to make material arbitrage happier
+    price: 10 # Frontier
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformBlackSleevelessTop
+  name: black sleeveless top
+  description: a casual clothing for casual means.
+  components:
+  - type: Sprite
+    sprite: _HL/Clothing/Uniforms/blacksleevelesstop.rsi
+  - type: Clothing
+    sprite: _HL/Clothing/Uniforms/blacksleevelesstop.rsi
+  - type: StaticPrice # Frontier: setting base price to make material arbitrage happier
+    price: 10 # Frontier
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformBlackSleevelessCropTop
+  name: black sleeveless crop top
+  description: a casual clothing for casual means.
+  components:
+  - type: Sprite
+    sprite: _HL/Clothing/Uniforms/blacksleevelesscroptop.rsi
+  - type: Clothing
+    sprite: _HL/Clothing/Uniforms/blacksleevelesscroptop.rsi
+  - type: StaticPrice # Frontier: setting base price to make material arbitrage happier
+    price: 10 # Frontier

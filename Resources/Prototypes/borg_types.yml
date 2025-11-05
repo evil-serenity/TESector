@@ -158,8 +158,8 @@
 
   defaultModules:
   - BorgModuleTreatment
-  - BorgModuleAdvancedTreatment # Frontier
-  - BorgModuleDefibrillator # Frontier
+  # - BorgModuleAdvancedTreatment # Frontier
+  # - BorgModuleDefibrillator # Frontier
   - BorgModuleJetpack # Frontier
 
   radioChannels:

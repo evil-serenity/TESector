@@ -1,0 +1,203 @@
+- type: constructionGraph
+  id: ResinStructures
+  start: start
+  graph:
+  - node: start
+    actions:
+    - !type:DestroyEntity {}
+    edges:
+    - to: XenoWeeds
+      completed:
+      - !type:SnapToGrid
+        southRotation: true
+      steps:
+      - material: Resin
+        amount: 1
+        doAfter: 1
+        
+    - to: Xenolight
+      completed:
+      - !type:SnapToGrid
+        southRotation: true
+      steps:
+      - material: Resin
+        amount: 1
+        doAfter: 1
+        
+    - to: WallXenolight
+      completed:
+      - !type:SnapToGrid
+        southRotation: true
+      steps:
+      - material: Resin
+        amount: 1
+        doAfter: 1
+        
+    - to: WallXenoResin
+      completed:
+      - !type:SnapToGrid
+        southRotation: true
+      steps:
+      - material: Resin
+        amount: 2
+        doAfter: 3
+
+    - to: WallXenoMembrane
+      completed:
+      - !type:SnapToGrid
+        southRotation: true
+      steps:
+      - material: Resin
+        amount: 1
+        doAfter: 1
+        
+    - to: DoorXenoResin
+      completed:
+      - !type:SnapToGrid
+        southRotation: true
+      steps:
+      - material: Resin
+        amount: 3
+        doAfter: 3
+
+    - to: XenoNest
+      completed:
+      - !type:SnapToGrid
+        southRotation: true
+      steps:
+      - material: Resin
+        amount: 1
+        doAfter: 1
+        
+    - to: XenoWeedsWall
+      completed:
+      - !type:SnapToGrid
+        southRotation: true
+      steps:
+      - material: Resin
+        amount: 1
+        doAfter: 1
+
+    - to: WallXenoResinThick
+      completed:
+      - !type:SnapToGrid
+        southRotation: true
+      steps:
+      - material: RoyalResin
+        amount: 4
+        doAfter: 3
+
+    - to: WallXenoMembraneThick
+      completed:
+      - !type:SnapToGrid
+        southRotation: true
+      steps:
+      - material: RoyalResin
+        amount: 2
+        doAfter: 2
+    
+    - to: DoorXenoResinThick
+      completed:
+      - !type:SnapToGrid
+        southRotation: true
+      steps:
+      - material: RoyalResin
+        amount: 5
+        doAfter: 3
+    
+    - to: XenoTurret
+      completed:
+      - !type:SnapToGrid
+        southRotation: true
+      steps:
+      - material: RoyalResin
+        amount: 6
+        doAfter: 3
+        
+    - to: XenoTrapdrone
+      completed:
+      - !type:SnapToGrid
+        southRotation: true
+      steps:
+      - material: RoyalResin
+        amount: 6
+        doAfter: 3
+        
+    - to: XenoTrapburrower
+      completed:
+      - !type:SnapToGrid
+        southRotation: true
+      steps:
+      - material: RoyalResin
+        amount: 6
+        doAfter: 3    
+            
+    - to: XenoHiveWeeds
+      completed:
+      - !type:SnapToGrid
+        southRotation: true
+      steps:
+      - material: RoyalResin
+        amount: 2
+        doAfter: 1
+    
+
+    #Nodes
+    
+  - node: XenoWeeds
+    entity: XenoWeeds
+
+  - node: WallXenoResin
+    entity: WallXenoResin
+
+  - node: WallXenoMembrane
+    entity: WallXenoMembrane
+
+  - node: Xenolight
+    entity: Xenolight
+    
+  - node: WallXenolight
+    entity: WallXenolight
+  
+  - node: XenoTrapdrone
+    entity: SpawnFloorTrapXenoDrone
+    
+  - node: XenoTrapburrower
+    entity: SpawnFloorTrapXenoBurrower
+    
+  - node: DoorXenoResin
+    entity: DoorXenoResin
+
+  - node: XenoNest
+    entity: XenoNest
+
+  - node: XenoWeedsWall
+    entity: XenoWeedsWall
+
+  - node: WallXenoResinThick
+    entity: WallXenoResinThick
+
+  - node: WallXenoMembraneThick
+    entity: WallXenoMembraneThick
+
+  - node: DoorXenoResinThick
+    entity: DoorXenoResinThick
+
+  - node: XenoHiveWeeds
+    entity: XenoHiveWeeds
+  
+  - node: XenoTurret
+    entity: WeaponTurretXeno
+    
+  # Deconstruction is down here
+  # - node: nest
+    # entity: WebNest
+    # edges:
+    # - to: start
+      # completed:
+      # - !type:SpawnPrototype
+        # prototype: MaterialWebSilk1
+        # amount: 5
+      # steps:
+      # - tool: Cutting
+        # doAfter: 2

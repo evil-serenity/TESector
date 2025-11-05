@@ -108,9 +108,9 @@
     Durathread: 2500
 
 - type: latheRecipe # EMAG
-  id: ClothingOuterHardsuitSyndicate
+  id: ClothingOuterEVASuitSyndicate
   parent: NFBaseEVASuitRecipe
-  result: ClothingOuterHardsuitSyndicate
+  result: ClothingOuterEVASuitSyndicate
   materials:
     Steel: 200
     Cloth: 300

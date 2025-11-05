@@ -1,7 +1,7 @@
 # Stack
 - type: stack
   id: Fulton
-  name: fulton
+  name: stack-fulton
   icon:
     sprite: /Textures/Objects/Tools/fulton.rsi
     state: extraction_pack
@@ -49,6 +49,14 @@
           map: [ "foldedLayer" ]
     - type: StaticPrice
       price: 100
+
+- type: entity
+  id: RescueBeacon
+  parent: FultonBeacon
+  name: Rescue beacon
+  description: Beacon to receive rescue extractions.
+  components:
+    - type: RescueBeacon
 
 - type: entity
   id: Fulton

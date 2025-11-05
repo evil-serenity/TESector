@@ -1,11 +1,13 @@
 ﻿using Content.Shared.CM14.Xenos;
 using Content.Shared.CM14.Xenos.Rest;
 using Content.Shared.Mobs;
+using Content.Shared.Damage;
+using Content.Client.DamageState;
 using Content.Shared.Mobs.Components;
 using Robust.Client.GameObjects;
 using DrawDepth = Content.Shared.DrawDepth.DrawDepth;
 
-namespace Content.Client._CM14.Xenos;
+namespace Content.Client.CM14.Xenos;
 
 public sealed class XenoVisualizerSystem : VisualizerSystem<XenoComponent>
 {
@@ -13,11 +15,13 @@ public sealed class XenoVisualizerSystem : VisualizerSystem<XenoComponent>
     {
         var sprite = args.Sprite;
 
-        if (sprite is not { BaseRSI: { } rsi } ||
-            !sprite.LayerMapTryGet(XenoVisualLayers.Base, out var layer))
-        {
+        if (sprite is not { BaseRSI: { } rsi })
             return;
-        }
+
+        // Prefer the XenoVisualLayers.Base mapping, but fall back to DamageStateVisualLayers.Base
+        if (!sprite.LayerMapTryGet(XenoVisualLayers.Base, out var layer) &&
+            !sprite.LayerMapTryGet(DamageStateVisualLayers.Base, out layer))
+            return;
 
         var state = CompOrNull<MobStateComponent>(uid)?.CurrentState;
 
@@ -55,10 +59,10 @@ public sealed class XenoVisualizerSystem : VisualizerSystem<XenoComponent>
     private void SetDrawDepth(Entity<XenoComponent, SpriteComponent> ent)
     {
         var (_, xeno, sprite) = ent;
-        if (sprite.DrawDepth > (int) DrawDepth.DeadMobs)
+        if (sprite.DrawDepth > (int)DrawDepth.DeadMobs)
         {
             xeno.OriginalDrawDepth = sprite.DrawDepth;
-            sprite.DrawDepth = (int) DrawDepth.DeadMobs;
+            sprite.DrawDepth = (int)DrawDepth.DeadMobs;
         }
     }
 

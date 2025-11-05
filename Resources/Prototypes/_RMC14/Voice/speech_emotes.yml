@@ -5,7 +5,7 @@
   name: rmc-emote-name-r-rattle
   category: Hands
   available: false
-  icon: _RMC14/Actions/species_emotes.rsi/snarl.png
+  icon: { sprite: _RMC14/Actions/species_emotes.rsi, state: snarl }
   whitelist:
     components:
     - Vocal

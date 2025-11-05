@@ -37,6 +37,7 @@
     RFoot: MobHumanRFoot
     Tail: MobHumanoidAnyMarking # Nyanotrasen - Felinid
     HeadSide: MobHumanoidAnyMarking # Einstein Engines - Oni
+    RArmExtension: MobHumanoidAnyMarking # Hardlight: enables harpy/bat wings for all species
 
 - type: markingPoints
   id: MobHumanMarkingLimits
@@ -53,8 +54,8 @@
     Snout:
       points: 1
       required: false
-    Tail: # the cat tail joke
-      points: 0
+    Tail: # HL makes this one
+      points: 1
       required: false
     HeadTop:
       points: 1

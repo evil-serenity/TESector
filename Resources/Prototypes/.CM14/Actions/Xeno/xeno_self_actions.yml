@@ -8,4 +8,4 @@
     icon:
       sprite: .CM14/Actions/xeno_actions.rsi
       state: resting
-    event: !type:XenoRestEvent
+    event: !type:XenoRestActionEvent

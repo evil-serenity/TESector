@@ -446,7 +446,7 @@
     - SemiAuto
     soundGunshot: /Audio/Weapons/Guns/Gunshots/pistol.ogg
   - type: BallisticAmmoProvider
-    proto: Cartridge6.35x40mmCaseless
+    proto: Cartridge635x40mmCaseless
     capacity: 500
   - type: CombatMode
   - type: HTN
@@ -532,7 +532,7 @@
     baseSprintSpeed : 4
     weightlessAcceleration: 1.5
     weightlessFriction: 1
-    weightlessModifier: 1
+    baseWeightlessModifier: 1
   - type: Damageable
     damageContainer: Biological
     damageModifierSet: Moth
@@ -1443,7 +1443,7 @@
       - !type:WashCreamPieReaction
   - type: LabGrown # Frontier
   - type: LeashAnchor # Floofstation
-
+  - type: LayingDown # HL
 
 
 - type: entity
@@ -1543,7 +1543,7 @@
   - type: Speech
     speechSounds: Lizard
     speechVerb: Reptilian
-    allowedEmotes: ['Thump', 'ReptilianHiss'] # Imp: add ReptilianHiss
+    allowedEmotes: ['Thump', 'Hiss'] # Imp: add Hiss
   - type: Vocal
     sounds:
       Male: MaleReptilian
@@ -2010,19 +2010,19 @@
   id: MobLizard
   description: A harmless dragon.
   components:
-  # Imp: kobold accent, reptilian vocal sounds, and ReptilianHiss emote
+  # Imp: kobold accent, reptilian vocal sounds, and Hiss emote
   - type: ReplacementAccent
     accent: kobold
   - type: Speech
     speechSounds: Lizard
     speechVerb: Reptilian
-    allowedEmotes: ['ReptilianHiss'] # Can't thump tail because no body component
+    allowedEmotes: ['Hiss'] # Can't thump tail because no body component
   - type: Vocal
     sounds:
       Male: MaleReptilian
       Female: FemaleReptilian
       Unsexed: MaleReptilian
-  # End Imp: kobold accent, reptilian vocal sounds, and ReptilianHiss emote
+  # End Imp: kobold accent, reptilian vocal sounds, and Hiss emote
   - type: MovementSpeedModifier
     baseWalkSpeed: 2
     baseSprintSpeed: 3

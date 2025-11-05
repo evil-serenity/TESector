@@ -3,11 +3,18 @@
 - type: Tag
   id: Arachnid
 
-- type: Tag
+
+- type: Tag  
   id: Avali
 
 - type: Tag
   id: AvianFood
+
+- type: Tag
+  id: BladePlasteel
+
+- type: Tag
+  id: BladeSteel
 
 - type: Tag
   id: CantInteract
@@ -34,7 +41,34 @@
   id: ElderArena
 
 - type: Tag
+  id: EmergencyWelder
+
+- type: Tag
   id: Felionoid
+
+- type: Tag
+  id: HiltPlasteel
+
+- type: Tag
+  id: HiltWood
+
+- type: Tag
+  id: ImprovisedAmmoBox
+
+- type: Tag
+  id: ImprovisedCrowbar
+
+- type: Tag
+  id: ImprovisedMultitool
+
+- type: Tag
+  id: ImprovisedWrench
+
+- type: Tag
+  id: ImprovisedWirecutter
+
+- type: Tag
+  id: ImprovisedScrewdriver
 
 - type: Tag
   id: LightRifleHeavy
@@ -59,6 +93,9 @@
 
 - type: Tag
   id: MicroManipulatorStockPart
+
+- type: Tag
+  id: ModularBarrel
 
 - type: Tag
   id: OmniCyberEyes
@@ -98,6 +135,12 @@
 
 - type: Tag
   id: SovietWarehouse
+
+- type: Tag
+  id: SwordForged
+
+- type: Tag
+  id: ShellShotgunImprovised
 
 - type: Tag
   id: SpeedLoaderShotgun

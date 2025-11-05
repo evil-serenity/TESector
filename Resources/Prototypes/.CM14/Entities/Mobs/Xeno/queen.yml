@@ -19,8 +19,23 @@
   - type: Xeno
     actionIds:
     - ActionXenoRest
+    - ActionXenoLayEgg
     - ActionXenoPlantWeeds
     - ActionXenoAcid
     - ActionXenoRegurgitate
+    - ActionXenoChooseStructure
+    - ActionXenoSecreteStructure
     maxPlasma: 500 # TODO CM14
     plasmaRegen: 25
+    restHealing:
+      types:
+        Blunt: -0.8
+        Slash: -0.5
+        Piercing: -0.5
+        Heat: -0.08
+        Shock: -0.08
+    restHealingCritMultiplier: 2.0
+    canBuild:
+    - WallXenoResin
+    - WallXenoMembrane
+    - DoorXenoResin

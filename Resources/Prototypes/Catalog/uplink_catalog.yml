@@ -112,6 +112,20 @@
   - UplinkWeaponry
 
 - type: listing # Frontier
+  id: UplinkGlovesKnuckleDusters
+  name: uplink-gloves-knuckleduster-name
+  description: uplink-gloves-knuckleduster-desc
+  icon: { sprite: Clothing/Hands/Gloves/KnuckleDusters/syndicateknuckleduster.rsi, state: syndicateknuckleduster }
+  productEntity: ClothingHandsKnuckleDustersSyndicate
+  discountCategory: veryRareDiscounts
+  discountDownTo:
+    Telecrystal: 3
+  cost:
+    Telecrystal: 6
+  categories:
+  - UplinkWeaponry
+
+- type: listing
   id: UplinkDisposableTurret
   name: uplink-disposable-turret-name
   description: uplink-disposable-turret-desc
@@ -505,11 +519,11 @@
 
 # For the Cobra
 - type: listing
-  id: UplinkMagazine6.35x40mmCaselessPistol
+  id: UplinkMagazine635x40mmCaselessPistol
   name: uplink-pistol-magazine-caseless-name
   description: uplink-pistol-magazine-caseless-desc
-  icon: { sprite: /Textures/_Mono/Objects/Weapons/Guns/Ammunition/Magazine/6.35x40mm_caseless/6.35x40mm_caseless_pistol_mag.rsi, state: red-icon }
-  productEntity: Magazine6.35x40mmCaselessPistol
+  icon: { sprite: /Textures/_Mono/Objects/Weapons/Guns/Ammunition/Magazine/635x40mm_caseless/635x40mm_caseless_pistol_mag.rsi, state: red-icon }
+  productEntity: Magazine635x40mmCaselessPistol
   cost:
     Telecrystal: 1
   categories:
@@ -533,7 +547,7 @@
   id: UplinkMosinAmmo
   name: uplink-mosin-ammo-name
   description: uplink-mosin-ammo-desc
-  productEntity: AmmoBox7.62x39mmFMJ
+  productEntity: AmmoBox762x39mmFMJ
   cost:
     Telecrystal: 1
   categories:
@@ -545,7 +559,7 @@
   id: UplinkHristovAmmo
   name: uplink-sniper-ammo-name
   description: uplink-sniper-ammo-desc
-  productEntity: AmmoBox14.5x114mm
+  productEntity: AmmoBox145x114mm
   cost:
     Telecrystal: 2
   categories:
@@ -2219,3 +2233,19 @@
   # - !type:BuyerJobCondition # Frontier
   #   whitelist: # Frontier
   #   - MedicalDoctor # Frontier
+
+- type: listing
+  id: UplinkEnergyDomeSyndie
+  name: uplink-energy-dome-name
+  description: uplink-energy-dome-desc
+  productEntity: EnergyDomeGeneratorPersonalSyndie
+  cost:
+    Telecrystal: 10
+  categories:
+  - UplinkWearables
+  conditions:
+    - !type:StoreWhitelistCondition
+      whitelist:
+        tags:
+          - NukeOpsUplink
+

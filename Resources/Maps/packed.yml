@@ -6618,9 +6618,9 @@ entities:
     - type: Transform
     - type: Map
       mapPaused: True
-    - type: PhysicsMap
+
     - type: GridTree
-    - type: MovedGrids
+
     - type: Broadphase
     - type: OccluderTree
 - proto: AccordionInstrument
@@ -69146,28 +69146,28 @@ entities:
     - type: Transform
       pos: 44.5,-10.5
       parent: 2
-- proto: LockerCaptainFilledNoLaser
+- proto: HLLockerCaptainFilledNoLaser
   entities:
   - uid: 4137
     components:
     - type: Transform
       pos: 37.5,41.5
       parent: 2
-- proto: LockerChemistryFilled
+- proto: HLLockerChemistryFilled
   entities:
   - uid: 9714
     components:
     - type: Transform
       pos: 52.5,-8.5
       parent: 2
-- proto: LockerChiefEngineerFilled
+- proto: HLLockerChiefEngineerFilled
   entities:
   - uid: 4138
     components:
     - type: Transform
       pos: 10.5,-35.5
       parent: 2
-- proto: LockerChiefMedicalOfficerFilledHardsuit
+- proto: HLLockerChiefMedicalOfficerFilledHardsuit
   entities:
   - uid: 5191
     components:
@@ -69261,14 +69261,14 @@ entities:
     - type: Transform
       pos: 19.5,39.5
       parent: 2
-- proto: LockerHeadOfPersonnelFilled
+- proto: HLLockerHeadOfPersonnelFilled
   entities:
   - uid: 10278
     components:
     - type: Transform
       pos: 17.5,-5.5
       parent: 2
-- proto: LockerHeadOfSecurityFilledHardsuit
+- proto: HLLockerHeadOfSecurityFilledHardsuit
   entities:
   - uid: 8426
     components:
@@ -69338,14 +69338,14 @@ entities:
     - type: Transform
       pos: 44.5,4.5
       parent: 2
-- proto: LockerQuarterMasterFilled
+- proto: HLLockerQuarterMasterFilled
   entities:
   - uid: 8104
     components:
     - type: Transform
       pos: 9.5,19.5
       parent: 2
-- proto: LockerResearchDirectorFilled
+- proto: HLLockerResearchDirectorFilled
   entities:
   - uid: 10660
     components:
@@ -81159,7 +81159,7 @@ entities:
     - type: Transform
       pos: 80.5,34.5
       parent: 2
-- proto: SuitStorageCaptain
+- proto: HLSuitStorageCaptain
   entities:
   - uid: 869
     components:

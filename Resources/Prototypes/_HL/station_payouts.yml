@@ -108,7 +108,7 @@
 
 - type: stationPay
   id: AtmosphericTechnicianPay
-  payPerHour: 12000 # Specialisation + Danger
+  payPerHour: 14000 # Specialisation + Danger
   job: AtmosphericTechnician
 
 - type: stationPay

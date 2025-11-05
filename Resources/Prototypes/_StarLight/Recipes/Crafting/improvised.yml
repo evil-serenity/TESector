@@ -1,0 +1,456 @@
+- type: construction
+  id: WeaponShotgunForged
+  graph: ForgedShotgunGraph
+  startNode: start
+  targetNode: shotgun
+  category: construction-category-weapons
+  objectType: Item
+
+- type: construction
+  id: WeaponPistolMakeshiftCrafted
+  graph: MakeshiftPistolCraftedGraph
+  startNode: start
+  targetNode: shotgun
+  category: construction-category-weapons
+  objectType: Item
+
+- type: construction
+  id: WeaponPistolImprovised
+  graph: ImprovisedPistolGraph
+  startNode: start
+  targetNode: shotgun
+  category: construction-category-weapons
+  objectType: Item
+
+- type: construction
+  id: WeaponPistolForged
+  graph: ForgedPistolGraph
+  startNode: start
+  targetNode: shotgun
+  category: construction-category-weapons
+  objectType: Item
+
+- type: construction
+  id: Cartridge9x19mmImprovised
+  graph: Improvised9x19mmBulletGraph
+  startNode: start
+  targetNode: shell
+  category: construction-category-weapons
+  objectType: Item
+
+- type: construction
+  id: Magazine9x19mmImprovised
+  graph: Improvised9x19mmMagazineGraph
+  startNode: start
+  targetNode: shell
+  category: construction-category-weapons
+  objectType: Item
+
+- type: construction
+  id: WeaponRevolverMakeshift
+  graph: MakeshiftRevolverGraph
+  startNode: start
+  targetNode: shotgun
+  category: construction-category-weapons
+  objectType: Item
+
+- type: construction
+  id: WeaponRevolverImprovised
+  graph: ImprovisedRevolverGraph
+  startNode: start
+  targetNode: shotgun
+  category: construction-category-weapons
+  objectType: Item
+
+- type: construction
+  id: WeaponRevolverForged
+  graph: ForgedRevolverGraph
+  startNode: start
+  targetNode: shotgun
+  category: construction-category-weapons
+  objectType: Item
+
+- type: construction
+  id: Cartridge45MagnumImprovised
+  graph: Improvised45MagnumBulletGraph
+  startNode: start
+  targetNode: shell
+  category: construction-category-weapons
+  objectType: Item
+
+- type: construction
+  id: SpeedLoader45MagnumImprovised
+  graph: Improvised45MagnumSpeedLoaderGraph
+  startNode: start
+  targetNode: shell
+  category: construction-category-weapons
+  objectType: Item
+
+- type: construction
+  id: ModularBarrel
+  graph: ModularBarrelGraph
+  startNode: start
+  targetNode: shotgun
+  category: construction-category-misc
+  objectType: Item
+
+- type: construction
+  id: WeaponShotgunMakeshift
+  graph: MakeshiftShotgunGraph
+  startNode: start
+  targetNode: shotgun
+  category: construction-category-weapons
+  objectType: Item
+
+- type: construction
+  id: WeaponSMGMakeshift
+  graph: MakeshiftSMGGraph
+  startNode: start
+  targetNode: shotgun
+  category: construction-category-weapons
+  objectType: Item
+
+- type: construction
+  id: WeaponSubMachineGunImprovised
+  graph: ImprovisedSMGGraph
+  startNode: start
+  targetNode: shotgun
+  category: construction-category-weapons
+  objectType: Item
+
+- type: construction
+  id: WeaponSubMachineGunForged
+  graph: ForgedSMGGraph
+  startNode: start
+  targetNode: shotgun
+  category: construction-category-weapons
+  objectType: Item
+
+- type: construction
+  id: Magazine9x19mmSubMachineGunImprovised
+  graph: Improvised9x19mmSMGMagazineGraph
+  startNode: start
+  targetNode: shell
+  category: construction-category-weapons
+  objectType: Item
+
+- type: construction
+  id: WeaponSniperMakeshift
+  graph: MakeshiftSniperGraph
+  startNode: start
+  targetNode: shotgun
+  category: construction-category-weapons
+  objectType: Item
+
+- type: construction
+  id: WeaponSniperImprovised
+  graph: ImprovisedSniperGraph
+  startNode: start
+  targetNode: shotgun
+  category: construction-category-weapons
+  objectType: Item
+
+- type: construction
+  id: WeaponSniperForged
+  graph: ForgedSniperGraph
+  startNode: start
+  targetNode: shotgun
+  category: construction-category-weapons
+  objectType: Item
+
+- type: construction
+  id: Cartridge556x45mmImprovised
+  graph: Improvised556x45mmBulletGraph
+  startNode: start
+  targetNode: shell
+  category: construction-category-weapons
+  objectType: Item
+
+- type: construction
+  id: BaseMagazineBoxImprovised
+  graph: ImprovisedMagazineBoxGraph
+  startNode: start
+  targetNode: shell
+  category: construction-category-weapons
+  objectType: Item
+
+- type: construction
+  id: MagazineBoxImprovisedPistol
+  graph: ImprovisedMagazineBoxGraph
+  startNode: startpistol
+  targetNode: pistol
+  category: construction-category-weapons
+  objectType: Item
+
+- type: construction
+  id: MagazineBoxImprovisedRifle
+  graph: ImprovisedMagazineBoxGraph
+  startNode: startrifle
+  targetNode: rifle
+  category: construction-category-weapons
+  objectType: Item
+
+- type: construction
+  id: MagazineBoxImprovisedMagnum
+  graph: ImprovisedMagazineBoxGraph
+  startNode: startmagnum
+  targetNode: magnum
+  category: construction-category-weapons
+  objectType: Item
+
+- type: construction
+  id: MagazineBoxImprovisedShotgun
+  graph: ImprovisedMagazineBoxGraph
+  startNode: startshotgun
+  targetNode: shotgun
+  category: construction-category-weapons
+  objectType: Item
+
+- type: construction
+  id: CrowbarMakeshift
+  graph: MakeshiftCrowbarGraph
+  startNode: start
+  targetNode: tool
+  category: construction-category-tools
+  objectType: Item
+
+- type: construction
+  id: CrowbarImprovised
+  graph: ImprovisedCrowbarGraph
+  startNode: start
+  targetNode: tool
+  category: construction-category-tools
+  objectType: Item
+
+- type: construction
+  id: ScrewdriverImprovised
+  graph: ImprovisedScrewdriverGraph
+  startNode: start
+  targetNode: tool
+  category: construction-category-tools
+  objectType: Item
+
+- type: construction
+  id: WirecutterImprovised
+  graph: ImprovisedWirecutterGraph
+  startNode: start
+  targetNode: tool
+  category: construction-category-tools
+  objectType: Item
+
+- type: construction
+  id: WrenchImprovised
+  graph: ImprovisedWrenchGraph
+  startNode: start
+  targetNode: tool
+  category: construction-category-tools
+  objectType: Item
+
+- type: construction
+  id: MultitoolImprovised
+  graph: ImprovisedMultitoolGraph
+  startNode: start
+  targetNode: tool
+  category: construction-category-tools
+  objectType: Item
+
+- type: construction
+  id: OmnitoolImprovised
+  graph: ImprovisedOmnitoolGraph
+  startNode: start
+  targetNode: tool
+  category: construction-category-tools
+  objectType: Item
+
+- type: construction
+  id: OmnitoolForged
+  graph: ForgedOmnitoolGraph
+  startNode: start
+  targetNode: tool
+  category: construction-category-tools
+  objectType: Item
+
+- type: construction
+  id: HiltWood
+  graph: HiltWoodGraph
+  startNode: start
+  targetNode: hilt
+  category: construction-category-tools
+  objectType: Item
+
+- type: construction
+  id: HiltPlasteel
+  graph: HiltPlasteelGraph
+  startNode: start
+  targetNode: hilt
+  category: construction-category-tools
+  objectType: Item
+
+- type: construction
+  id: BladeSteel
+  graph: BladeSteelGraph
+  startNode: start
+  targetNode: blade
+  category: construction-category-tools
+  objectType: Item
+
+- type: construction
+  id: BladePlasteel
+  graph: BladePlasteelGraph
+  startNode: start
+  targetNode: blade
+  category: construction-category-tools
+  objectType: Item
+
+- type: construction
+  id: SwordMakeshift
+  graph: SwordMakeshiftGraph
+  startNode: start
+  targetNode: sword
+  category: construction-category-weapons
+  objectType: Item
+
+- type: construction
+  id: SwordImprovised
+  graph: SwordImprovisedGraph
+  startNode: start
+  targetNode: sword
+  category: construction-category-weapons
+  objectType: Item
+
+- type: construction
+  id: SwordForged
+  graph: SwordForgedGraph
+  startNode: start
+  targetNode: sword
+  category: construction-category-weapons
+  objectType: Item
+
+- type: construction
+  id: SwordFlaming
+  graph: SwordFlamingGraph
+  startNode: start
+  targetNode: sword
+  category: construction-category-weapons
+  objectType: Item
+
+- type: construction
+  id: ClaymoreForged
+  graph: ClaymoreForgedGraph
+  startNode: start
+  targetNode: sword
+  category: construction-category-weapons
+  objectType: Item
+
+- type: construction
+  id: ImprovisedShield
+  graph: ImprovisedShieldGraph
+  startNode: start
+  targetNode: shield
+  category: construction-category-weapons
+  objectType: Item
+
+- type: construction
+  id: ForgedShieldBuckler
+  graph: ForgedShieldBucklerGraph
+  startNode: start
+  targetNode: shield
+  category: construction-category-weapons
+  objectType: Item
+
+- type: construction
+  id: ForgedShieldTower
+  graph: ForgedShieldTowerGraph
+  startNode: start
+  targetNode: shield
+  category: construction-category-weapons
+  objectType: Item
+
+- type: construction
+  id: PaladinShield
+  graph: PaladinShieldGraph
+  startNode: start
+  targetNode: shield
+  category: construction-category-weapons
+  objectType: Item
+
+- type: construction
+  id: PaladinShieldGreat
+  graph: PaladinShieldGreatGraph
+  startNode: start
+  targetNode: shield
+  category: construction-category-weapons
+  objectType: Item
+
+- type: construction
+  id: ClothingOuterArmorMakeshift
+  graph: ClothingOuterArmorMakeshiftGraph
+  startNode: start
+  targetNode: vest
+  category: construction-category-weapons
+  objectType: Item
+
+- type: construction
+  id: ClothingOuterArmorImprovised
+  graph: ClothingOuterArmorImprovisedGraph
+  startNode: start
+  targetNode: vest
+  category: construction-category-weapons
+  objectType: Item
+
+- type: construction
+  id: ClothingOuterArmorForged
+  graph: ClothingOuterArmorForgedGraph
+  startNode: start
+  targetNode: vest
+  category: construction-category-weapons
+  objectType: Item
+
+- type: construction
+  id: ClothingOuterArmorPaladin
+  graph: ClothingOuterArmorPaladinGraph
+  startNode: start
+  targetNode: vest
+  category: construction-category-weapons
+  objectType: Item
+
+- type: construction
+  id: ClothingHeadHelmetMakeshift
+  graph: ClothingHeadHelmetMakeshiftGraph
+  startNode: start
+  targetNode: helmet
+  category: construction-category-weapons
+  objectType: Item
+
+- type: construction
+  id: ClothingHeadHelmetImprovised
+  graph: ClothingHeadHelmetImprovisedGraph
+  startNode: start
+  targetNode: helmet
+  category: construction-category-weapons
+  objectType: Item
+
+- type: construction
+  id: ClothingHeadHelmetForged
+  graph: ClothingHeadHelmetForgedGraph
+  startNode: start
+  targetNode: helmet
+  category: construction-category-weapons
+  objectType: Item
+
+- type: construction
+  id: ClothingHeadHelmetPaladin
+  graph: ClothingHeadHelmetPaladinGraph
+  startNode: start
+  targetNode: helmet
+  category: construction-category-weapons
+  objectType: Item
+
+- type: construction
+  id: SpeedLoaderMagnumLeverImprovised
+  graph: SpeedLoaderMagnumLeverImprovisedGraph
+  startNode: start
+  targetNode: shell
+  category: construction-category-weapons
+  objectType: Item
+

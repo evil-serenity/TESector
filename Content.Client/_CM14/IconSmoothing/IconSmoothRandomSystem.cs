@@ -3,7 +3,7 @@ using Content.Shared.Sprite;
 using Robust.Client.GameObjects;
 using Robust.Shared.Reflection;
 
-namespace Content.Client._CM14.IconSmoothing;
+namespace Content.Client.CM14.IconSmoothing;
 
 public sealed class IconSmoothRandomSystem : EntitySystem
 {

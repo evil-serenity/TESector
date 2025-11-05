@@ -54,9 +54,9 @@ entities:
     - type: Transform
     - type: Map
       mapPaused: True
-    - type: PhysicsMap
+
     - type: GridTree
-    - type: MovedGrids
+
     - type: Broadphase
     - type: OccluderTree
   - uid: 4812
@@ -62763,14 +62763,14 @@ entities:
         - 0
         - 0
         - 0
-- proto: LockerCaptainFilledNoLaser
+- proto: HLLockerCaptainFilledNoLaser
   entities:
   - uid: 2729
     components:
     - type: Transform
       pos: -10.5,28.5
       parent: 4812
-- proto: LockerChemistryFilled
+- proto: HLLockerChemistryFilled
   entities:
   - uid: 6609
     components:
@@ -62795,7 +62795,7 @@ entities:
         - 0
         - 0
         - 0
-- proto: LockerChiefEngineerFilled
+- proto: HLLockerChiefEngineerFilled
   entities:
   - uid: 9879
     components:
@@ -62820,7 +62820,7 @@ entities:
         - 0
         - 0
         - 0
-- proto: LockerChiefMedicalOfficerFilledHardsuit
+- proto: HLLockerChiefMedicalOfficerFilledHardsuit
   entities:
   - uid: 7453
     components:
@@ -63063,7 +63063,7 @@ entities:
     - type: Transform
       pos: -4.5,26.5
       parent: 4812
-- proto: LockerHeadOfPersonnelFilled
+- proto: HLLockerHeadOfPersonnelFilled
   entities:
   - uid: 2497
     components:
@@ -63088,7 +63088,7 @@ entities:
         - 0
         - 0
         - 0
-- proto: LockerHeadOfSecurityFilled
+- proto: HLLockerHeadOfSecurityFilled
   entities:
   - uid: 8252
     components:
@@ -63167,7 +63167,7 @@ entities:
     - type: Transform
       pos: -8.5,-27.5
       parent: 4812
-- proto: LockerQuarterMasterFilled
+- proto: HLLockerQuarterMasterFilled
   entities:
   - uid: 3441
     components:
@@ -63203,7 +63203,7 @@ entities:
           showEnts: False
           occludes: True
           ent: null
-- proto: LockerResearchDirectorFilled
+- proto: HLLockerResearchDirectorFilled
   entities:
   - uid: 6286
     components:
@@ -74806,7 +74806,7 @@ entities:
     - type: Transform
       pos: -30.5,5.5
       parent: 4812
-- proto: SuitStorageCaptain
+- proto: HLSuitStorageCaptain
   entities:
   - uid: 746
     components:

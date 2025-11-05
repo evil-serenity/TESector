@@ -68,7 +68,6 @@
       - state: base
         map: [ "enum.AmmoVisualLayers.Base" ]
       - state: tip
-        map: [ "enum.AmmoVisualLayers.Tip" ]
         color: "#666666"
 
 - type: entity
@@ -83,7 +82,6 @@
       - state: base
         map: [ "enum.AmmoVisualLayers.Base" ]
       - state: tip
-        map: [ "enum.AmmoVisualLayers.Tip" ]
         color: "#dddddd"
 
 - type: entity
@@ -98,7 +96,6 @@
       - state: base
         map: [ "enum.AmmoVisualLayers.Base" ]
       - state: tip
-        map: [ "enum.AmmoVisualLayers.Tip" ]
         color: "#00b0ff"
 
 #region .20 rifle
@@ -114,7 +111,6 @@
       - state: base
         map: [ "enum.AmmoVisualLayers.Base" ]
       - state: tip
-        map: [ "enum.AmmoVisualLayers.Tip" ]
         color: "#666666"
 
 - type: entity
@@ -129,7 +125,6 @@
       - state: base
         map: [ "enum.AmmoVisualLayers.Base" ]
       - state: tip
-        map: [ "enum.AmmoVisualLayers.Tip" ]
         color: "#ff8d00"
 
 - type: entity
@@ -144,7 +139,6 @@
       - state: base
         map: [ "enum.AmmoVisualLayers.Base" ]
       - state: tip
-        map: [ "enum.AmmoVisualLayers.Tip" ]
         color: "#ff0000"
 
 - type: entity
@@ -159,7 +153,6 @@
       - state: base
         map: [ "enum.AmmoVisualLayers.Base" ]
       - state: tip
-        map: [ "enum.AmmoVisualLayers.Tip" ]
         color: "#00ff00"
 
 - type: entity
@@ -174,7 +167,6 @@
       - state: base
         map: [ "enum.AmmoVisualLayers.Base" ]
       - state: tip
-        map: [ "enum.AmmoVisualLayers.Tip" ]
         color: "#dddddd"
 
 - type: entity
@@ -189,7 +181,6 @@
       - state: base
         map: [ "enum.AmmoVisualLayers.Base" ]
       - state: tip
-        map: [ "enum.AmmoVisualLayers.Tip" ]
         color: "#00b0ff"
 
 #region .25 rifle
@@ -205,7 +196,6 @@
       - state: base
         map: [ "enum.AmmoVisualLayers.Base" ]
       - state: tip
-        map: [ "enum.AmmoVisualLayers.Tip" ]
         color: "#666666"
 
 - type: entity
@@ -220,7 +210,6 @@
       - state: base
         map: [ "enum.AmmoVisualLayers.Base" ]
       - state: tip
-        map: [ "enum.AmmoVisualLayers.Tip" ]
         color: "#ff8d00"
 
 - type: entity
@@ -235,7 +224,6 @@
       - state: base
         map: [ "enum.AmmoVisualLayers.Base" ]
       - state: tip
-        map: [ "enum.AmmoVisualLayers.Tip" ]
         color: "#ff0000"
 
 - type: entity
@@ -250,7 +238,6 @@
       - state: base
         map: [ "enum.AmmoVisualLayers.Base" ]
       - state: tip
-        map: [ "enum.AmmoVisualLayers.Tip" ]
         color: "#00ff00"
 
 - type: entity
@@ -265,7 +252,6 @@
       - state: base
         map: [ "enum.AmmoVisualLayers.Base" ]
       - state: tip
-        map: [ "enum.AmmoVisualLayers.Tip" ]
         color: "#dddddd"
 
 - type: entity
@@ -280,7 +266,6 @@
       - state: base
         map: [ "enum.AmmoVisualLayers.Base" ]
       - state: tip
-        map: [ "enum.AmmoVisualLayers.Tip" ]
         color: "#00b0ff"
 
 #region .30 rifle
@@ -296,7 +281,6 @@
       - state: base
         map: [ "enum.AmmoVisualLayers.Base" ]
       - state: tip
-        map: [ "enum.AmmoVisualLayers.Tip" ]
         color: "#666666"
 
 - type: entity
@@ -311,7 +295,6 @@
       - state: base
         map: [ "enum.AmmoVisualLayers.Base" ]
       - state: tip
-        map: [ "enum.AmmoVisualLayers.Tip" ]
         color: "#ff8d00"
 
 - type: entity
@@ -326,7 +309,6 @@
       - state: base
         map: [ "enum.AmmoVisualLayers.Base" ]
       - state: tip
-        map: [ "enum.AmmoVisualLayers.Tip" ]
         color: "#ff0000"
 
 - type: entity
@@ -341,7 +323,6 @@
       - state: base
         map: [ "enum.AmmoVisualLayers.Base" ]
       - state: tip
-        map: [ "enum.AmmoVisualLayers.Tip" ]
         color: "#00ff00"
 
 - type: entity
@@ -356,7 +337,6 @@
       - state: base
         map: [ "enum.AmmoVisualLayers.Base" ]
       - state: tip
-        map: [ "enum.AmmoVisualLayers.Tip" ]
         color: "#dddddd"
 
 - type: entity
@@ -371,7 +351,6 @@
       - state: base
         map: [ "enum.AmmoVisualLayers.Base" ]
       - state: tip
-        map: [ "enum.AmmoVisualLayers.Tip" ]
         color: "#00b0ff"
 
 #region .60 rifle

@@ -1,8 +1,8 @@
 - type: entity
   categories: [ HideSpawnMenu ]
   parent: BaseBullet
-  id: Bullet14.5x114mm
-  name: bullet (14.5x114mm)
+  id: Bullet145x114mm
+  name: bullet (145x114mm)
   components:
   - type: Projectile
     damage:
@@ -11,6 +11,24 @@
         Structural: 4000
     penetrationThreshold: 360
     penetrationDamageTypeRequirement:
-    - Structural
+      - Structural
   - type: StaminaDamageOnCollide
     damage: 60
+
+- type: entity
+  id: Bullet145x114mmImprovised
+  name: bullet (14.5x114mm improvised)
+  parent: BaseBullet
+  categories: [ HideSpawnMenu ]
+  components:
+  - type: Projectile
+    damage:
+      types:
+        Piercing: 34
+        Blunt: 34
+        Structural: 3400
+    penetrationThreshold: 360
+    penetrationDamageTypeRequirement:
+      - Structural
+  - type: StaminaDamageOnCollide
+    damage: 51

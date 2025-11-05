@@ -52,9 +52,9 @@ public sealed class NoShoesNoFrictionSystem : EntitySystem
     /// </summary>
     private void UpdateFriction(EntityUid uid, float friction, float? frictionNoInput, float acceleration, MovementSpeedModifierComponent speedModifier)
     {
-
-        _speedModifierSystem.ChangeFriction(uid, friction, frictionNoInput, acceleration, speedModifier);
-
+        // Update base friction values and then refresh to apply modifiers.
+        _speedModifierSystem.ChangeBaseFriction(uid, friction, frictionNoInput ?? friction, acceleration, speedModifier);
+        _speedModifierSystem.RefreshFrictionModifiers(uid, speedModifier);
     }
 
     private bool IsBlacklisted(EntityUid uid, NoShoesNoFrictionComponent component, EntityUid? worn)

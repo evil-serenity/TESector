@@ -169,6 +169,30 @@
   - type: Contraband
     severity: Class3Wizard
     turnInValues: *oneFUC
+
+- type: entity
+  parent: BaseC3ContrabandUnredeemable
+  id: BaseC3CartelContrabandUnredeemable
+  abstract: true
+  components:
+  - type: Contraband
+    severity: Class3Cartel
+
+- type: entity
+  parent: BaseC3CartelContrabandUnredeemable
+  id: BaseC3CartelContraband
+  abstract: true
+  components:
+  - type: Contraband
+    turnInValues: *oneFUC
+
+- type: entity
+  parent: BaseC3CartelContrabandUnredeemable
+  id: BaseC3CartelContrabandNoValue
+  abstract: true
+  components:
+  - type: Contraband
+    turnInValues: *noFUCs
 # endregion
 
 # region Class 3 Mobs

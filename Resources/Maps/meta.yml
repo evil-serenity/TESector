@@ -75,9 +75,9 @@ entities:
     - type: Transform
     - type: Map
       mapPaused: True
-    - type: PhysicsMap
+
     - type: GridTree
-    - type: MovedGrids
+
     - type: Broadphase
     - type: OccluderTree
   - uid: 5350
@@ -11949,7 +11949,6 @@ entities:
       rot: 3.141592653589793 rad
       pos: -15.5,31.5
       parent: 5350
-    - type: PaintableAirlock
       department: Medical
     - type: AccessReader
       access:
@@ -131369,14 +131368,14 @@ entities:
     - type: Transform
       pos: 35.5,-21.5
       parent: 5350
-- proto: LockerCaptainFilledNoLaser
+- proto: HLLockerCaptainFilledNoLaser
   entities:
   - uid: 12528
     components:
     - type: Transform
       pos: 12.5,6.5
       parent: 5350
-- proto: LockerChemistryFilled
+- proto: HLLockerChemistryFilled
   entities:
   - uid: 15807
     components:
@@ -131386,7 +131385,7 @@ entities:
       parent: 5350
     - type: Physics
       bodyType: Static
-- proto: LockerChiefEngineerFilled
+- proto: HLLockerChiefEngineerFilled
   entities:
   - uid: 9051
     components:
@@ -131411,7 +131410,7 @@ entities:
         - 0
         - 0
         - 0
-- proto: LockerChiefMedicalOfficerFilled
+- proto: HLLockerChiefMedicalOfficerFilled
   entities:
   - uid: 1509
     components:
@@ -131717,14 +131716,14 @@ entities:
     - type: Transform
       pos: 10.5,-12.5
       parent: 5350
-- proto: LockerHeadOfPersonnelFilled
+- proto: HLLockerHeadOfPersonnelFilled
   entities:
   - uid: 3368
     components:
     - type: Transform
       pos: -15.5,-3.5
       parent: 5350
-- proto: LockerHeadOfSecurityFilled
+- proto: HLLockerHeadOfSecurityFilled
   entities:
   - uid: 6366
     components:
@@ -131870,14 +131869,14 @@ entities:
       parent: 5350
     - type: Physics
       bodyType: Static
-- proto: LockerQuarterMasterFilled
+- proto: HLLockerQuarterMasterFilled
   entities:
   - uid: 6737
     components:
     - type: Transform
       pos: -30.5,16.5
       parent: 5350
-- proto: LockerResearchDirectorFilled
+- proto: HLLockerResearchDirectorFilled
   entities:
   - uid: 9321
     components:
@@ -154044,7 +154043,7 @@ entities:
     - type: Transform
       pos: 37.039337,6.528939
       parent: 5350
-- proto: SuitStorageCaptain
+- proto: HLSuitStorageCaptain
   entities:
   - uid: 1204
     components:

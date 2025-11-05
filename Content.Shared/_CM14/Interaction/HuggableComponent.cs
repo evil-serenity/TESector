@@ -1,6 +1,6 @@
 using Robust.Shared.GameStates;
 
-namespace Content.Shared._CM14.Interaction;
+namespace Content.Shared.CM14.Interaction;
 
 [RegisterComponent, NetworkedComponent, ComponentProtoName("Huggable")]
 public sealed partial class HuggableComponent : Component

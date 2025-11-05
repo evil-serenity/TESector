@@ -1,6 +1,6 @@
 using Robust.Shared.GameStates;
 
-namespace Content.Shared._CM14.Interaction;
+namespace Content.Shared.CM14.Interaction;
 
 [RegisterComponent, NetworkedComponent, ComponentProtoName("Tackleable")]
 public sealed partial class TackleableComponent : Component

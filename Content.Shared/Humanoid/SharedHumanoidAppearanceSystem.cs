@@ -1,30 +1,15 @@
-// SPDX-FileCopyrightText: 2023 Alex Evgrashin
-// SPDX-FileCopyrightText: 2023 DrSmugleaf
-// SPDX-FileCopyrightText: 2023 Flipp Syder
-// SPDX-FileCopyrightText: 2023 Leon Friedrich
-// SPDX-FileCopyrightText: 2023 Morb
-// SPDX-FileCopyrightText: 2023 Visne
-// SPDX-FileCopyrightText: 2023 Vordenburg
-// SPDX-FileCopyrightText: 2023 csqrb
-// SPDX-FileCopyrightText: 2024 Nemanja
-// SPDX-FileCopyrightText: 2024 Tayrtahn
-// SPDX-FileCopyrightText: 2024 deltanedas
-// SPDX-FileCopyrightText: 2024 ike709
-// SPDX-FileCopyrightText: 2024 metalgearsloth
-// SPDX-FileCopyrightText: 2025 Ark
-// SPDX-FileCopyrightText: 2025 Zachary Higgs
-// SPDX-FileCopyrightText: 2025 sleepyyapril
-//
-// SPDX-License-Identifier: AGPL-3.0-or-later
-
 using System.IO;
 using System.Linq;
 using System.Numerics;
+using Content.Shared._NF.Cloning;
+using Content.Shared.CCVar;
+using Content.Shared.Decals;
 using Content.Shared.Examine;
 using Content.Shared.Humanoid.Markings;
 using Content.Shared._Shitmed.Humanoid.Events; // Shitmed Change
 using Content.Shared.Humanoid.Prototypes;
 using Content.Shared.IdentityManagement;
+using Content.Shared.Inventory;
 using Content.Shared.Preferences;
 using Robust.Shared;
 using Robust.Shared.Configuration;
@@ -32,6 +17,7 @@ using Robust.Shared.GameObjects.Components.Localization;
 using Robust.Shared.Network;
 using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
+using Robust.Shared.Serialization;
 using Robust.Shared.Serialization.Manager;
 using Robust.Shared.Serialization.Markdown;
 using Robust.Shared.Utility;
@@ -59,6 +45,8 @@ public abstract class SharedHumanoidAppearanceSystem : EntitySystem
 
     [ValidatePrototypeId<SpeciesPrototype>]
     public const string DefaultSpecies = "Human";
+
+    // Visual keys are defined top-level in HumanoidVisuals enum.
 
     public override void Initialize()
     {
@@ -134,22 +122,22 @@ public abstract class SharedHumanoidAppearanceSystem : EntitySystem
     /// <summary>
     ///     Toggles a humanoid's sprite layer visibility.
     /// </summary>
-    /// <param name="uid">Humanoid mob's UID</param>
+    /// <param name="ent">Humanoid entity</param>
     /// <param name="layer">Layer to toggle visibility for</param>
-    /// <param name="humanoid">Humanoid component of the entity</param>
-    public void SetLayerVisibility(EntityUid uid,
+    /// <param name="visible">Whether to hide or show the layer. If more than once piece of clothing is hiding the layer, it may remain hidden.</param>
+    /// <param name="source">Equipment slot that has the clothing that is (or was) hiding the layer. If not specified, the change is "permanent" (i.e., see <see cref="HumanoidAppearanceComponent.PermanentlyHidden"/>)</param>
+    public void SetLayerVisibility(Entity<HumanoidAppearanceComponent?> ent,
         HumanoidVisualLayers layer,
         bool visible,
-        bool permanent = false,
-        HumanoidAppearanceComponent? humanoid = null)
+        SlotFlags? source = null)
     {
-        if (!Resolve(uid, ref humanoid, false))
+        if (!Resolve(ent.Owner, ref ent.Comp, false))
             return;
 
         var dirty = false;
-        SetLayerVisibility(uid, humanoid, layer, visible, permanent, ref dirty);
+        SetLayerVisibility(ent!, layer, visible, source, ref dirty);
         if (dirty)
-            Dirty(uid, humanoid);
+            Dirty(ent);
     }
 
     /// <summary>
@@ -182,9 +170,8 @@ public abstract class SharedHumanoidAppearanceSystem : EntitySystem
         // Apply scaling (height and width)
         if (sourceHumanoid.Height != 1.0f || sourceHumanoid.Width != 1.0f)
         {
-            var scaleVisuals = EnsureComp<ScaleVisualsComponent>(target);
             var appearance = EnsureComp<AppearanceComponent>(target);
-            _appearance.SetData(target, ScaleVisuals.Scale, new Vector2(sourceHumanoid.Width, sourceHumanoid.Height), appearance);
+            _appearance.SetData(target, HumanoidVisuals.Scale, new Vector2(sourceHumanoid.Width, sourceHumanoid.Height), appearance);
         }
 
         Dirty(target, targetHumanoid);
@@ -193,49 +180,75 @@ public abstract class SharedHumanoidAppearanceSystem : EntitySystem
     /// <summary>
     ///     Sets the visibility for multiple layers at once on a humanoid's sprite.
     /// </summary>
-    /// <param name="uid">Humanoid mob's UID</param>
+    /// <param name="ent">Humanoid entity</param>
     /// <param name="layers">An enumerable of all sprite layers that are going to have their visibility set</param>
     /// <param name="visible">The visibility state of the layers given</param>
-    /// <param name="permanent">If this is a permanent change, or temporary. Permanent layers are stored in their own hash set.</param>
-    /// <param name="humanoid">Humanoid component of the entity</param>
-    public void SetLayersVisibility(EntityUid uid, IEnumerable<HumanoidVisualLayers> layers, bool visible, bool permanent = false,
-        HumanoidAppearanceComponent? humanoid = null)
+    public void SetLayersVisibility(Entity<HumanoidAppearanceComponent?> ent,
+        IEnumerable<HumanoidVisualLayers> layers,
+        bool visible)
     {
-        if (!Resolve(uid, ref humanoid))
+        if (!Resolve(ent.Owner, ref ent.Comp, false))
             return;
 
         var dirty = false;
 
         foreach (var layer in layers)
         {
-            SetLayerVisibility(uid, humanoid, layer, visible, permanent, ref dirty);
+            SetLayerVisibility(ent!, layer, visible, null, ref dirty);
         }
 
         if (dirty)
-            Dirty(uid, humanoid);
+            Dirty(ent);
     }
 
-    protected virtual void SetLayerVisibility(
-        EntityUid uid,
-        HumanoidAppearanceComponent humanoid,
+    /// <inheritdoc cref="SetLayerVisibility(Entity{HumanoidAppearanceComponent?},HumanoidVisualLayers,bool,Nullable{SlotFlags})"/>
+    public virtual void SetLayerVisibility(
+        Entity<HumanoidAppearanceComponent> ent,
         HumanoidVisualLayers layer,
         bool visible,
-        bool permanent,
+        SlotFlags? source,
         ref bool dirty)
     {
+#if DEBUG
+        if (source is {} s)
+        {
+            DebugTools.AssertNotEqual(s, SlotFlags.NONE);
+            // Check that only a single bit in the bitflag is set
+            var powerOfTwo = BitOperations.RoundUpToPowerOf2((uint)s);
+            DebugTools.AssertEqual((uint)s, powerOfTwo);
+        }
+#endif
+
         if (visible)
         {
-            if (permanent)
-                dirty |= humanoid.PermanentlyHidden.Remove(layer);
+            if (source is not {} slot)
+            {
+                dirty |= ent.Comp.PermanentlyHidden.Remove(layer);
+            }
+            else if (ent.Comp.HiddenLayers.TryGetValue(layer, out var oldSlots))
+            {
+                // This layer might be getting hidden by more than one piece of equipped clothing.
+                // remove slot flag from the set of slots hiding this layer, then check if there are any left.
+                ent.Comp.HiddenLayers[layer] = ~slot & oldSlots;
+                if (ent.Comp.HiddenLayers[layer] == SlotFlags.NONE)
+                    ent.Comp.HiddenLayers.Remove(layer);
 
-            dirty |= humanoid.HiddenLayers.Remove(layer);
+                dirty |= (oldSlots & slot) != 0;
+            }
         }
         else
         {
-            if (permanent)
-                dirty |= humanoid.PermanentlyHidden.Add(layer);
+            if (source is not { } slot)
+            {
+                dirty |= ent.Comp.PermanentlyHidden.Add(layer);
+            }
+            else
+            {
+                var oldSlots = ent.Comp.HiddenLayers.GetValueOrDefault(layer);
+                ent.Comp.HiddenLayers[layer] = slot | oldSlots;
+                dirty |= (oldSlots & slot) != slot;
+            }
 
-            dirty |= humanoid.HiddenLayers.Add(layer);
         }
     }
 
@@ -450,9 +463,8 @@ public abstract class SharedHumanoidAppearanceSystem : EntitySystem
         // Apply scaling (height and width)
         if (profile.Appearance.Height != 1.0f || profile.Appearance.Width != 1.0f)
         {
-            var scaleVisuals = EnsureComp<ScaleVisualsComponent>(uid);
             var appearance = EnsureComp<AppearanceComponent>(uid);
-            _appearance.SetData(uid, ScaleVisuals.Scale, new Vector2(profile.Appearance.Width, profile.Appearance.Height), appearance);
+            _appearance.SetData(uid, HumanoidVisuals.Scale, new Vector2(profile.Appearance.Width, profile.Appearance.Height), appearance);
         }
 
         RaiseLocalEvent(uid, new ProfileLoadFinishedEvent()); // Shitmed Change
