@@ -27,9 +27,6 @@
   name: job-name-mercenary-interview
   description: job-mercenary-pilot
   playTimeTracker: JobMercenaryInterview
-  requirements:
-    - !type:OverallPlaytimeRequirement
-      time: 108000
   setPreference: false
   startingGear: MercenaryHologramGear
   icon: "JobIconMercenary"
