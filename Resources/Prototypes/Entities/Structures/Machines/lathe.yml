@@ -557,9 +557,9 @@
     emagStaticPacks:
     - WeaponMechCombatArsenal
     # Mono - Space Mecha
-    - S2Mechs
-    - SpaceMechaWeapons
-    - S2MechBoards
+#    - S2Mechs
+#    - SpaceMechaWeapons
+#    - S2MechBoards
     # Hardlight Change
     - BorgArmorEnergy
     - BorgArmorPhys
