@@ -39,3 +39,309 @@
   name: PigeonBeans - Sunset
   path:
     path: /Audio/Jukebox/sunset.ogg
+
+- type: jukebox
+  id: 5hours
+  name: 5 Hours
+  path:
+    path: /Audio/Jukebox/5hours.ogg
+
+- type: jukebox
+  id: 8bits
+  name: 8 bits
+  path:
+    path: /Audio/Jukebox/8Bits.ogg
+
+- type: jukebox
+  id: 2239
+  name: 2239
+  path:
+    path: /Audio/Jukebox/2239.ogg
+
+- type: jukebox
+  id: acceptableinthe80s
+  name: Acceptable in the80s
+  path:
+    path: /Audio/Jukebox/Acceptableinthe80s.ogg
+
+- type: jukebox
+  id: 5hours
+  name: 5 Hours
+  path:
+    path: /Audio/Jukebox/5hours.ogg
+
+- type: jukebox
+  id: alchemy
+  name: Alchemy
+  path:
+    path: /Audio/Jukebox/Alchemy.ogg
+
+- type: jukebox
+  id: alice
+  name: Alice
+  path:
+    path: /Audio/Jukebox/Alice.ogg
+
+- type: jukebox
+  id: aurevoir
+  name: Au Revoir
+  path:
+    path: /Audio/Jukebox/AuRevoir.ogg
+
+- type: jukebox
+  id: ballpit
+  name: Ball pit
+  path:
+    path: /Audio/Jukebox/BallPit.ogg
+
+- type: jukebox
+  id: bossfight
+  name: Boss fight
+  path:
+    path: /Audio/Jukebox/Bossfight.ogg
+
+- type: jukebox
+  id: closer
+  name: Closer
+  path:
+    path: /Audio/Jukebox/Closer.ogg
+
+- type: jukebox
+  id: dare
+  name: Dare
+  path:
+    path: /Audio/Jukebox/Dare.ogg
+
+- type: jukebox
+  id: deathsquad
+  name: Death Squad
+  path:
+    path: /Audio/Jukebox/DeathSquad.ogg
+
+- type: jukebox
+  id: doitallthetime
+  name: Do it all the time
+  path:
+    path: /Audio/Jukebox/Doitallthetime.ogg
+
+- type: jukebox
+  id: finalbattle
+  name: Final battle
+  path:
+    path: /Audio/Jukebox/Finalbattle.ogg
+
+- type: jukebox
+  id: finalstand
+  name: Final stand
+  path:
+    path: /Audio/Jukebox/Finalstand.ogg
+
+- type: jukebox
+  id: futureclub
+  name: Future Club
+  path:
+    path: /Audio/Jukebox/FutureClub.ogg
+
+- type: jukebox
+  id: gasgasgas
+  name: Gas Gas Gas.ogg
+  path:
+    path: /Audio/Jukebox/GasGasGas.ogg
+
+- type: jukebox
+  id: gloriousmorning2
+  name: Glorious morning 2
+  path:
+    path: /Audio/Jukebox/Gloriousmorning2.ogg
+
+- type: jukebox
+  id: harderbetterfasterstronger
+  name: Harder better fasters tronger.ogg
+  path:
+    path: /Audio/Jukebox/Harderbetterfasterstronger.ogg
+
+- type: jukebox
+  id: horse
+  name: Horse
+  path:
+    path: /Audio/Jukebox/Horse.ogg
+
+- type: jukebox
+  id: hellMarch
+  name: Hell March
+  path:
+    path: /Audio/Jukebox/HellMarch.ogg
+
+- type: jukebox
+  id: easyprey
+  name: Humans Are Such Easy Prey.ogg
+  path:
+    path: /Audio/Jukebox/HumansAreSuchEasyPrey.ogg
+
+- type: jukebox
+  id: kings.ogg
+  name: Kings
+  path:
+    path: /Audio/Jukebox/Kings.ogg
+
+- type: jukebox
+  id: lastninja3
+  name: Last Ninja 3
+  path:
+    path: /Audio/Jukebox/LastNinja3.ogg
+
+- type: jukebox
+  id: lightforce
+  name: Lightforce
+  path:
+    path: /Audio/Jukebox/Lightforce.ogg
+
+- type: jukebox
+  id: lonedigger
+  name: Lone Digger
+  path:
+    path: /Audio/Jukebox/LoneDigger.ogg
+
+- type: jukebox
+  id: mirrors
+  name: Mirrors
+  path:
+    path: /Audio/Jukebox/Mirrors.ogg
+
+- type: jukebox
+  id: money
+  name: Money
+  path:
+    path: /Audio/Jukebox/Money.ogg
+
+- type: jukebox
+  id: moonshine
+  name: Moonshine
+  path:
+    path: /Audio/Jukebox/Moonshine.ogg
+
+- type: jukebox
+  id: newpersonsameold
+  name: New person same old mistakes
+  path:
+    path: /Audio/Jukebox/Newpersonsameoldmistakes.ogg
+
+- type: jukebox
+  id: noisemaker
+  name: Noisemaker
+  path:
+    path: /Audio/Jukebox/Noisemaker.ogg
+
+- type: jukebox
+  id: racearoundtheworld
+  name: Race around thew orld
+  path:
+    path: /Audio/Jukebox/Racearoundtheworld.ogg
+
+- type: jukebox
+  id: rawpower
+  name: Raw Power
+  path:
+    path: /Audio/Jukebox/RawPower.ogg
+
+- type: jukebox
+  id: robotsvsmusic
+  name: Robots vs music
+  path:
+    path: /Audio/Jukebox/Robotsvsmusic.ogg
+
+- type: jukebox
+  id: rockitforme
+  name: Rock It For Me
+  path:
+    path: /Audio/Jukebox/RockItForMe.ogg
+
+- type: jukebox
+  id: sexualizer
+  name: Sexualizer
+  path:
+    path: /Audio/Jukebox/Sexualizer.ogg
+
+- type: jukebox
+  id: shesabigboy
+  name: Shes a Big Boy
+  path:
+    path: /Audio/Jukebox/ShesaBigBoy.ogg
+
+- type: jukebox
+  id: source
+  name: Source
+  path:
+    path: /Audio/Jukebox/Source.ogg
+
+- type: jukebox
+  id: stalker
+  name: Stalker
+  path:
+    path: /Audio/Jukebox/Stalker.ogg
+
+- type: jukebox
+  id: submarine
+  name: Submarine.ogg
+  path:
+    path: /Audio/Jukebox/Submarine.ogg
+
+- type: jukebox
+  id: supremacy
+  name: Supremacy
+  path:
+    path: /Audio/Jukebox/Supremacy.ogg
+
+- type: jukebox
+  id: theartofwar
+  name: The Art of War
+  path:
+    path: /Audio/Jukebox/TheArtofWar.ogg
+
+- type: jukebox
+  id: thelastninja1
+  name: The Last Ninja
+  path:
+    path: /Audio/Jukebox/TheLastNinja.ogg
+
+- type: jukebox
+  id: themchanges
+  name: Them changes
+  path:
+    path: /Audio/Jukebox/themchanges.ogg
+
+- type: jukebox
+  id: throughfireandflames
+  name: Through fireand flames
+  path:
+    path: /Audio/Jukebox/Throughfireandflames.ogg
+
+- type: jukebox
+  id: timelapse
+  name: Timelapse
+  path:
+    path: /Audio/Jukebox/Timelapse.ogg
+
+- type: jukebox
+  id: ugotthat
+  name: U Got That
+  path:
+    path: /Audio/Jukebox/UGotThat.ogg
+
+- type: jukebox
+  id: virtualinsanity
+  name: Virtual insanity
+  path:
+    path: /Audio/Jukebox/Virtualinsanity.ogg
+
+- type: jukebox
+  id: wonderland
+  name: Wonderland
+  path:
+    path: /Audio/Jukebox/Wonderland.ogg
+
+- type: jukebox
+  id: nobacktothepast
+  name: We Cant Go Back to the Past
+  path:
+    path: /Audio/Jukebox/WeCantGoBacktothePast.ogg
