@@ -13,8 +13,8 @@
   startingGear: CMOGear
   icon: "JobIconChiefMedicalOfficer"
   supervisors: job-supervisors-captain
-  # canBeAntag: false
-  ## Frontier: commented everything below out
+  canBeAntag: false
+  requireAdminNotify: true
   access:
   - Medical
   - Command
@@ -23,6 +23,7 @@
   - ChiefMedicalOfficer
   - Brig
   - Cryogenics
+  - Paramedic # Hardlight: Add Paramedic access
   special:
   - !type:AddImplantSpecial
     implants: [ MindShieldImplant ]
@@ -33,7 +34,6 @@
     - type: CommandStaff
     - type: PsionicBonusChance #Nyano - Summary: makes it more likely to become psionic.
       flatBonus: 0.025
-  ## Frontier: commented everything above out
   accessGroups: # Frontier
   - GeneralAccess # Frontier
   # Shitmed Change

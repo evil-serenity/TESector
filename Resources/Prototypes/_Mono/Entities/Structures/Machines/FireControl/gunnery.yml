@@ -1,16 +1,3 @@
-# SPDX-FileCopyrightText: 2025 Ark
-# SPDX-FileCopyrightText: 2025 Ghagliiarghii
-# SPDX-FileCopyrightText: 2025 Ilya246
-# SPDX-FileCopyrightText: 2025 LaCumbiaDelCoronavirus
-# SPDX-FileCopyrightText: 2025 LukeZurg22
-# SPDX-FileCopyrightText: 2025 Redrover1760
-# SPDX-FileCopyrightText: 2025 RikuTheKiller
-# SPDX-FileCopyrightText: 2025 ark1368
-# SPDX-FileCopyrightText: 2025 sleepyyapril
-# SPDX-FileCopyrightText: 2025 starch
-#
-# SPDX-License-Identifier: AGPL-3.0-or-later
-
 # Monolith : Gunnery Server
 - type: entity
   id: GunneryServerBase
@@ -73,6 +60,8 @@
     idleLoad: 5
     batteryRechargeRate: 300
     batteryRechargeEfficiency: 0.95
+  - type: PirateBountyItem
+    id: GunneryServer
 
 - type: entity
   id: GunneryServerMedium
@@ -197,12 +186,32 @@
     radarColor: "#FFFF33"
     scale: 1
 
+# Monolith : Gunnery Computer
 - type: entity
-  parent: BaseComputer
+  parent: BaseComputerAiAccess
   id: ComputerGunneryConsole
   name: gunnery control console
   description: Interfaces with the gunnery control server to operate ship weapons.
+  placement:
+    mode: SnapgridCenter
   components:
+  - type: ApcPowerReceiver
+    powerLoad: 200
+  - type: ExtensionCableReceiver
+  - type: ActivatableUIRequiresPower
+  - type: Sprite
+    sprite: _Mono/Structures/Machines/computers.rsi
+    layers:
+    - map: ["computerLayerBody"]
+      state: computer_not_rot
+    - map: ["computerLayerKeyboard"]
+      state: gunnery_keyboard
+    - map: ["computerLayerScreen"]
+      state: gunnery_screen
+    - map: ["computerLayerKeys"]
+      state: gunnery_keys
+    - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      state: generic_panel_open
   - type: FireControlConsole
   - type: ActivatableUI
     key: enum.FireControlConsoleUiKey.Key

@@ -19,7 +19,6 @@ namespace Content.Server._NF.ShuttleRecords;
 public sealed partial class ShuttleRecordsSystem
 {
     [Dependency] private readonly BankSystem _bank = default!;
-    [Dependency] private readonly SharedTransformSystem _transform = default!;
     public void InitializeShuttleRecords()
     {
         SubscribeLocalEvent<ShuttleRecordsConsoleComponent, BoundUIOpenedEvent>(OnConsoleUiOpened);
@@ -298,10 +297,10 @@ public sealed partial class ShuttleRecordsSystem
 
         // Add to admin logs.
         var shuttleName = record.Name + " " + record.Suffix;
-        _adminLogger.Add(
+        /* _adminLogger.Add(
             LogType.ShuttleRecordsUsage,
             LogImpact.Low,
-            $"{ToPrettyString(args.Actor):actor} used {transactionPrice} from station bank account to copy shuttle deed {shuttleName}.");
+            $"{ToPrettyString(args.Actor):actor} used {transactionPrice} from station bank account to copy shuttle deed {shuttleName}."); */
         _audioSystem.PlayPredicted(component.ConfirmSound, uid, null, AudioParams.Default.WithMaxDistance(5f));
     }
 

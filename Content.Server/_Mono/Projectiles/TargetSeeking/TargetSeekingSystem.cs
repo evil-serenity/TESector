@@ -1,22 +1,13 @@
-// SPDX-FileCopyrightText: 2025 Ark
-// SPDX-FileCopyrightText: 2025 Ilya246
-// SPDX-FileCopyrightText: 2025 LaCumbiaDelCoronavirus
-// SPDX-FileCopyrightText: 2025 Redrover1760
-// SPDX-FileCopyrightText: 2025 RikuTheKiller
-//
-// SPDX-License-Identifier: AGPL-3.0-or-later
-
 using System.Numerics;
 using Content.Shared.Interaction;
 using Content.Server.Shuttles.Components;
 using Content.Shared.Projectiles;
 using Robust.Server.GameObjects;
 using Robust.Shared.Physics.Components;
-using Robust.Shared.Physics.Systems;
 using Robust.Shared.Timing;
 using Robust.Shared.Utility;
 
-namespace Content.Server.Mono.Projectiles.TargetSeeking;
+namespace Content.Server._Mono.Projectiles.TargetSeeking;
 
 /// <summary>
 ///     Handles the logic for target-seeking projectiles.
@@ -25,7 +16,7 @@ public sealed class TargetSeekingSystem : EntitySystem
 {
     [Dependency] private readonly SharedTransformSystem _transform = null!;
     [Dependency] private readonly RotateToFaceSystem _rotateToFace = null!;
-    [Dependency] private readonly SharedPhysicsSystem _physics = null!;
+    [Dependency] private readonly PhysicsSystem _physics = null!;
     [Dependency] private readonly IGameTiming _gameTiming = default!; // Mono
 
     private EntityQuery<ProjectileComponent> _projectileQuery;
@@ -144,30 +135,26 @@ public sealed class TargetSeekingSystem : EntitySystem
     {
         base.Update(frameTime);
 
-        var curTime = _gameTiming.CurTime;
+        var ticktime = _gameTiming.TickPeriod;
 
-        var query = EntityQueryEnumerator<TargetSeekingComponent, TransformComponent>();
-        while (query.MoveNext(out var uid, out var seekingComp, out var xform))
+        var query = EntityQueryEnumerator<TargetSeekingComponent, PhysicsComponent, TransformComponent>();
+        while (query.MoveNext(out var uid, out var seekingComp, out var body, out var xform))
         {
             var acceleration = seekingComp.Acceleration * frameTime;
             // Initialize launch speed.
             if (seekingComp.Launched == false)
             {
-                seekingComp.CurrentSpeed = seekingComp.LaunchSpeed;
+                acceleration += seekingComp.LaunchSpeed;
+                seekingComp.Launched = true;
             }
 
-            // Accelerate up to max speed
-            if (seekingComp.CurrentSpeed < seekingComp.MaxSpeed)
-            {
-                seekingComp.CurrentSpeed += seekingComp.Acceleration * frameTime;
-            }
-            else
-            {
-                seekingComp.CurrentSpeed = seekingComp.MaxSpeed;
-            }
+            // Apply acceleration in the direction the projectile is facing
+            _physics.SetLinearVelocity(uid, body.LinearVelocity + _transform.GetWorldRotation(xform).ToWorldVec() * acceleration, body: body);
 
-            // Apply velocity in the direction the projectile is facing
-            _physics.SetLinearVelocity(uid, _transform.GetWorldRotation(xform).ToWorldVec() * seekingComp.CurrentSpeed);
+            var velLen = body.LinearVelocity.Length();
+            // cut off velocity above max
+            if (velLen > seekingComp.MaxSpeed)
+                _physics.SetLinearVelocity(uid, body.LinearVelocity * (seekingComp.MaxSpeed / velLen), body: body);
 
             // Skip seeking behavior if disabled (e.g., after entering an enemy grid)
             if (seekingComp.SeekingDisabled)
@@ -184,9 +171,6 @@ public sealed class TargetSeekingSystem : EntitySystem
             {
                 var target = seekingComp.CurrentTarget.Value;
                 if (!_physicsQuery.TryGetComponent(target, out var targetBody))
-                    continue;
-
-                if (!_physicsQuery.TryGetComponent(uid, out var body))
                     continue;
 
                 var targetXform = Transform(target);
@@ -226,6 +210,7 @@ public sealed class TargetSeekingSystem : EntitySystem
     {
         var closestDistance = float.MaxValue;
         EntityUid? bestTarget = null;
+        TransformComponent? bestTargetXform = null;
 
         // Look for shuttles to target
         var shuttleQuery = EntityQueryEnumerator<ShuttleConsoleComponent>();
@@ -236,27 +221,34 @@ public sealed class TargetSeekingSystem : EntitySystem
 
             // If this entity has a grid UID, use that as our actual target
             // This targets the ship grid rather than just the console
-            var actualTarget = targetXform.GridUid ?? targetUid;
+            EntityUid effectiveTargetToConsider;
+            TransformComponent currentCandidateXform;
 
-            // Get angle to the target
-            var targetPos = _transform.ToMapCoordinates(targetXform.Coordinates).Position;
+            if (targetXform.GridUid.HasValue)
+            {
+                effectiveTargetToConsider = targetXform.GridUid.Value;
+                currentCandidateXform = Transform(targetXform.GridUid.Value);
+            }
+            else
+            {
+                effectiveTargetToConsider = targetUid;
+                currentCandidateXform = targetXform;
+            }
+
+            var targetPos = _transform.ToMapCoordinates(currentCandidateXform.Coordinates).Position;
             var sourcePos = _transform.ToMapCoordinates(transform.Coordinates).Position;
             var angleToTarget = (targetPos - sourcePos).ToWorldAngle();
 
-            // Get current direction of the projectile
             var currentRotation = _transform.GetWorldRotation(transform);
 
-            // Check if target is within field of view
             var angleDifference = Angle.ShortestDistance(currentRotation, angleToTarget).Degrees;
             if (MathF.Abs((float)angleDifference) > component.ScanArc / 2)
             {
-                continue; // Target is outside our field of view
+                continue;
             }
 
-            // Calculate distance to target
             var distance = Vector2.Distance(sourcePos, targetPos);
 
-            // Skip if target is out of range
             if (distance > component.DetectionRange)
                 continue;
 
@@ -277,13 +269,17 @@ public sealed class TargetSeekingSystem : EntitySystem
             if (closestDistance > distance)
             {
                 closestDistance = distance;
-                bestTarget = actualTarget;
+                bestTarget = effectiveTargetToConsider;
+                bestTargetXform = currentCandidateXform;
             }
         }
 
-        // Set our new target
-        if (bestTarget.HasValue)
+        if (bestTarget.HasValue && bestTargetXform != null)
             SetSeekerTarget((uid, component), bestTarget, transform);
+        else
+        {
+            component.CurrentTarget = null;
+        }
     }
 
     /// <summary>

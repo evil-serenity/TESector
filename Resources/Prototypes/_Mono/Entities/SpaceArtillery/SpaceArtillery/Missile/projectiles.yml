@@ -1,14 +1,3 @@
-# SPDX-FileCopyrightText: 2025 Avalon
-# SPDX-FileCopyrightText: 2025 Blu
-# SPDX-FileCopyrightText: 2025 Disguised Bear
-# SPDX-FileCopyrightText: 2025 Ilya246
-# SPDX-FileCopyrightText: 2025 Redrover1760
-# SPDX-FileCopyrightText: 2025 RikuTheKiller
-# SPDX-FileCopyrightText: 2025 core-mene
-# SPDX-FileCopyrightText: 2025 starch
-#
-# SPDX-License-Identifier: AGPL-3.0-or-later
-
 # VESPERA
 
 - type: entity
@@ -33,6 +22,7 @@
   - type: RadarBlip
     radarColor: "#FCBA03"
     scale: 1
+    visibleFromOtherGrids: true
     requireNoGrid: true
     shape: hexagon
   - type: TimedDespawn
@@ -83,6 +73,7 @@
   - type: RadarBlip
     radarColor: "#FCBA03"
     scale: 1.5
+    visibleFromOtherGrids: true
     requireNoGrid: true
     shape: hexagon
   - type: TimedDespawn
@@ -133,6 +124,7 @@
   - type: RadarBlip
     radarColor: "#FCBA03"
     scale: 4
+    visibleFromOtherGrids: true
     requireNoGrid: true
     shape: hexagon
   - type: TimedDespawn
@@ -183,6 +175,7 @@
   - type: RadarBlip
     radarColor: "#FB00FF"
     scale: 1
+    visibleFromOtherGrids: true
     requireNoGrid: true
     shape: hexagon
   - type: TimedDespawn
@@ -237,6 +230,7 @@
   - type: RadarBlip
     radarColor: "#FCBA03"
     scale: 4
+    visibleFromOtherGrids: true
     requireNoGrid: true
     shape: hexagon
   - type: TimedDespawn

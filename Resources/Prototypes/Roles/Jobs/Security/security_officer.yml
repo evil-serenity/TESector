@@ -7,7 +7,7 @@
   startingGear: SecurityOfficerGear
   icon: "JobIconSecurityOfficer"
   supervisors: job-supervisors-hos
-  # canBeAntag: false
+  canBeAntag: false
   ## Frontier: commented out stuff below
   access:
   - Security
@@ -16,10 +16,9 @@
   - Service
   - External
   - Cryogenics
-  # special:
-  # - !type:AddImplantSpecial
-  #   implants: [ MindShieldImplant ]
-  ## End Frontier: commented out stuff above
+  special:
+  - !type:AddImplantSpecial
+    implants: [ MindShieldImplant ]
   setPreference: true
   accessGroups: # Frontier
   - GeneralAccess # Frontier
@@ -34,4 +33,4 @@
   storage:
     back:
     - Flash
-    - Magazine9x19mmPistolFMJ
+    - Magazine45_ACPPistolFMJ

@@ -53,11 +53,13 @@ using Content.Shared.Access;
 using Content.Shared._NF.Bank.BUI;
 using Content.Shared._NF.ShuttleRecords;
 using Content.Server.StationEvents.Components;
+using Content.Shared._Mono.Company;
 using Content.Shared.Forensics.Components;
 using Robust.Server.Player;
 using Robust.Shared.Log;
 using Content.Shared.Shuttles.Components;
 using Content.Server.Shuttles.Systems;
+using Content.Shared._HL.Shipyard;
 
 // Suppress naming style rule for the _NF namespace prefix (project convention)
 #pragma warning disable IDE1006
@@ -80,11 +82,8 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
     [Dependency] private readonly IdCardSystem _idSystem = default!;
     [Dependency] private readonly StationRecordsSystem _records = default!;
     [Dependency] private readonly ChatSystem _chat = default!;
-    [Dependency] private readonly IChatManager _chatManager = default!;
     [Dependency] private readonly MindSystem _mind = default!;
     [Dependency] private readonly ShuttleRecordsSystem _shuttleRecordsSystem = default!;
-    [Dependency] private readonly IMapManager _mapManager = default!;
-    [Dependency] private readonly DockingSystem _dockingSystem = default!;
 
     private static readonly Regex DeedRegex = new(@"\s*\([^()]*\)");
 
@@ -139,7 +138,7 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
         if (!GetAvailableShuttles(shipyardConsoleUid, targetId: targetId).available.Contains(vessel.ID))
         {
             PlayDenySound(player, shipyardConsoleUid, component);
-            _adminLogger.Add(LogType.Action, LogImpact.Medium, $"{ToPrettyString(player):player} tried to purchase a vessel that was never available.");
+            //_adminLogger.Add(LogType.Action, LogImpact.Medium, $"{ToPrettyString(player):player} tried to purchase a vessel that was never available.");
             return;
         }
 
@@ -202,10 +201,26 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
             PlayDenySound(player, shipyardConsoleUid, component);
             return;
         }
+
+        // Add company information to the shuttle
+        if (TryComp<CompanyComponent>(player, out var playerCompany) &&
+            !string.IsNullOrEmpty(playerCompany.CompanyName))
+        {
+            var shipCompany = EnsureComp<CompanyComponent>(shuttleUid);
+            shipCompany.CompanyName = playerCompany.CompanyName;
+            Dirty(shuttleUid, shipCompany);
+        }
+
         EntityUid? shuttleStation = null;
         // setting up any stations if we have a matching game map prototype to allow late joins directly onto the vessel
         if (_prototypeManager.TryIndex<GameMapPrototype>(vessel.ID, out var stationProto))
         {
+            // Hardlight.
+            // The shuttle loader will grab the vessel prototype from this component on load.
+            var vesselComp = EnsureComp<HLSavedVesselPrototypeComponent>(shuttleUid);
+            vesselComp.VesselId = vessel.ID;
+            Dirty(shuttleUid, vesselComp);
+
             List<EntityUid> gridUids = new()
             {
                 shuttleUid
@@ -295,10 +310,10 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
             SendPurchaseMessage(shipyardConsoleUid, player, name, secretChannel, secret: true);
 
         PlayConfirmSound(player, shipyardConsoleUid, component);
-        if (voucherUsed)
+        /* if (voucherUsed)
             _adminLogger.Add(LogType.ShipYardUsage, LogImpact.Low, $"{ToPrettyString(player):actor} used {ToPrettyString(targetId)} to purchase shuttle {ToPrettyString(shuttleUid)} with a voucher via {ToPrettyString(shipyardConsoleUid)}");
         else
-            _adminLogger.Add(LogType.ShipYardUsage, LogImpact.Low, $"{ToPrettyString(player):actor} used {ToPrettyString(targetId)} to purchase shuttle {ToPrettyString(shuttleUid)} for {vessel.Price} credits via {ToPrettyString(shipyardConsoleUid)}");
+            _adminLogger.Add(LogType.ShipYardUsage, LogImpact.Low, $"{ToPrettyString(player):actor} used {ToPrettyString(targetId)} to purchase shuttle {ToPrettyString(shuttleUid)} for {vessel.Price} credits via {ToPrettyString(shipyardConsoleUid)}"); */
 
         // Adding the record to the shuttle records system makes them eligible to be copied.
         // Can be set on the component of the shipyard.
@@ -455,31 +470,6 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
         }
         name ??= $"LoadedShip_{DateTime.Now:yyyyMMdd_HHmmss}";
 
-        // Best-effort: infer a vessel prototype from the source file path or the computed name
-        VesselPrototype? vessel = null;
-        try
-        {
-            if (!string.IsNullOrWhiteSpace(args.SourceFilePath))
-            {
-                var fileId = System.IO.Path.GetFileNameWithoutExtension(args.SourceFilePath);
-                if (!string.IsNullOrWhiteSpace(fileId) && _prototypeManager.TryIndex<VesselPrototype>(fileId, out var vByFile))
-                    vessel = vByFile;
-            }
-
-            if (vessel == null && !string.IsNullOrWhiteSpace(name))
-            {
-                // As a fallback, try to match by display name (case-insensitive)
-                var match = _prototypeManager.EnumeratePrototypes<VesselPrototype>()
-                    .FirstOrDefault(p => string.Equals(p.Name, name, StringComparison.OrdinalIgnoreCase));
-                if (match != null)
-                    vessel = match;
-            }
-        }
-        catch
-        {
-            // Ignore inference errors; we'll guard vessel usages below.
-        }
-
         // Attempt to load the shuttle using the exact purchase-from-file path.
         // If the client provided a source file path under UserData, use it; otherwise, write YAML to a temp and load from there.
         EntityUid? shuttleUidOut = null;
@@ -526,6 +516,65 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
             return;
         }
 
+        // Calculate appraisal cost for the loaded ship (charge 10% of appraisal)
+        var fullAppraisal = _pricing.AppraiseGrid(shuttleUid, null);
+        var appraisalCost = (int) MathF.Round((float) fullAppraisal * 0.1f);
+
+        // Check if player has a bank account and session to charge them
+        if (!_player.TryGetSessionByEntity(player, out var playerSession))
+        {
+            ConsolePopup(player, Loc.GetString("shipyard-console-load-failed"));
+            PlayDenySound(player, uid, component);
+            return;
+        }
+
+        if (!TryComp<BankAccountComponent>(player, out var bankAccount))
+        {
+            ConsolePopup(player, Loc.GetString("shipyard-console-no-bank"));
+            PlayDenySound(player, uid, component);
+            return;
+        }
+
+        // Cooldown: charge at most once every 5 minutes per player
+        var now = _timing.CurTime;
+        var cooldown = TimeSpan.FromMinutes(5);
+        var chargedRecently = _lastLoadCharge.TryGetValue(player, out var lastCharge) && (now - lastCharge) < cooldown;
+
+        int currentBalance = bankAccount.Balance;
+        int newBalance = currentBalance - appraisalCost;
+
+        if (!chargedRecently)
+        {
+            // Force charge the player - allow going into debt
+            if (!_bank.TryBankWithdrawAllowDebt(player, appraisalCost))
+            {
+                // This should rarely happen (only if no session/prefs/etc)
+                ConsolePopup(player, Loc.GetString("shipyard-console-load-failed"));
+                PlayDenySound(player, uid, component);
+                return;
+            }
+
+            _lastLoadCharge[player] = now;
+
+            // Notify player of the charge and their new balance
+            if (newBalance < 0)
+            {
+                ConsolePopup(player, Loc.GetString("shipyard-console-load-success-debt",
+                    ("ship", name), ("cost", appraisalCost), ("debt", -newBalance)));
+            }
+            else
+            {
+                ConsolePopup(player, Loc.GetString("shipyard-console-load-success-charged",
+                    ("ship", name), ("cost", appraisalCost)));
+            }
+        }
+        else
+        {
+            // Skip charge due to cooldown; inform player
+            ConsolePopup(player, Loc.GetString("shipyard-console-load-success-nocharge",
+                ("ship", name), ("remaining", (cooldown - (now - lastCharge)).ToString("m\':\'ss"))));
+        }
+
         // Important: Treat loaded ships like independent shuttles, not part of the console's station.
         // The purchase-from-file path temporarily adds the grid to the console's station for IFF/ownership.
         // That causes station-wide events (alerts, etc.) to target the loaded ship. Remove that membership here.
@@ -545,17 +594,19 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
         }
         // For loaded ships, we don't spawn a new station via a GameMap prototype unless we can infer the vessel ID.
         EntityUid? shuttleStation = null;
-        if (vessel != null && _prototypeManager.TryIndex<GameMapPrototype>(vessel.ID, out var stationProto))
+        var vesselComp = EnsureComp<HLSavedVesselPrototypeComponent>(shuttleUid);
+        var vessel = vesselComp.VesselId;
+        if (_prototypeManager.TryIndex<GameMapPrototype>(vessel, out var stationProto))
         {
             List<EntityUid> gridUids = new()
             {
                 shuttleUid
             };
-            shuttleStation = _station.InitializeNewStation(stationProto.Stations[vessel.ID], gridUids);
-            name = Name(shuttleStation.Value);
+            name = Name(shuttleUid); // Name the station to the shuttle's name
+            shuttleStation = _station.InitializeNewStation(stationProto.Stations[vessel], gridUids, name);
 
             var vesselInfo = EnsureComp<ExtraShuttleInformationComponent>(shuttleStation.Value);
-            vesselInfo.Vessel = vessel.ID;
+            vesselInfo.Vessel = vessel;
         }
 
         if (TryComp<AccessComponent>(targetId, out var newCap))
@@ -595,19 +646,19 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
             if (!recSuccess
                 && _mind.TryGetMind(player, out var mindUid, out var mindComp)
                 && mindComp.UserId != null
-                && _prefManager.GetPreferences(mindComp.UserId.Value).SelectedCharacter is HumanoidCharacterProfile profile)
+                && _prefManager.GetPreferences(mindComp.UserId.Value).SelectedCharacter is HumanoidCharacterProfile playerProfile)
             {
                 TryComp<FingerprintComponent>(player, out var fingerprintComponent);
                 TryComp<DnaComponent>(player, out var dnaComponent);
                 TryComp<StationRecordsComponent>(shuttleStation, out var stationRec);
-                _records.CreateGeneralRecord(shuttleStation.Value, targetId, profile.Name, profile.Age, profile.Species, profile.Gender, $"Captain", fingerprintComponent!.Fingerprint, dnaComponent!.DNA, profile, stationRec!);
+                _records.CreateGeneralRecord(shuttleStation.Value, targetId, playerProfile.Name, playerProfile.Age, playerProfile.Species, playerProfile.Gender, $"Captain", fingerprintComponent!.Fingerprint, dnaComponent!.DNA, playerProfile, stationRec!);
             }
         }
         if (shuttleStation != null)
             _records.Synchronize(shuttleStation.Value);
-        // If we managed to infer a vessel prototype, add any extra components it specifies.
-        if (vessel != null)
-            EntityManager.AddComponents(shuttleUid, vessel.AddComponents);
+        // If we infer a vessel prototype, add any extra components it specifies.
+        if (_prototypeManager.TryIndex(vessel, out var vesselProto))
+            EntityManager.AddComponents(shuttleUid, vesselProto.AddComponents);
 
         // Ensure cleanup on ship sale
         EnsureComp<LinkedLifecycleGridParentComponent>(shuttleUid);
@@ -635,14 +686,14 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
                     ownerName: shuttleOwner,
                     entityUid: EntityManager.GetNetEntity(shuttleUid),
                     purchasedWithVoucher: loadedFromSave,
-                    purchasePrice: (uint)(vessel?.Price ?? 0)
+                    purchasePrice: (uint)(vesselProto?.Price ?? 0)
                 )
             );
         }
 
         RefreshState(uid, balance, true, name, sellValue, targetId, (ShipyardConsoleUiKey)args.UiKey, false);
 
-        _adminLogger.Add(LogType.ShipYardUsage, LogImpact.Low, $"{ToPrettyString(player):actor} loaded shuttle {ToPrettyString(shuttleUid)} from {(args.SourceFilePath ?? "YAML data")} via {ToPrettyString(uid)}");
+        //_adminLogger.Add(LogType.ShipYardUsage, LogImpact.Low, $"{ToPrettyString(player):actor} loaded shuttle {ToPrettyString(shuttleUid)} from {(args.SourceFilePath ?? "YAML data")} via {ToPrettyString(uid)}");
 
         // After a successful server-side load, instruct the client to delete their local YAML file.
         if (!string.IsNullOrWhiteSpace(args.SourceFilePath) && _player.TryGetSessionByEntity(player, out var session))
@@ -781,10 +832,10 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
 
         EntityUid? refreshId = targetId;
 
-        if (voucherUsed)
+        /* if (voucherUsed)
             _adminLogger.Add(LogType.ShipYardUsage, LogImpact.Low, $"{ToPrettyString(player):actor} used {ToPrettyString(targetId)} to sell {shuttleName} (purchased with voucher) via {ToPrettyString(uid)}");
         else
-            _adminLogger.Add(LogType.ShipYardUsage, LogImpact.Low, $"{ToPrettyString(player):actor} used {ToPrettyString(targetId)} to sell {shuttleName} for {bill} credits via {ToPrettyString(uid)}");
+            _adminLogger.Add(LogType.ShipYardUsage, LogImpact.Low, $"{ToPrettyString(player):actor} used {ToPrettyString(targetId)} to sell {shuttleName} for {bill} credits via {ToPrettyString(uid)}"); */
 
         // No uses on the voucher left, destroy it.
         if (voucher != null

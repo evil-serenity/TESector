@@ -86,17 +86,19 @@ public sealed partial class ShipShieldsSystem : EntitySystem
             if (emitter.Damage > emitter.DamageLimit)
                 emitter.OverloadAccumulator = emitter.DamageOverloadTimePunishment;
 
-            if (!emitter.Recharging && emitter.Shield is null && emitter.OverloadAccumulator < 1)
+            // Check if we need to create a shield (not recharging, no valid shield, not overloaded)
+            if (!emitter.Recharging && !Exists(emitter.Shield) && emitter.OverloadAccumulator < 1)
             {
                 var shield = ShieldEntity(parent.Value, source: uid);
                 if (shield != EntityUid.Invalid)
                 {
                     emitter.Shield = shield;
                     emitter.Shielded = parent.Value;
+                    _audio.PlayGlobal(emitter.PowerUpSound, filter, true, emitter.PowerUpSound.Params);
                 }
-                _audio.PlayGlobal(emitter.PowerUpSound, filter, true, emitter.PowerUpSound.Params);
             }
-            else if ((emitter.Recharging || emitter.OverloadAccumulator > 0) && emitter.Shield is not null)
+            // Check if we need to remove shield (recharging or overloaded, and shield exists)
+            else if ((emitter.Recharging || emitter.OverloadAccumulator > 0) && Exists(emitter.Shield))
             {
                 UnshieldEntity(parent.Value);
                 emitter.Shield = null;
@@ -111,9 +113,23 @@ public sealed partial class ShipShieldsSystem : EntitySystem
         base.Initialize();
         SubscribeLocalEvent<ShipShieldComponent, StartCollideEvent>(OnCollide);
         SubscribeLocalEvent<ShipShieldEmitterComponent, ComponentShutdown>(OnEmitterShutdown); // Mono
+        SubscribeLocalEvent<ShipShieldedComponent, MapInitEvent>(OnShieldedMapInit);
 
         InitializeCommands();
         InitializeEmitters();
+    }
+
+    private void OnShieldedMapInit(EntityUid uid, ShipShieldedComponent component, MapInitEvent args)
+    {
+        // Clean up orphaned shield entities from save/load
+        // The shield entity won't survive serialization properly, so delete it
+        if (Exists(component.Shield) && !Deleted(component.Shield))
+        {
+            QueueDel(component.Shield);
+        }
+        
+        // Remove the component so the emitter can recreate it fresh
+        RemCompDeferred<ShipShieldedComponent>(uid);
     }
 
 
@@ -173,9 +189,11 @@ public sealed partial class ShipShieldsSystem : EntitySystem
         }
     }
 
-    private void OnEmitterShutdown(EntityUid uid, ShipShieldEmitterComponent emitter, ComponentShutdown args) // Mono 
+    private void OnEmitterShutdown(EntityUid uid, ShipShieldEmitterComponent emitter, ComponentShutdown args) // Mono
     {
-        if (emitter.Shielded != null)
+        // Only try to unshield if the shielded entity still exists and isn't being deleted
+        // (prevents double-deletion when the grid is being recursively deleted)
+        if (emitter.Shielded != null && Exists(emitter.Shielded.Value) && !Terminating(emitter.Shielded.Value))
         {
             UnshieldEntity(emitter.Shielded.Value);
             emitter.Shield = null;

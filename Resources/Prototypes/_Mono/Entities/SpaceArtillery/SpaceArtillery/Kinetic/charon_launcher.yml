@@ -1,15 +1,9 @@
-# SPDX-FileCopyrightText: 2025 Ilya246
-# SPDX-FileCopyrightText: 2025 Redrover1760
-# SPDX-FileCopyrightText: 2025 starch
-#
-# SPDX-License-Identifier: AGPL-3.0-or-later
-
 # Station one w/ infinite ammo
 
 - type: entity
   id: WeaponTurretCharon
   name: M381 CHARON mass driver
-  parent: BallisticArtilleryUnanchorable
+  parent: [ BallisticArtilleryUnanchorable, BaseC3ExpeditionContraband ]
   suffix: Station, Recharging Ammo
   description: A capital-class railgun that fires a massive slug at extreme velocity, capable of catastrophic damage to enemy ships. Heavy linear accelerator, can be remotely activated or linked up to a GCS. This one feeds from an autoloader somewhere, and doesn't need manual reloads.
   components:
@@ -71,8 +65,9 @@
         sound:
           collection: MetalBreak
   - type: RadarBlip
-    radarColor: "#CF0E0E"
-    scale: 3
+    radarColor: "#D90000"
+    scale: 4
+    visibleFromOtherGrids: true
   - type: ShipGunType
     shipType: Ballistic
   - type: ShipGunClass
@@ -83,7 +78,7 @@
 - type: entity
   id: WeaponTurretCharonReload
   name: M381 CHARON mass driver
-  parent: BallisticArtilleryUnanchorableCartridge
+  parent: [ BallisticArtilleryUnanchorableCartridge,  BaseC3ExpeditionContraband ]
   suffix: Ship, Manual Reload, No Rotate
   description: A capital-class railgun that fires a massive slug at extreme velocity, capable of catastrophic damage to enemy ships. Heavy linear accelerator, can be remotely activated or linked up to a GCS.
   components:
@@ -141,9 +136,16 @@
         sound:
           collection: MetalBreak
   - type: RadarBlip
-    radarColor: "#CF0E0E"
-    scale: 3
+    radarColor: "#D90000"
+    scale: 4
+    visibleFromOtherGrids: true
   - type: ShipGunType
     shipType: Ballistic
   - type: ShipGunClass
     shipClass: Superheavy
+  - type: ContainerContainer #HL start
+    containers:
+      machine_board: !type:Container
+      machine_parts: !type:Container
+  - type: Machine
+    board: CharonReloadWeaponBoard #HL end

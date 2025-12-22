@@ -1,15 +1,11 @@
-// SPDX-FileCopyrightText: 2025 LaCumbiaDelCoronavirus
-//
-// SPDX-License-Identifier: MPL-2.0
-
-using Content.Server.Mono.Projectiles.TargetSeeking;
+using Content.Server._Mono.Projectiles.TargetSeeking;
 using Content.Server.Power.EntitySystems;
 using Content.Shared.Power;
 using Robust.Server.Audio;
 using Robust.Shared.Audio;
 using Robust.Shared.Map.Components;
 
-namespace Content.Server.Mono.TargetSeekingAlert;
+namespace Content.Server._Mono.TargetSeekingAlert;
 
 /// <summary>
 ///     Handles logic for things that make alerts for entities with <see cref="TargetSeekingComponent"/>.

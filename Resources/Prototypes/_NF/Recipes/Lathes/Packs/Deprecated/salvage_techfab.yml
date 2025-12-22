@@ -97,12 +97,14 @@
     - ClothingBackpackDuffelHolding
     - ClothingBackpackMessengerHolding
     - OreBagOfHolding
+    - ClothingBackpackExplorer #HL
+    - ClothingRucksack #HL
     - ClothingOuterHardsuitBasic
     - ClothingOuterHardsuitSpatio
     - ClothingOuterHardsuitSalvage
     - ClothingOuterHardsuitLuxury
     - ClothingOuterHardsuitMaximPrototype
-
+ 
 - type: latheRecipePack
   id: NFSalvageTechfabDeprecatedEmag
   recipes:

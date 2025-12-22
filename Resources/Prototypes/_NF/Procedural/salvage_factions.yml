@@ -3,29 +3,61 @@
   id: NFXenos
   desc: nf-salvage-faction-xenos
   entries:
-    - proto: NFMobXeno
-      cost: 2
-    - proto: NFMobXenoDrone
-      cost: 2
-    - proto: NFMobXenoPraetorian
-      cost: 3
-      prob: 0.2
-    - proto: NFMobXenoQueen
+    - proto: MobXeno
       cost: 4
+    - proto: MobXenoDroneNPC
+      cost: 4
+    - proto: MobLesserDrone
+      cost: 4
+    - proto: MobXenoPraetorianNPC
+      cost: 6
+      prob: 0.2
+    - proto: MobXenoQueenNPC
+      cost: 8
       prob: 0.1
-    - proto: NFMobXenoRavager
-      cost: 2
-    - proto: NFMobXenoRunner
-      cost: 3
-    - proto: NFMobXenoSpitter
-      cost: 2
+    - proto: MobXenoRavagerNPC
+      cost: 4
+    - proto: MobXenoRunnerNPC
+      cost: 4
+    - proto: MobXenoRounyNPC 
+      cost: 4
+    - proto: MobXenoAcidRunner 
+      cost: 6
+    - proto: MobXenoAcidRunnerPrimed 
+      cost: 7
+    - proto: MobXenoBoiler 
+      cost: 7
+    - proto: MobXenoBoxerWarrior 
+      cost: 7
+    - proto: MobXenoCarrier 
+      cost: 6
+    - proto: MobXenoCrusher 
+      cost: 6
+    - proto: MobXenoChargerCrusher 
+      cost: 6
+    - proto: MobXenoDancerPraetorian 
+      cost: 6
+    - proto: MobXenoDefender 
+      cost: 6
+    - proto: MobXenoSentinel 
+      cost: 4
+    - proto: MobXenoHivelord 
+      cost: 8
+    - proto: SpawnFloorTrapXenoBurrower 
+      cost: 1
+    - proto: SpawnFloorTrapXenoDrone 
+      cost: 1
+    - proto: MobXenoSpitterNPC
+      cost: 4
+    - proto: XenoEggSpawner
+      cost: 1
     - proto: WeaponTurretXeno
       cost: 2
       prob: 0.1
   configs:
     DefenseStructure: XenoWardingTower
-    Megafauna: NFMobXenoQueen
-    Difficulties: NFModerate
+    Megafauna: MobXenoQueenNPC
+
 
 - type: salvageFaction
   id: NFCarps
@@ -62,7 +94,7 @@
   configs:
     DefenseStructure: CarpStatue
     Megafauna: NFMobDragonDungeon
-    Difficulties: NFModerate
+
 
 - type: salvageFaction
   id: NFFlesh
@@ -79,7 +111,7 @@
   configs:
     DefenseStructure: AberrantFleshDigestiveSack
     Megafauna: MobHorrorExpeditions
-    Difficulties: NFModerate
+
 
 - type: salvageFaction
   id: NFArgocytes
@@ -116,7 +148,7 @@
   configs:
     DefenseStructure: ArgocyteEgg
     Megafauna: MobArgocyteLeviathingExpeditions
-    Difficulties: NFModerate
+
 
 - type: salvageFaction
   id: HLZombies
@@ -139,7 +171,7 @@
   configs:
     DefenseStructure: MobZBloated
     Megafauna: MobZP0
-    Difficulties: NFModerate
+
 
 # region Hazardous
 
@@ -167,7 +199,7 @@
   configs:
     DefenseStructure: PunkPartySupplies
     Megafauna: MobPunkGangerLeader
-    Difficulties: NFHazardous
+
 
 - type: salvageFaction
   id: NFDinosaurs
@@ -197,7 +229,7 @@
   configs:
     DefenseStructure: DinosaurEgg
     Megafauna: MobDinosaurTrexExpeditions
-    Difficulties: NFHazardous
+
 
 - type: salvageFaction
   id: NFMercenaries
@@ -227,7 +259,7 @@
   configs:
     DefenseStructure: MercenaryCounterfeitCache
     Megafauna: MobMercenaryCaptain
-    Difficulties: NFHazardous
+
 
 # region Extreme
 
@@ -263,7 +295,7 @@
   configs:
     DefenseStructure: CybersunDataMiner
     Megafauna: MobSyndicateNavalCommanderA
-    Difficulties: NFExtreme
+
 
 - type: salvageFaction
   id: NFExplorers
@@ -292,7 +324,7 @@
   configs:
     DefenseStructure: ExplorersLootRadar
     Megafauna: MobExplorerBoss
-    Difficulties: NFExtreme
+
 
 - type: salvageFaction
   id: NFSilicons
@@ -324,7 +356,7 @@
   configs:
     DefenseStructure: RogueAiNode
     Megafauna: MobRogueSiliconBoss
-    Difficulties: NFExtreme
+
 
 - type: salvageFaction
   id: NFCultists
@@ -356,7 +388,7 @@
   configs:
     DefenseStructure: BloodCollector
     Megafauna: MobBloodCultistAscended
-    Difficulties: NFExtreme
+
 
 - type: salvageFaction
   id: HLWizards
@@ -383,4 +415,3 @@
   configs:
     DefenseStructure: NotABloodCollectorIPromise
     Megafauna: MobWizardBoss
-    Difficulties: NFExtreme

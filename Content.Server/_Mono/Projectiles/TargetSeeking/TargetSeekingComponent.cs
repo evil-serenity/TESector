@@ -1,12 +1,4 @@
-// SPDX-FileCopyrightText: 2025 Ark
-// SPDX-FileCopyrightText: 2025 Ilya246
-// SPDX-FileCopyrightText: 2025 LaCumbiaDelCoronavirus
-// SPDX-FileCopyrightText: 2025 Redrover1760
-// SPDX-FileCopyrightText: 2025 RikuTheKiller
-//
-// SPDX-License-Identifier: AGPL-3.0-or-later
-
-namespace Content.Server.Mono.Projectiles.TargetSeeking;
+namespace Content.Server._Mono.Projectiles.TargetSeeking;
 
 /// <summary>
 /// Component that allows a projectile to seek and track targets autonomously.
@@ -73,12 +65,6 @@ public sealed partial class TargetSeekingComponent : Component
     /// </summary>
     [DataField]
     public bool Launched = false;
-
-    /// <summary>
-    /// Current speed of the projectile in m/s. Managed by TargetSeekingSystem.
-    /// </summary>
-    [DataField]
-    public float CurrentSpeed = 0f;
 
     /// <summary>
     /// The amount of time in seconds left the missile starts searching for targets. // Mono

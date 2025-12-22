@@ -7,7 +7,7 @@
   startingGear: WardenGear
   icon: "JobIconWarden"
   supervisors: job-supervisors-hos
-  # canBeAntag: false
+  canBeAntag: false
   ## Frontier: commented out stuff below
   access:
   - Security
@@ -36,4 +36,4 @@
   storage:
     back:
     - Flash
-    - Magazine9x19mmPistolFMJ
+    - Magazine45_ACPPistolFMJ

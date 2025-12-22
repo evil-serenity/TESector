@@ -1,13 +1,3 @@
-// SPDX-FileCopyrightText: 2025 Ark
-// SPDX-FileCopyrightText: 2025 Redrover1760
-// SPDX-FileCopyrightText: 2025 RikuTheKiller
-// SPDX-FileCopyrightText: 2025 ScyronX
-// SPDX-FileCopyrightText: 2025 ark1368
-// SPDX-FileCopyrightText: 2025 sleepyyapril
-// SPDX-FileCopyrightText: 2025 starch
-//
-// SPDX-License-Identifier: AGPL-3.0-or-later
-
 // Copyright Rane (elijahrane@gmail.com) 2025
 // All rights reserved. Relicensed under AGPL with permission
 
@@ -27,6 +17,9 @@ using System.Numerics;
 using Content.Server.Power.EntitySystems;
 using Content.Shared.Shuttles.Components;
 using Robust.Shared.Timing;
+using Content.Server.Power.EntitySystems;
+using Content.Shared.Shuttles.Components;
+using Robust.Shared.Timing;
 
 namespace Content.Server._Mono.FireControl;
 
@@ -42,7 +35,6 @@ public sealed partial class FireControlSystem : EntitySystem
     /// Dictionary of entities that have visualization enabled
     /// </summary>
     private readonly HashSet<EntityUid> _visualizedEntities = new();
-    [Dependency] private readonly RotateToFaceSystem _rotateToFace = default!;
 
     public override void Initialize()
     {
@@ -55,6 +47,7 @@ public sealed partial class FireControlSystem : EntitySystem
         SubscribeLocalEvent<FireControllableComponent, ComponentShutdown>(OnControllableShutdown);
 
         InitializeConsole();
+        InitializeTargetGuided();
     }
 
     private void OnPowerChanged(EntityUid uid, FireControlServerComponent component, PowerChangedEvent args)
@@ -238,6 +231,11 @@ public sealed partial class FireControlSystem : EntitySystem
             ShipGunClass.Medium => 6,
             ShipGunClass.Heavy => 9,
             ShipGunClass.Superheavy => 12,
+            ShipGunClass.CVSuperlight => 5,
+            ShipGunClass.CVLight => 8,
+            ShipGunClass.CVMedium => 12,
+            ShipGunClass.CVHeavy => 15,
+            ShipGunClass.CVSuperheavy => 20,
             _ => 0,
         };
     }
@@ -289,12 +287,13 @@ public sealed partial class FireControlSystem : EntitySystem
                 {
                     if (diff.LengthSquared() > 0.01f)
                     {
-                        // Only rotate the gun if it has line of sight to the target
-                        if (HasLineOfSight(localWeapon, currentMapCoords.Position, destinationMapCoords.Position, currentMapCoords.MapId))
-                        {
-                            var goalAngle = Angle.FromWorldVec(diff);
-                            _rotateToFace.TryRotateTo(localWeapon, goalAngle, 0f, Angle.FromDegrees(1), float.MaxValue, weaponXform);
-                        }
+                        // Rotate towards target
+                        // Get the world rotation needed to face the target
+                        var goalAngle = Angle.FromWorldVec(diff);
+                        // Convert to local rotation by removing parent rotation
+                        var parentRotation = _xform.GetWorldRotation(weaponXform.ParentUid);
+                        var localRotation = goalAngle - parentRotation;
+                        _xform.SetLocalRotation(localWeapon, localRotation, weaponXform);
                     }
                 }
             }
@@ -407,14 +406,14 @@ public sealed partial class FireControlSystem : EntitySystem
         // Initialize ray collision
         var ray = new CollisionRay(weaponPos, direction, collisionMask: (int)(CollisionGroup.Opaque | CollisionGroup.Impassable));
 
-        // Create a predicate that ignores entities not on the same grid
-        bool IgnoreEntityNotOnSameGrid(EntityUid entity, EntityUid sourceWeapon)
+        // Create a predicate that only checks entities on the same grid
+        bool CheckOnlyEntitiesOnSameGrid(EntityUid entity, EntityUid sourceWeapon)
         {
             // Always ignore the source weapon itself
             if (entity == sourceWeapon)
                 return true;
 
-            // If the weapon isn't on a grid, we'll check against all entities
+            // If the weapon isn't on a grid, check all entities (don't ignore any)
             if (weaponGridUid == null)
                 return false;
 
@@ -422,21 +421,21 @@ public sealed partial class FireControlSystem : EntitySystem
             var entityTransform = Transform(entity);
             var entityGridUid = entityTransform.GridUid;
 
-            // Ignore if not on the same grid
+            // Ignore entities NOT on the same grid (we only want to check obstacles on our own grid)
             return entityGridUid != weaponGridUid;
         }
 
-        // Check if there's any obstacles in the firing direction, only considering entities on the same grid
+        // Check if there's any obstacles in the firing direction on the same grid
         var raycastResults = _physics.IntersectRayWithPredicate(
             mapId,
             ray,
             weapon,
-            IgnoreEntityNotOnSameGrid,
+            CheckOnlyEntitiesOnSameGrid,
             distance,
-            returnOnFirstHit: false
+            returnOnFirstHit: true // Stop at first hit for efficiency
         ).ToList();
 
-        // Can only fire if there's no obstacles in the path
+        // Can only fire if there's no obstacles in the path on our own grid
         return raycastResults.Count == 0;
     }
 
@@ -456,14 +455,14 @@ public sealed partial class FireControlSystem : EntitySystem
         var mapId = transform.MapID;
         var weaponGridUid = transform.GridUid;
 
-        // Create a predicate that ignores entities not on the same grid
-        bool IgnoreEntityNotOnSameGrid(EntityUid entity, EntityUid sourceWeapon)
+        // Create a predicate that only checks entities on the same grid
+        bool CheckOnlyEntitiesOnSameGrid(EntityUid entity, EntityUid sourceWeapon)
         {
             // Always ignore the source weapon itself
             if (entity == sourceWeapon)
                 return true;
 
-            // If the weapon isn't on a grid, we'll check against all entities
+            // If the weapon isn't on a grid, check all entities (don't ignore any)
             if (weaponGridUid == null)
                 return false;
 
@@ -471,7 +470,7 @@ public sealed partial class FireControlSystem : EntitySystem
             var entityTransform = Transform(entity);
             var entityGridUid = entityTransform.GridUid;
 
-            // Ignore if not on the same grid
+            // Ignore entities NOT on the same grid (we only want to check obstacles on our own grid)
             return entityGridUid != weaponGridUid;
         }
 
@@ -485,17 +484,17 @@ public sealed partial class FireControlSystem : EntitySystem
             // Initialize ray collision
             var ray = new CollisionRay(position, direction, collisionMask: (int)(CollisionGroup.Opaque | CollisionGroup.Impassable));
 
-            // Check if there's any obstacles in this direction, only considering entities on the same grid
+            // Check if there's any obstacles in this direction on the same grid
             var raycastResults = _physics.IntersectRayWithPredicate(
                 mapId,
                 ray,
                 weapon,
-                IgnoreEntityNotOnSameGrid,
+                CheckOnlyEntitiesOnSameGrid,
                 maxDistance,
-                returnOnFirstHit: false
+                returnOnFirstHit: true // Stop at first hit for efficiency
             ).ToList();
 
-            // Direction is clear if there are no obstacles
+            // Direction is clear if there are no obstacles on our own grid
             var canFire = raycastResults.Count == 0;
             directions[angle * 180 / MathF.PI] = canFire;
         }
@@ -543,19 +542,6 @@ public sealed partial class FireControlSystem : EntitySystem
         var directions = CheckAllDirections(entityUid);
         RaiseNetworkEvent(new FireControlVisualizationEvent(netEntity, directions));
         return true;
-    }
-
-    private bool HasLineOfSight(EntityUid shooter, Vector2 from, Vector2 to, MapId mapId)
-    {
-        var diff = to - from;
-        var distance = diff.Length();
-        if (distance <= 0f)
-            return false;
-
-        var direction = Vector2.Normalize(diff);
-        var ray = new CollisionRay(from, direction, collisionMask: (int)(CollisionGroup.Opaque | CollisionGroup.Impassable));
-        var hits = _physics.IntersectRay(mapId, ray, distance, shooter, false);
-        return !hits.Any();
     }
 }
 

@@ -18,7 +18,7 @@
 - type: entity
   id: WeaponTurretL85Autocannon
   name: L85 20mm autocannon
-  parent: BallisticArtillery
+  parent: [ BallisticArtilleryUnanchorable, BaseC3ExpeditionContraband ]
   description: A light 20mm ballistic autocannon designed for rapid fire and suppressing smaller targets at close range. Cheap, light, and can be remotely activated or linked up to a GCS.
   components:
   - type: StaticPrice
@@ -76,19 +76,26 @@
   - type: RadiationBlocker
     resistance: 8
   - type: RadarBlip
-    radarColor: "#FF0000"
-    scale: 1
+    radarColor: "#D90000"
+    scale: 3
+    visibleFromOtherGrids: true
   - type: ShipGunType
     shipType: Ballistic
   - type: ShipGunClass
     shipClass: Light
+  - type: ContainerContainer #HL start
+    containers:
+      machine_board: !type:Container
+      machine_parts: !type:Container
+  - type: Machine
+    board: L85AutocannonWeaponBoard #HL end
 
 # RAC-30 Draupnir
 
 - type: entity
   id: WeaponTurretRAC30
   name: RAC-30 Draupnir Autocannon
-  parent: BallisticArtillery
+  parent: [ BallisticArtilleryUnanchorable, BaseC3ExpeditionContraband ]
   description: A more heavy duty rapid rife autocannon, firing a hail of rounds much like its namesake became a hail of spears.
   components:
   - type: StaticPrice
@@ -146,19 +153,26 @@
   - type: RadiationBlocker
     resistance: 8
   - type: RadarBlip
-    radarColor: "#FF0000"
-    scale: 1.5
+    radarColor: "#D90000"
+    scale: 3
+    visibleFromOtherGrids: true
   - type: ShipGunType
     shipType: Ballistic
   - type: ShipGunClass
     shipClass: Medium
+  - type: ContainerContainer #HL start
+    containers:
+      machine_board: !type:Container
+      machine_parts: !type:Container
+  - type: Machine
+    board: RAC30WeaponBoard #HL end
 
 # DRAVON 57mm
 
 - type: entity
   id: WeaponTurretDravon
   name: ADBP-7 DRAVON 57mm Autocannon
-  parent: BallisticArtillery
+  parent: [ BallisticArtilleryUnanchorable, BaseC3ExpeditionContraband ]
   description: A single-barrel autocannon made by Aetherion Dynamics. Medium artillery piece with high fire rate but relatively low impact, firing HEAT shells to damage ship armor and systems. Can be remotely activated or linked up to a GCS.
   components:
   - type: StaticPrice
@@ -208,19 +222,26 @@
         sound:
           collection: MetalBreak
   - type: RadarBlip
-    radarColor: "#FF0000"
-    scale: 1.5
+    radarColor: "#D90000"
+    scale: 3
+    visibleFromOtherGrids: true
   - type: ShipGunType
     shipType: Ballistic
   - type: ShipGunClass
     shipClass: Medium
+  - type: ContainerContainer #HL start
+    containers:
+      machine_board: !type:Container
+      machine_parts: !type:Container
+  - type: Machine
+    board: DravonWeaponBoard #HL end
 
 # AK570 90mm
 
 - type: entity
   id: WeaponTurretAK570
   name: AK570 90mm heavy autocannon
-  parent: BallisticArtillery
+  parent: [ BallisticArtilleryUnanchorable, BaseC3ExpeditionContraband ]
   description: A dual-barrel, heavy 90mm autocannon firing general-purpose APHE rounds, effective for sustained fire against medium targets. Can be remotely activated or linked up to a GCS.
   components:
   - type: StaticPrice
@@ -275,19 +296,26 @@
         sound:
           collection: MetalBreak
   - type: RadarBlip
-    radarColor: "#FF0000"
-    scale: 1.5
+    radarColor: "#D90000"
+    scale: 3
+    visibleFromOtherGrids: true
   - type: ShipGunType
     shipType: Ballistic
   - type: ShipGunClass
     shipClass: Medium
+  - type: ContainerContainer #HL start
+    containers:
+      machine_board: !type:Container
+      machine_parts: !type:Container
+  - type: Machine
+    board: AK570WeaponBoard #HL end
 
 # CYREXA 220mm
 
 - type: entity
   id: WeaponTurretCyrexa
   name: CYREXA 220mm cannon
-  parent: BallisticArtilleryUnanchorable
+  parent: [ BallisticArtilleryUnanchorable, BaseC3ExpeditionContraband ]
   description: A main battery with dual barrels, delivering rapid, punishing salvos at extreme range. Fires 220mm auto shells with slightly reduced brute strength. Can be remotely activated or linked up to a GCS.
   components:
   - type: StaticPrice
@@ -343,8 +371,9 @@
     proto: ShipCyrexaProjectile
     fireCost: 6000
   - type: RadarBlip
-    radarColor: "#FF0000"
-    scale: 2
+    radarColor: "#D90000"
+    scale: 3
+    visibleFromOtherGrids: true
   - type: Destructible
     thresholds:
     - trigger:
@@ -360,13 +389,19 @@
     shipType: Ballistic
   - type: ShipGunClass
     shipClass: Medium
+  - type: ContainerContainer #HL start
+    containers:
+      machine_board: !type:Container
+      machine_parts: !type:Container
+  - type: Machine
+    board: CyrexaWeaponBoard #HL end
 
 # HADES 305mm
 
 - type: entity
   id: WeaponTurretHades
   name: HADES 305mm cannon
-  parent: BallisticArtilleryUnanchorable
+  parent: [ BallisticArtilleryUnanchorable, BaseC3ExpeditionContraband ]
   description: One of the largest chemical-based kinetic weapons in the sector. Its power is only rivaled by mass drivers such as the M381.
   components:
   - type: StaticPrice
@@ -422,8 +457,9 @@
     proto: ShipHadesProjectile
     fireCost: 6000
   - type: RadarBlip
-    radarColor: "#FF0000"
-    scale: 2.5
+    radarColor: "#D90000"
+    scale: 4
+    visibleFromOtherGrids: true
   - type: Destructible
     thresholds:
     - trigger:
@@ -439,13 +475,19 @@
     shipType: Ballistic
   - type: ShipGunClass
     shipClass: Superheavy
+  - type: ContainerContainer #HL start
+    containers:
+      machine_board: !type:Container
+      machine_parts: !type:Container
+  - type: Machine
+    board: HadesWeaponBoard #HL end
 
 # Longbow 150mm
 
 - type: entity
   id: WeaponTurretLongbow
   name: L65 Mk.5 "Longbow" heavy autocannon
-  parent: BallisticArtilleryUnanchorable
+  parent: [ BallisticArtilleryUnanchorable, BaseC3ExpeditionContraband ]
   description: Fires 140mm HEAT shells in a 10 round burst from an internal autoloader.
   components:
   - type: StaticPrice
@@ -501,8 +543,9 @@
     proto: ShipLongbowProjectile
     fireCost: 600
   - type: RadarBlip
-    radarColor: "#FF0000"
-    scale: 2
+    radarColor: "#D90000"
+    scale: 3
+    visibleFromOtherGrids: true
   - type: Destructible
     thresholds:
     - trigger:
@@ -518,13 +561,19 @@
     shipType: Ballistic
   - type: ShipGunClass
     shipClass: Heavy
+  - type: ContainerContainer #HL start
+    containers:
+      machine_board: !type:Container
+      machine_parts: !type:Container
+  - type: Machine
+    board: LongbowWeaponBoard #HL end
 
 # MiniCHARON
 
 - type: entity
   id: WeaponTurretCharonette
   name: M194 CHARONETTE mass driver
-  parent: BallisticArtilleryUnanchorable
+  parent: [ BallisticArtilleryUnanchorable, BaseC3ExpeditionContraband ]
   description: A smaller, more compact railgun that fires a large slug at rapid velocity, capable of big damage to enemy ships. Medium linear accelerator, can be remotely activated or linked up to a GCS.
   components:
   - type: StaticPrice
@@ -585,19 +634,26 @@
         sound:
           collection: MetalBreak
   - type: RadarBlip
-    radarColor: "#d53a3a"
-    scale: 2
+    radarColor: "#D90000"
+    scale: 3
+    visibleFromOtherGrids: true
   - type: ShipGunType
     shipType: Ballistic
   - type: ShipGunClass
     shipClass: Heavy
+  - type: ContainerContainer #HL start
+    containers:
+      machine_board: !type:Container
+      machine_parts: !type:Container
+  - type: Machine
+    board: CharonetteWeaponBoard #HL end
 
 # Bofors 255mm
 
 - type: entity
   id: WeaponTurretBofors
   name: Bofors 255mm cannon
-  parent: BallisticArtilleryUnanchorable
+  parent: [ BallisticArtilleryUnanchorable, BaseC3ExpeditionContraband ]
   description: A single-barrel, heavy artillery cannon designed for cruisers, delivering massive impact with each long-range shot. Can be remotely activated or linked up to a GCS.
   components:
   - type: StaticPrice
@@ -660,19 +716,26 @@
         sound:
           collection: MetalBreak
   - type: RadarBlip
-    radarColor: "#03FC9D"
-    scale: 3.5
+    radarColor: "#D90000"
+    scale: 3
+    visibleFromOtherGrids: true
   - type: ShipGunType
     shipType: Ballistic
   - type: ShipGunClass
     shipClass: Medium
+  - type: ContainerContainer #HL start
+    containers:
+      machine_board: !type:Container
+      machine_parts: !type:Container
+  - type: Machine
+    board: BoforsWeaponBoard #HL end
 
 # Kargil 203mm
 
 - type: entity
   id: WeaponTurretKargil
   name: Kargil 203mm cannon
-  parent: BallisticArtilleryUnanchorable
+  parent: [ BallisticArtilleryUnanchorable, BaseC3ExpeditionContraband ]
   description: A cruiser artillery cannon that launches devastating 203mm shells for long-range ship-to-ship combat. Can be remotely activated or linked up to a GCS.
   components:
   - type: StaticPrice
@@ -735,12 +798,19 @@
         sound:
           collection: MetalBreak
   - type: RadarBlip
-    radarColor: "#03FC9D"
+    radarColor: "#D90000"
     scale: 3
+    visibleFromOtherGrids: true
   - type: ShipGunType
     shipType: Ballistic
   - type: ShipGunClass
     shipClass: Medium
+  - type: ContainerContainer #HL start
+    containers:
+      machine_board: !type:Container
+      machine_parts: !type:Container
+  - type: Machine
+    board: KargilWeaponBoard #HL end
 
 # Corporate War Era - Syndicate
 
@@ -749,7 +819,7 @@
 - type: entity
   id: WeaponTurretAdderScattercannon
   name: Adder scattercannon
-  parent: BallisticArtillery
+  parent: [ BallisticArtilleryUnanchorable, BaseC3ExpeditionContraband ]
   description: A large, twin-barrelled scatter cannon, firing burts of cannister shot to shred any incoming missiles or potential boarders. Uses a self loading mechanism similar to the anaconda hangun.
   components:
   - type: StaticPrice
@@ -807,17 +877,24 @@
   - type: RadiationBlocker
     resistance: 8
   - type: RadarBlip
-    radarColor: "#FF0000"
-    scale: 1
+    radarColor: "#D90000"
+    scale: 3
+    visibleFromOtherGrids: true
   - type: ShipGunType
     shipType: Ballistic
   - type: ShipGunClass
     shipClass: Light
+  - type: ContainerContainer #HL start
+    containers:
+      machine_board: !type:Container
+      machine_parts: !type:Container
+  - type: Machine
+    board: AdderScattercannonWeaponBoard #HL end
 
 - type: entity
   id: WeaponTurretFang
   name: Fang heavy 100mm autocannon
-  parent: BallisticArtillery
+  parent: [ BallisticArtilleryUnanchorable, BaseC3ExpeditionContraband ]
   description: A heavy 100mm autocannon of syndicate design, created during the corporate war. Made for shattering the hulls of NT crusiers. Uses a self loading mechanism similar to the anaconda hangun.
   components:
   - type: StaticPrice
@@ -867,17 +944,24 @@
         sound:
           collection: MetalBreak
   - type: RadarBlip
-    radarColor: "#FF0000"
-    scale: 1.5
+    radarColor: "#D90000"
+    scale: 3
+    visibleFromOtherGrids: true
   - type: ShipGunType
     shipType: Ballistic
   - type: ShipGunClass
     shipClass: Medium
+  - type: ContainerContainer #HL start
+    containers:
+      machine_board: !type:Container
+      machine_parts: !type:Container
+  - type: Machine
+    board: FangWeaponBoard #HL end
 
 - type: entity
   id: WeaponTurretHydra
   name: Hydra 200mm battery
-  parent: BallisticArtilleryUnanchorable
+  parent: [ BallisticArtilleryUnanchorable, BaseC3ExpeditionContraband ]
   description: A main cannnonade of syndicate origin, the hydra is a monstrous tri-barreled battery of pain, designed to shatter NT's toughest vessels. Loads with a similar mechanism as the anaconda handgun.
   components:
   - type: StaticPrice
@@ -932,8 +1016,9 @@
     proto: ShipHydraProjectile
     fireCost: 6000
   - type: RadarBlip
-    radarColor: "#FF0000"
-    scale: 2.5
+    radarColor: "#D90000"
+    scale: 3
+    visibleFromOtherGrids: true
   - type: Destructible
     thresholds:
     - trigger:
@@ -949,3 +1034,9 @@
     shipType: Ballistic
   - type: ShipGunClass
     shipClass: SuperHeavy
+  - type: ContainerContainer #HL start
+    containers:
+      machine_board: !type:Container
+      machine_parts: !type:Container
+  - type: Machine
+    board: HydraWeaponBoard #HL end

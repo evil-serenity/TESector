@@ -10,13 +10,14 @@
         Piercing: 3000
         Blunt: 5000
         Structural: 3000
+  - type: ShipWeaponProjectile
   - type: ExplodeOnTrigger
   - type: Explosive
     explosionType: HardBomb
     maxIntensity: 400
     intensitySlope: 20
     totalIntensity: 150
-    maxTileBreak: 2
+    maxTileBreak: 0
   - type: Sprite
     sprite: _Mono/Objects/SpaceArtillery/630_armorpiercing_shell_casing.rsi
     layers:
@@ -24,6 +25,7 @@
   - type: RadarBlip
     radarColor: "#C92BCC"
     scale: 2.5
+    visibleFromOtherGrids: true
     requireNoGrid: true
     shape: triangle
   - type: TimedDespawn

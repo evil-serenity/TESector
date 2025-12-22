@@ -26,6 +26,7 @@
   - type: RadarBlip
     radarColor: "#035EFC"
     scale: 1.5
+    visibleFromOtherGrids: true
     requireNoGrid: true
     shape: circle
   - type: TimedDespawn
@@ -57,6 +58,7 @@
   - type: ShipWeaponProjectile
   - type: RadarBlip
     scale: 1.75
+    visibleFromOtherGrids: true
     requireNoGrid: true
     shape: triangle
   - type: TimedDespawn

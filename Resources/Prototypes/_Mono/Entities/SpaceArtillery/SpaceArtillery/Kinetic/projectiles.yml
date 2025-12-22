@@ -35,6 +35,7 @@
   - type: RadarBlip
     radarColor: "#c51515"
     scale: 3
+    visibleFromOtherGrids: true
     requireNoGrid: true
     shape: triangle
   - type: TimedDespawn
@@ -75,6 +76,7 @@
     energy: 0.5
   - type: RadarBlip
     scale: 1.15
+    visibleFromOtherGrids: true
     requireNoGrid: true
     shape: arrow
     radarColor: "#1df1f5"
@@ -101,6 +103,7 @@
   - type: ShipWeaponProjectile
   - type: RadarBlip
     scale: 2.5
+    visibleFromOtherGrids: true
     requireNoGrid: true
     shape: triangle
     radarColor: "#1df1f5"
@@ -144,6 +147,7 @@
   - type: ShipWeaponProjectile
   - type: RadarBlip
     scale: 3.25
+    visibleFromOtherGrids: true
     requireNoGrid: true
     shape: arrow
     radarColor: "#f7dc0c"
@@ -186,6 +190,7 @@
   - type: ShipWeaponProjectile
   - type: RadarBlip
     scale: 3.25
+    visibleFromOtherGrids: true
     requireNoGrid: true
     shape: triangle
   - type: TimedDespawn
@@ -227,6 +232,7 @@
   - type: ShipWeaponProjectile
   - type: RadarBlip
     scale: 2.5
+    visibleFromOtherGrids: true
     requireNoGrid: true
     shape: triangle
   - type: TimedDespawn
@@ -268,6 +274,7 @@
   - type: ShipWeaponProjectile
   - type: RadarBlip
     scale: 2.5
+    visibleFromOtherGrids: true
     requireNoGrid: true
     shape: triangle
   - type: TimedDespawn
@@ -310,6 +317,7 @@
   - type: ShipWeaponProjectile
   - type: RadarBlip
     scale: 4.25
+    visibleFromOtherGrids: true
     requireNoGrid: true
     shape: triangle
   - type: TimedDespawn
@@ -407,6 +415,7 @@
   - type: ShipWeaponProjectile
   - type: RadarBlip
     scale: 3.25
+    visibleFromOtherGrids: true
     requireNoGrid: true
     shape: triangle
   - type: TimedDespawn

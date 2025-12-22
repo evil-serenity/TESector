@@ -152,4 +152,11 @@
   id: Table
 
 - type: Tag
+  id: TiderAnvilMats
+
+- type: Tag
   id: DockEscape
+
+# Collective Minds
+- type: Tag
+  id: CollectiveMindEmpathy

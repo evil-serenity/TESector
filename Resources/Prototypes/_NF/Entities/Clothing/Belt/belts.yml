@@ -1,7 +1,7 @@
 - type: entity
   id: ClothingBeltArcadia
   name: arcadia webbing
-  parent: [ NFClothingBeltStorageBase, BaseC3ContrabandNoValue, ContrabandClothing ]
+  parent: NFClothingBeltStorageBase # HL fixes for non contra
   description: A webbing created by Arcadia Industries. Seems very capable of fitting many items.
   components:
   - type: Sprite
@@ -65,7 +65,7 @@
 - type: entity
   parent: [ BaseC2ContrabandUnredeemable, ClothingBeltAssault ]
   id: ClothingBeltNfsd
-  name: NFSD belt
+  name: TSFMC belt
   description: A tactical assault belt.
   components:
   - type: Sprite
@@ -76,7 +76,7 @@
 - type: entity
   parent: [ BaseC2ContrabandUnredeemable, ClothingBeltSecurityWebbing ]
   id: ClothingBeltNfsdWebbing
-  name: NFSD webbing
+  name: TSFMC webbing
   description: A tactical assault webbing.
   components:
   - type: Sprite

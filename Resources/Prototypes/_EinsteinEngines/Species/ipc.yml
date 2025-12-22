@@ -43,6 +43,20 @@
     LFoot: MobIPCLFoot
     RFoot: MobIPCRFoot
     RArmExtension: MobHumanoidAnyMarking # Hardlight: enables harpy/bat wings
+    # Removed deprecated TailBehind / TailOversuit / duplicate FacialHair entries. Tail layer already present above.
+    # TailBehind: MobHumanoidAnyMarking
+    # TailOversuit: MobHumanoidAnyMarking
+    # FacialHair: MobHumanoidAnyMarking
+    Snout: MobHumanoidAnyMarking
+    UndergarmentTop: MobHumanoidAnyMarking
+    UndergarmentBottom: MobHumanoidAnyMarking
+    Genital: MobHumanoidAnyMarking
+    Penis: MobHumanoidAnyMarking
+    Breasts: MobHumanoidAnyMarking
+    # Unsupported layers removed: UndershirtUnderclothes/UndershirtOverclothes
+    Eyes: MobHumanoidEyes
+    # UndershirtUnderclothes: MobHumanoidAnyMarking
+    # UndershirtOverclothes: MobHumanoidAnyMarking
 
 - type: markingPoints
   id: MobIPCMarkingLimits
@@ -54,7 +68,7 @@
       points: 1 # Hard light change
       required: false
     Head:
-      points: 1
+      points: 4
       required: true
       defaultMarkings: [ MobIPCHeadDefault ]
     Chest:
@@ -62,11 +76,11 @@
       required: true
       defaultMarkings: [ MobIPCTorsoDefault ]
     Legs:
-      points: 4
+      points: 8
       required: true
       defaultMarkings: [ MobIPCLLegDefault, MobIPCLFootDefault, MobIPCRLegDefault, MobIPCRFootDefault ]
     Arms:
-      points: 4
+      points: 8
       required: true
       defaultMarkings: [ MobIPCLArmDefault, MobIPCLHandDefault, MobIPCRArmDefault, MobIPCRHandDefault ]
     HeadSide:
@@ -96,7 +110,7 @@
   id: MobIPCHeadDefault
   bodyPart: Head
   markingCategory: Head
-  speciesRestriction: [Dwarf, Diona, Human, SlimePerson, Felinid, Oni, Harpy, Reptilian, Vulpkanin, Rodentia, Goblin, Sheleg, IPC, Feroxi, Moth, Arachnid]
+  speciesRestriction: [Thaven, Dwarf, Diona, Human, SlimePerson, Felinid, Oni, Harpy, Reptilian, Vulpkanin, Rodentia, Goblin, Sheleg, IPC, Feroxi, Moth, Arachnid]
   sprites:
   - sprite: _EE/Mobs/Species/IPC/parts.rsi
     state: head_m
@@ -116,7 +130,7 @@
   id: MobIPCTorsoDefault
   bodyPart: Chest
   markingCategory: Chest
-  speciesRestriction: [Dwarf, Diona, Human, SlimePerson, Felinid, Oni, Harpy, Reptilian, Vulpkanin, Rodentia, Goblin, Sheleg, IPC, Feroxi, Moth, Arachnid]
+  speciesRestriction: [Thaven, Dwarf, Diona, Human, SlimePerson, Felinid, Oni, Harpy, Reptilian, Vulpkanin, Rodentia, Goblin, Sheleg, IPC, Feroxi, Moth, Arachnid]
   sprites:
   - sprite: _EE/Mobs/Species/IPC/parts.rsi
     state: torso_m
@@ -125,7 +139,7 @@
   id: MobIPCTorsoFemaleDefault
   bodyPart: Chest
   markingCategory: Chest
-  speciesRestriction: [Dwarf, Diona, Human, SlimePerson, Felinid, Oni, Harpy, Reptilian, Vulpkanin, Rodentia, Goblin, Sheleg, IPC, Feroxi, Moth, Arachnid]
+  speciesRestriction: [Thaven, Dwarf, Diona, Human, SlimePerson, Felinid, Oni, Harpy, Reptilian, Vulpkanin, Rodentia, Goblin, Sheleg, IPC, Feroxi, Moth, Arachnid]
   sprites:
   - sprite: _EE/Mobs/Species/IPC/parts.rsi
     state: torso_f
@@ -139,7 +153,7 @@
   id: MobIPCLLegDefault
   bodyPart: LLeg
   markingCategory: Legs
-  speciesRestriction: [Dwarf, Diona, Human, SlimePerson, Felinid, Oni, Harpy, Reptilian, Vulpkanin, Rodentia, Goblin, Sheleg, IPC, Feroxi, Moth, Arachnid]
+  speciesRestriction: [Thaven, Dwarf, Diona, Human, SlimePerson, Felinid, Oni, Harpy, Reptilian, Vulpkanin, Rodentia, Goblin, Sheleg, IPC, Feroxi, Moth, Arachnid]
   sprites:
   - sprite: _EE/Mobs/Species/IPC/parts.rsi
     state: l_leg
@@ -153,7 +167,7 @@
   id: MobIPCLArmDefault
   bodyPart: LArm
   markingCategory: Arms
-  speciesRestriction: [Dwarf, Diona, Human, SlimePerson, Felinid, Oni, Harpy, Reptilian, Vulpkanin, Rodentia, Goblin, Sheleg, IPC, Feroxi, Moth, Arachnid]
+  speciesRestriction: [Thaven, Dwarf, Diona, Human, SlimePerson, Felinid, Oni, Harpy, Reptilian, Vulpkanin, Rodentia, Goblin, Sheleg, IPC, Feroxi, Moth, Arachnid]
   sprites:
   - sprite: _EE/Mobs/Species/IPC/parts.rsi
     state: l_arm
@@ -167,7 +181,7 @@
   id: MobIPCLHandDefault
   bodyPart: LHand
   markingCategory: Arms
-  speciesRestriction: [Dwarf, Diona, Human, SlimePerson, Felinid, Oni, Harpy, Reptilian, Vulpkanin, Rodentia, Goblin, Sheleg, IPC, Feroxi, Moth, Arachnid]
+  speciesRestriction: [Thaven, Dwarf, Diona, Human, SlimePerson, Felinid, Oni, Harpy, Reptilian, Vulpkanin, Rodentia, Goblin, Sheleg, IPC, Feroxi, Moth, Arachnid]
   sprites:
   - sprite: _EE/Mobs/Species/IPC/parts.rsi
     state: l_hand
@@ -181,7 +195,7 @@
   id: MobIPCLFootDefault
   bodyPart: LFoot
   markingCategory: Legs
-  speciesRestriction: [Dwarf, Diona, Human, SlimePerson, Felinid, Oni, Harpy, Reptilian, Vulpkanin, Rodentia, Goblin, Sheleg, IPC, Feroxi, Moth, Arachnid]
+  speciesRestriction: [Thaven, Dwarf, Diona, Human, SlimePerson, Felinid, Oni, Harpy, Reptilian, Vulpkanin, Rodentia, Goblin, Sheleg, IPC, Feroxi, Moth, Arachnid]
   sprites:
   - sprite: _EE/Mobs/Species/IPC/parts.rsi
     state: l_foot
@@ -195,7 +209,7 @@
   id: MobIPCRLegDefault
   bodyPart: RLeg
   markingCategory: Legs
-  speciesRestriction: [Dwarf, Diona, Human, SlimePerson, Felinid, Oni, Harpy, Reptilian, Vulpkanin, Rodentia, Goblin, Sheleg, IPC, Feroxi, Moth, Arachnid]
+  speciesRestriction: [Thaven, Dwarf, Diona, Human, SlimePerson, Felinid, Oni, Harpy, Reptilian, Vulpkanin, Rodentia, Goblin, Sheleg, IPC, Feroxi, Moth, Arachnid]
   sprites:
   - sprite: _EE/Mobs/Species/IPC/parts.rsi
     state: r_leg
@@ -209,7 +223,7 @@
   id: MobIPCRArmDefault
   bodyPart: RArm
   markingCategory: Arms
-  speciesRestriction: [Dwarf, Diona, Human, SlimePerson, Felinid, Oni, Harpy, Reptilian, Vulpkanin, Rodentia, Goblin, Sheleg, IPC, Feroxi, Moth, Arachnid]
+  speciesRestriction: [Thaven, Dwarf, Diona, Human, SlimePerson, Felinid, Oni, Harpy, Reptilian, Vulpkanin, Rodentia, Goblin, Sheleg, IPC, Feroxi, Moth, Arachnid]
   sprites:
   - sprite: _EE/Mobs/Species/IPC/parts.rsi
     state: r_arm
@@ -223,7 +237,7 @@
   id: MobIPCRHandDefault
   bodyPart: RHand
   markingCategory: Arms
-  speciesRestriction: [Dwarf, Diona, Human, SlimePerson, Felinid, Oni, Harpy, Reptilian, Vulpkanin, Rodentia, Goblin, Sheleg, IPC, Feroxi, Moth, Arachnid]
+  speciesRestriction: [Thaven, Dwarf, Diona, Human, SlimePerson, Felinid, Oni, Harpy, Reptilian, Vulpkanin, Rodentia, Goblin, Sheleg, IPC, Feroxi, Moth, Arachnid]
   sprites:
   - sprite: _EE/Mobs/Species/IPC/parts.rsi
     state: r_hand
@@ -237,7 +251,7 @@
   id: MobIPCRFootDefault
   bodyPart: RFoot
   markingCategory: Legs
-  speciesRestriction: [Dwarf, Diona, Human, SlimePerson, Felinid, Oni, Harpy, Reptilian, Vulpkanin, Rodentia, Goblin, Sheleg, IPC, Feroxi, Moth, Arachnid]
+  speciesRestriction: [Thaven, Dwarf, Diona, Human, SlimePerson, Felinid, Oni, Harpy, Reptilian, Vulpkanin, Rodentia, Goblin, Sheleg, IPC, Feroxi, Moth, Arachnid]
   sprites:
   - sprite: _EE/Mobs/Species/IPC/parts.rsi
     state: r_foot

@@ -4,15 +4,27 @@
   id: Pacifist
   name: trait-pacifist-name
   description: trait-pacifist-desc
-  category: Quirks
+  category: Physical
+  cost: -10
   components:
   - type: Pacified
+
+- type: trait
+  id: Horny
+  name: hl-trait-horny-name
+  description: hl-trait-horny-desc
+  category: Physical
+  cost: -1
+  speciesBlacklist: [Vox, Avali, Resomi, Chitinid, Protogen, Dwarf, Diona, Human, SlimePerson, Felinid, Oni, Harpy, Reptilian, Vulpkanin, Rodentia, Goblin, Sheleg, IPC, Feroxi, Moth, Arachnid]
+  components:
+  - type: HornyMoodsTarget
 
 - type: trait
   id: LightweightDrunk
   name: trait-lightweight-name
   description: trait-lightweight-desc
-  category: Quirks
+  category: Physical
+  cost: -2
   components:
   - type: LightweightDrunk
     boozeStrengthMultiplier: 2
@@ -21,6 +33,7 @@
   id: Snoring
   name: trait-snoring-name
   description: trait-snoring-desc
-  category: Quirks
+  category: Physical
+  cost: -1
   components:
   - type: Snoring

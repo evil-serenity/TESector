@@ -35,6 +35,17 @@
       map: ["enum.MaterialStorageVisualLayers.Inserting"]
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 300
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalBreak
+      - !type:DoActsBehavior
+        acts: ["Destruction"]
   - type: Machine
     board: ServiceTechFabCircuitboard
   - type: Lathe
@@ -268,6 +279,7 @@
     - NFInflatablesStatic
     dynamicPacks:
     - NFEngineeringTechfabDeprecated
+    - AutomationKits # HL
   - type: OreSiloClient
   - type: DeviceLinkSink
     ports:
@@ -314,8 +326,8 @@
 - type: entity
   id: NfsdTechFab
   parent: [ BlueprintReceiverBase, SecurityTechFab ]
-  name: NFSD techfab
-  description: Prints equipment for use by NFSD.
+  name: TSFMC techfab
+  description: Prints equipment for use by TSFMC.
   components:
   - type: Sprite
     sprite: _NF/Structures/Machines/techfab.rsi
@@ -333,10 +345,14 @@
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
   - type: Machine
     board: NfsdTechFabCircuitboard
+  - type: DisableToolUse
+    anchoring: true
+    prying: true
   - type: Lathe
     idleState: icon
     runningState: icon
     staticPacks:
+    - SecurityAmmoStatic
     - NFNfsdTechfabDeprecatedStatic
     - CivilianAmmoRecipePack
     dynamicPacks:

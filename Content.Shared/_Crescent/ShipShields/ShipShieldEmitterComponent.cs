@@ -1,8 +1,3 @@
-// SPDX-FileCopyrightText: 2025 Ark
-// SPDX-FileCopyrightText: 2025 ark1368
-//
-// SPDX-License-Identifier: AGPL-3.0-or-later
-
 using Robust.Shared.Audio;
 
 namespace Content.Shared._Crescent.ShipShields;
@@ -52,6 +47,9 @@ public sealed partial class ShipShieldEmitterComponent : Component
 
     [DataField]
     public bool Recharging = false;
+
+    // Note: Shield and Shielded are intentionally NOT DataFields - they reference entities
+    // that won't exist after deserialization. The system will recreate shields on load.
 
     /// <summary>
     /// Damage threshold that triggers overload protection.

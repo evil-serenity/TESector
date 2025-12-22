@@ -5,11 +5,13 @@ using Content.Server.Chat.Managers;
 using Content.Server.GameTicking;
 using Content.Shared._NF.Bank.Components;
 using Content.Shared._NF.Roles.Components;
+using Content.Shared.CCVar;
 using Content.Shared.Chat;
 using Content.Shared.Mind;
 using Content.Shared.Mind.Components;
 using Content.Shared.Roles;
 using JetBrains.Annotations;
+using Robust.Shared.Configuration;
 using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
 
@@ -23,9 +25,9 @@ public sealed class StationPaySystem : EntitySystem
     [Dependency] private readonly BankSystem _bank = default!;
     [Dependency] private readonly IChatManager _chat = default!;
     [Dependency] private readonly ISharedPlayerManager _player = default!;
+    [Dependency] private readonly IConfigurationManager _cfg = default!;
 
-    // TODO: this should probably be a cvar
-    private const int PayoutDelay = 1200;
+    public int PayoutDelay { get; private set; }
 
     // map of {Mind.OwnedEntity: lastPayoutTime} where lastPayoutTime was the round duration at time of payout
     // sorted in ascending order
@@ -39,7 +41,7 @@ public sealed class StationPaySystem : EntitySystem
         foreach (var proto in _prototypeManager.EnumeratePrototypes<StationPayPrototype>())
         {
             _jobPayoutRates[proto.JobProto] = proto.PayPerHour;
-            Log.Debug($"[stationpay] loaded prototype: {proto.JobProto.Id} at {proto.PayPerHour}");
+            //Log.Debug($"[stationpay] loaded prototype: {proto.JobProto.Id} at {proto.PayPerHour}");
         }
 
         SubscribeLocalEvent<GameRunLevelChangedEvent>(OnRunLevelChanged);
@@ -62,6 +64,7 @@ public sealed class StationPaySystem : EntitySystem
          * we also don't have to do any complex bookkeeping
          */
         // SubscribeLocalEvent<MindRemovedMessage>(OnMindRemoved);
+        Subs.CVar(_cfg, CCVars.GameStationPayoutDelay, time => PayoutDelay = (int)time.TotalSeconds, true);
     }
 
     private void OnRunLevelChanged(GameRunLevelChangedEvent ev)
@@ -110,19 +113,19 @@ public sealed class StationPaySystem : EntitySystem
             || !GetJobForEntity(uid, out var job)
            )
         {
-            Log.Debug($"[stationpay] Character {args.Mind.CharacterName} joined but was not valid for station pay");
+            //Log.Debug($"[stationpay] Character {args.Mind.CharacterName} joined but was not valid for station pay");
             return;
-        }
+        } 
 
         var now = (int)_gameTicker.RoundDuration().TotalSeconds;
-        Log.Debug($"[stationpay] Character {args.Mind.CharacterName}/{uid} joined with job ${job.Value.Id}. Round time: {now}, payout: {now + PayoutDelay}");
+        //Log.Debug($"[stationpay] Character {args.Mind.CharacterName}/{uid} joined with job ${job.Value.Id}. Round time: {now}, payout: {now + PayoutDelay}");
 
         if (uid.HasValue)
         {
             // if they already have a scheduled payout, we don't need to do anything
             if (_scheduledPayouts.ContainsKey(uid.Value))
             {
-                Log.Debug($"[stationpay] Character {args.Mind.CharacterName} already has a scheduled payout");
+                //Log.Debug($"[stationpay] Character {args.Mind.CharacterName} already has a scheduled payout");
                 return;
             }
 
@@ -141,7 +144,7 @@ public sealed class StationPaySystem : EntitySystem
         if (args.Mind.OwnedEntity == null)
             return;
 
-        Log.Debug($"[stationpay] Character {args.Mind.CharacterName}'s job was removed");
+        //Log.Debug($"[stationpay] Character {args.Mind.CharacterName}'s job was removed");
         _scheduledPayouts.Remove((EntityUid)args.Mind.OwnedEntity);
     }
 
@@ -149,13 +152,13 @@ public sealed class StationPaySystem : EntitySystem
     {
         if (!_scheduledPayouts.ContainsKey(uid))
         {
-            Log.Debug($"[stationpay] Attemped payout for {uid}, but no scheduled payout was found");
+            //Log.Debug($"[stationpay] Attemped payout for {uid}, but no scheduled payout was found");
             return;
         }
 
         if (!GetJobForEntity(uid, out var jobId))
         {
-            Log.Debug($"[stationpay] Attemped payout for {uid}, but no valid job found");
+            //Log.Debug($"[stationpay] Attemped payout for {uid}, but no valid job found");
             return;
         }
 
@@ -164,13 +167,13 @@ public sealed class StationPaySystem : EntitySystem
         // this could in principle be 0 if someone joined right before round end
         if (employedTime <= 0)
         {
-            Log.Debug($"[stationpay] Skipping payout for {uid} due to employedTime <= 0 (secondsWorked: {secondsWorked})");
+            //Log.Debug($"[stationpay] Skipping payout for {uid} due to employedTime <= 0 (secondsWorked: {secondsWorked})");
             return;
         }
 
         var rate = _jobPayoutRates[(ProtoId<JobPrototype>)jobId];
         var amount = employedTime * rate;
-        Log.Info($"Paying entity {uid} ${amount} for {secondsWorked} seconds of work as {jobId.Value.Id}.");
+        //Log.Info($"Paying entity {uid} ${amount} for {secondsWorked} seconds of work as {jobId.Value.Id}.");
 
         if (_bank.TryBankDeposit(uid, amount))
         {
@@ -178,13 +181,13 @@ public sealed class StationPaySystem : EntitySystem
                 || !mc.HasMind
                 || !TryComp<MindComponent>(mc.Mind.Value, out var mind))
             {
-                Log.Debug($"[stationpay] Skipping payout for {uid} due to no mind present");
+                //Log.Debug($"[stationpay] Skipping payout for {uid} due to no mind present");
                 return;
             }
 
             if (!_player.TryGetSessionById(mind.UserId, out var session))
             {
-                Log.Debug($"[stationpay] Skipping payout for {uid} due to no session");
+                //Log.Debug($"[stationpay] Skipping payout for {uid} due to no session");
                 return;
             }
 
@@ -205,8 +208,8 @@ public sealed class StationPaySystem : EntitySystem
                 false,
                 session.Channel);
         }
-        else
-            Log.Error("[stationpay] Failed to deposit station pay for uid: " + uid);
+        /* else
+            Log.Error("[stationpay] Failed to deposit station pay for uid: " + uid); */
     }
 
     public override void Update(float frameTime)
@@ -217,7 +220,7 @@ public sealed class StationPaySystem : EntitySystem
         foreach (var (uid, scheduledPayoutTime) in _scheduledPayouts)
         {
             if (scheduledPayoutTime > now)
-                break;
+                continue;
 
             var dict = updated.Value;
             dict.Remove(uid);

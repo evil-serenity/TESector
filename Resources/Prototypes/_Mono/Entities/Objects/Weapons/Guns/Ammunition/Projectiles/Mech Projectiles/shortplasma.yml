@@ -10,13 +10,14 @@
         Piercing: 1250
         Structural: 4250
         Heat: 350
+  - type: ShipWeaponProjectile
   - type: ExplodeOnTrigger
   - type: Explosive
     explosionType: HardBomb
     maxIntensity: 250
     intensitySlope: 6
     totalIntensity: 25
-    maxTileBreak: 1
+    maxTileBreak: 0
   - type: Sprite
     sprite: _Mono/Objects/SpaceArtillery/plasmashot.rsi
     layers:
@@ -24,6 +25,7 @@
   - type: RadarBlip
     radarColor: "#C92BCC"
     scale: 2.5
+    visibleFromOtherGrids: true
     requireNoGrid: true
     shape: triangle
   - type: TimedDespawn

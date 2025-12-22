@@ -1,5 +1,17 @@
 # Bathroom
 - type: construction
+  id: FloorDrain
+  graph: FloorDrain
+  startNode: start
+  targetNode: floorDrain
+  category: construction-category-furniture
+  placementMode: SnapgridCenter
+  canRotate: true
+  canBuildInImpassable: false
+  conditions:
+  - !type:TileNotBlocked
+
+- type: construction
   id: Shower
   graph: Shower
   startNode: start
@@ -9,4 +21,53 @@
   canRotate: true
   canBuildInImpassable: false
   conditions:
-    - !type:TileNotBlocked
+  - !type:TileNotBlocked
+
+- type: construction
+  id: Sink
+  graph: Sink
+  startNode: start
+  targetNode: sink
+  category: construction-category-furniture
+  placementMode: SnapgridCenter
+  canRotate: true
+  canBuildInImpassable: false
+  conditions:
+  - !type:TileNotBlocked
+
+- type: construction
+  id: SinkStemless
+  graph: SinkStemless
+  startNode: start
+  targetNode: sinkStemless
+  category: construction-category-furniture
+  placementMode: SnapgridCenter
+  canRotate: true
+  canBuildInImpassable: false
+  conditions:
+  - !type:TileNotBlocked
+
+- type: construction
+  id: SinkWide
+  graph: SinkWide
+  startNode: start
+  targetNode: sinkWide
+  category: construction-category-furniture
+  placementMode: SnapgridCenter
+  canRotate: true
+  canBuildInImpassable: false
+  conditions:
+  - !type:TileNotBlocked
+
+# Banners
+- type: construction
+  id: BannerNanotrasenReal
+  graph: BannersGraph
+  startNode: start
+  targetNode: BannerNanotrasenRealNode
+  category: construction-category-furniture
+  objectType: Structure
+  placementMode: SnapgridCenter
+  canBuildInImpassable: false
+  conditions:
+  - !type:TileNotBlocked

@@ -95,6 +95,17 @@
           rotationsEnabled: false
           volume: 1
     - type: ItemSlots
+    - type: AutomationSlots # Goobstation
+      slots:
+      - !type:AutomatedItemSlot
+        input: AutomationSlotGasTank
+        output: AutomationSlotGasTank
+        slotId: tank_slot
+      - !type:AutomatedPorts
+        sinks:
+        - Open
+        - Close
+        - Toggle
     - type: GasPortable
     - type: GasCanister
       gasTankSlot:
@@ -208,6 +219,8 @@
       - !type:DoActsBehavior
         acts: [ "Destruction" ]
       - !type:DumpCanisterBehavior
+  - type: PirateBountyItem # Mono
+    id: LifeSupportCan
 
 - type: entity
   parent: GasCanister
@@ -247,6 +260,8 @@
       - !type:DoActsBehavior
         acts: [ "Destruction" ]
       - !type:DumpCanisterBehavior
+  - type: PirateBountyItem # Mono
+    id: LifeSupportCan
 
 - type: entity
   id: LiquidOxygenCanister
@@ -328,6 +343,8 @@
         - !type:DoActsBehavior
           acts: [ "Destruction" ]
         - !type:DumpCanisterBehavior
+    - type: PirateBountyItem # Mono
+      id: LifeSupportCan
 
 - type: entity
   id: LiquidNitrogenCanister

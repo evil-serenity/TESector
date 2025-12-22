@@ -364,7 +364,7 @@
 
 #Loincloths
 - type: entity
-  parent: ClothingUniformBase
+  parent: [ClothingTopless, ClothingUniformBase]
   id: ClothingUniformloincloth
   name: loincloth
   description: A simple piece of fabric worn around the hips.
@@ -377,7 +377,7 @@
     price: 80 # Frontier
 
 - type: entity
-  parent: ClothingUniformBase
+  parent: [ClothingTopless, ClothingUniformBase]
   id: ClothingUniformloinclothWhite
   name: loincloth
   description: A simple piece of fabric worn around the hips.
@@ -452,6 +452,18 @@
     sprite: _HL/Clothing/Uniforms/reotasuit.rsi
   - type: StaticPrice # Frontier: setting base price to make material arbitrage happier
     price: 80 # Frontier
+
+#Invisible Wear
+- type: entity
+  parent: ClothingShoesBase
+  id: ClothingShoesClothwrapTransparent
+  name: transparent cloth footwraps
+  description: A transparent roll of treated canvas used for wrapping feet or paws.
+  components:
+  - type: Sprite
+    sprite: _HL/Clothing/Socks/clothwraptransparent.rsi
+  - type: Clothing
+    sprite: _HL/Clothing/Socks/clothwraptransparent.rsi
 
 #Evening Wear
 - type: entity

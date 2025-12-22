@@ -18,6 +18,8 @@
     layers:
     - state: closed
       map: ["enum.DoorVisualLayers.Base"]
+    - state: welded
+      map: ["enum.WeldableLayers.BaseWelded"]
   - type: AnimationPlayer
   - type: Physics
   - type: Fixtures
@@ -67,6 +69,8 @@
       enum.WiresUiKey.Key:
         type: WiresBoundUserInterface
   - type: Airtight
+  - type: RadiationBlocker
+    resistance: 2
   - type: Damageable
     damageContainer: StructuralInorganic
     damageModifierSet: StructuralMetallic
@@ -146,6 +150,8 @@
     layers:
     - state: closed
       map: ["enum.DoorVisualLayers.Base"]
+    - state: welded
+      map: ["enum.WeldableLayers.BaseWelded"]
   - type: Occluder
   - type: Construction
     graph: Shutters
@@ -182,11 +188,15 @@
     layers:
     - state: closed
       map: ["enum.DoorVisualLayers.Base"]
+    - state: welded
+      map: ["enum.WeldableLayers.BaseWelded"]
   - type: Construction
     graph: Shutters
     node: ShuttersWindow
     containers:
     - board
+  - type: RadiationBlocker
+    resistance: 1
 
 - type: entity
   id: ShuttersWindowOpen

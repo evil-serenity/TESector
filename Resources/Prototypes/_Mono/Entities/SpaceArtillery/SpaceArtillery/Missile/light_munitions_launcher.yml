@@ -1,16 +1,7 @@
-# SPDX-FileCopyrightText: 2025 Greenwall
-# SPDX-FileCopyrightText: 2025 Ilya246
-# SPDX-FileCopyrightText: 2025 Onezero0
-# SPDX-FileCopyrightText: 2025 Your Name
-# SPDX-FileCopyrightText: 2025 significant harassment
-# SPDX-FileCopyrightText: 2025 starch
-#
-# SPDX-License-Identifier: AGPL-3.0-or-later
-
 - type: entity
   id: WeaponTurretLightMunitionsBay
   name: GPOB-L Light Munitions Bay
-  parent: BallisticArtilleryUnanchorableCartridge
+  parent: [ BallisticArtilleryUnanchorableCartridge, BaseC3ExpeditionContraband ]
   description: A relatively small, armored munitions bay capable of holding up to two lightweight ordinance packages. Typically found on light spacecraft, particularly bombers, and provide a limited use method of damaging targets far above the user's weight class.
   components:
   - type: StaticPrice
@@ -55,9 +46,16 @@
           collection: MetalBreak
   - type: Actions
   - type: RadarBlip
-    radarColor: "#ff9d00"
-    scale: 0.7
+    radarColor: "#D98600"
+    scale: 3
+    visibleFromOtherGrids: true
   - type: ShipGunType
     shipType: Missile
   - type: ShipGunClass
     shipClass: Medium
+  - type: ContainerContainer #HL start
+    containers:
+      machine_board: !type:Container
+      machine_parts: !type:Container
+  - type: Machine
+    board: LightMunitionsBayWeaponBoard #HL end

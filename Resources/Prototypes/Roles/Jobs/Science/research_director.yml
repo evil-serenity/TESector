@@ -15,8 +15,8 @@
   startingGear: ResearchDirectorGear
   icon: "JobIconResearchDirector"
   supervisors: job-supervisors-captain
-  # canBeAntag: false
-  ## Frontier: commented stuff below out
+  canBeAntag: false
+  requireAdminNotify: true
   access:
   - Research
   - Command
@@ -33,7 +33,6 @@
     - type: CommandStaff
     - type: PsionicBonusChance #Nyano - Summary: makes it more likely to become psionic.
       flatBonus: 1
-  ## End Frontier: commented stuff above out
   accessGroups: # Frontier
   - GeneralAccess # Frontier
 

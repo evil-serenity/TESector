@@ -26,6 +26,7 @@
   - type: RadarBlip
     radarColor: "#CF0E0E"
     scale: 4
+    visibleFromOtherGrids: true
     requireNoGrid: true
     shape: triangle
   - type: TimedDespawn
@@ -88,6 +89,7 @@
   - type: RadarBlip
     radarColor: "#0DFF00"
     scale: 4
+    visibleFromOtherGrids: true
     requireNoGrid: true
     shape: triangle
   - type: TimedDespawn

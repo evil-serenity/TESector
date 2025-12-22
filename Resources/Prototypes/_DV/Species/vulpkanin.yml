@@ -21,6 +21,9 @@
     Snout: MobHumanoidAnyMarking
     UndergarmentTop: MobHumanoidAnyMarking
     UndergarmentBottom: MobHumanoidAnyMarking
+    Genital: MobHumanoidAnyMarking
+    Penis: MobHumanoidAnyMarking
+    Breasts: MobHumanoidAnyMarking
     Chest: MobVulpkaninTorso
     HeadTop: MobHumanoidAnyMarking
     HeadSide: MobHumanoidAnyMarking
@@ -53,10 +56,10 @@
       points: 3
       required: false
     Legs:
-      points: 1
+      points: 2
       required: false
     Arms:
-      points: 1
+      points: 2
       required: false
     Snout:
       points: 1

@@ -7,8 +7,8 @@
   startingGear: HoSGear
   icon: "JobIconHeadOfSecurity"
   supervisors: job-supervisors-captain
-  # canBeAntag: false
-  ## Frontier: commented out stuff below
+  canBeAntag: false
+  requireAdminNotify: true
   access:
   - HeadOfSecurity
   - Command

@@ -1,13 +1,8 @@
-# SPDX-FileCopyrightText: 2025 Ark
-# SPDX-FileCopyrightText: 2025 Ilya246
-# SPDX-FileCopyrightText: 2025 starch
-#
-# SPDX-License-Identifier: AGPL-3.0-or-later
-
 # Base
 
 - type: entity
   id: BallisticArtilleryBase
+  parent: ConstructibleMachine #HL
   abstract: true
   placement:
     mode: SnapgridCenter
@@ -68,7 +63,7 @@
       ballistic-ammo: !type:Container
   - type: FireControllable
   - type: RadarBlip
-    visibleFromOtherGrids: false
+    visibleFromOtherGrids: true
     radarColor: "#9999FF"
     scale: 1
   - type: ShipGunType
@@ -98,6 +93,7 @@
 
 - type: entity
   id: BallisticArtilleryBaseCartridge
+  parent: ConstructibleMachine #HL
   abstract: true
   placement:
     mode: SnapgridCenter
@@ -151,7 +147,7 @@
       ballistic-ammo: !type:Container
   - type: FireControllable
   - type: RadarBlip
-    visibleFromOtherGrids: false
+    visibleFromOtherGrids: true
     radarColor: "#9999FF"
     scale: 1
   - type: Gun
@@ -192,6 +188,7 @@
 
 - type: entity
   id: BallisticArtilleryBaseMagazine
+  parent: ConstructibleMachine #HL
   abstract: true
   placement:
     mode: SnapgridCenter
@@ -245,7 +242,7 @@
       gun_magazine: !type:ContainerSlot
   - type: FireControllable
   - type: RadarBlip
-    visibleFromOtherGrids: false
+    visibleFromOtherGrids: true
     radarColor: "#9999FF"
     scale: 1
   - type: Gun

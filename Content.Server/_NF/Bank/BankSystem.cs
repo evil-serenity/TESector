@@ -6,6 +6,8 @@ using Content.Shared._NF.Bank.Components;
 using Content.Shared.Preferences;
 using Robust.Shared.Player;
 using System.Diagnostics.CodeAnalysis;
+using System.Threading.Tasks;
+using Content.Shared._Mono.Traits.Physical;
 using Content.Shared._NF.Bank.Events;
 using Content.Shared.GameTicking;
 
@@ -65,6 +67,13 @@ public sealed partial class BankSystem : SharedBankSystem
         if (!TryComp<BankAccountComponent>(mobUid, out var bank))
         {
             _log.Info($"TryBankWithdraw: {mobUid} has no bank account");
+            return false;
+        }
+
+        // Mono
+        if (HasComp<IronmanComponent>(mobUid))
+        {
+            _log.Info($"TryBankWithdraw: {mobUid} is blocked from withdrawals (Ironman)");
             return false;
         }
 
@@ -223,6 +232,72 @@ public sealed partial class BankSystem : SharedBankSystem
     }
 
     /// <summary>
+    /// Forces a withdrawal from a character's bank account, allowing the balance to go negative (into debt).
+    /// This should only be used in special cases where debt is acceptable (e.g., ship loading).
+    /// </summary>
+    /// <param name="mobUid">The UID that the bank account is attached to, typically the player controlled mob</param>
+    /// <param name="amount">The integer amount to decrease the bank account by</param>
+    /// <returns>true if the transaction was successful, false if it was not</returns>
+    public bool TryBankWithdrawAllowDebt(EntityUid mobUid, int amount)
+    {
+        if (amount <= 0)
+        {
+            _log.Info($"TryBankWithdrawAllowDebt: {amount} is invalid");
+            return false;
+        }
+
+        if (!TryComp<BankAccountComponent>(mobUid, out var bank))
+        {
+            _log.Info($"TryBankWithdrawAllowDebt: {mobUid} has no bank account");
+            return false;
+        }
+
+        // Mono
+        if (HasComp<IronmanComponent>(mobUid))
+        {
+            _log.Info($"TryBankWithdrawAllowDebt: {mobUid} is blocked from withdrawals (Ironman)");
+            return false;
+        }
+
+        if (!_playerManager.TryGetSessionByEntity(mobUid, out var session))
+        {
+            _log.Info($"TryBankWithdrawAllowDebt: {mobUid} has no attached session");
+            return false;
+        }
+
+        if (!_prefsManager.TryGetCachedPreferences(session.UserId, out var prefs))
+        {
+            _log.Info($"TryBankWithdrawAllowDebt: {mobUid} has no cached prefs");
+            return false;
+        }
+
+        if (prefs.SelectedCharacter is not HumanoidCharacterProfile profile)
+        {
+            _log.Info($"TryBankWithdrawAllowDebt: {mobUid} has the wrong prefs type");
+            return false;
+        }
+
+        // Allow negative balance (debt)
+        int balance = profile.BankBalance;
+        balance -= amount;
+
+        var newProfile = profile.WithBankBalance(balance);
+        var index = prefs.IndexOfCharacter(profile);
+        if (index == -1)
+        {
+            _log.Info($"TryBankWithdrawAllowDebt: {session.UserId} tried to adjust the balance of {profile.Name}, but they were not in the user's character set.");
+            return false;
+        }
+        _prefsManager.SetProfile(session.UserId, index, newProfile);
+        bank.Balance = balance;
+        Dirty(mobUid, bank);
+        _log.Info($"{mobUid} withdrew {amount} (allowing debt), new balance: {balance}");
+        // Update any active admin UI with new balance
+        RaiseLocalEvent(new BalanceChangedEvent(session, balance));
+        return true;
+    }
+
+    /// <summary>
     /// Retrieves a character's balance via its in-game entity, if it has one.
     /// </summary>
     /// <param name="ent">The UID that the bank account is connected to, typically the player controlled mob</param>
@@ -230,6 +305,12 @@ public sealed partial class BankSystem : SharedBankSystem
     /// <returns>true if the account was successfully queried.</returns>
     public bool TryGetBalance(EntityUid ent, out int balance)
     {
+        // Mono
+        if (HasComp<IronmanComponent>(ent))
+        {
+            balance = 0;
+            return true;
+        }
         if (!_playerManager.TryGetSessionByEntity(ent, out var session) ||
             !_prefsManager.TryGetCachedPreferences(session.UserId, out var prefs))
         {
@@ -257,6 +338,12 @@ public sealed partial class BankSystem : SharedBankSystem
     /// <returns>true if the account was successfully queried.</returns>
     public bool TryGetBalance(ICommonSession session, out int balance)
     {
+        // Mono
+        if (session.AttachedEntity is { } attached && HasComp<IronmanComponent>(attached))
+        {
+            balance = 0;
+            return true;
+        }
         if (!_prefsManager.TryGetCachedPreferences(session.UserId, out var prefs))
         {
             _log.Info($"{session.UserId} has no cached prefs");

@@ -1,0 +1,7 @@
+- type: construction
+  id: Timer
+  graph: LogicGate
+  startNode: start
+  targetNode: timer
+  category: construction-category-tools
+  objectType: Item

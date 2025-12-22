@@ -2,7 +2,7 @@
   id: Box
   mapName: 'Box Station'
   mapPath: /Maps/box.yml
-  minPlayers: 50
+  minPlayers: 0
   stations:
     Boxstation:
       stationProto: StandardNanotrasenStation
@@ -56,10 +56,22 @@
             SalvageSpecialist: [ 3, 3 ]
             CargoTechnician: [ 3, 3 ]
             #Civilian (3+)
-            Passenger: [ -1, -1 ] #infinite, not counted
+            #Passenger: [ -1, -1 ] #infinite, not counted
             Clown: [ 1, 1 ]
             Mime: [ 1, 1 ]
             Musician: [ 1, 1 ]
             #Silicon (3)
             StationAi: [ 1, 1 ]
             Borg: [ 2, 3 ]
+            Contractor: [ -1, -1 ]
+            Pilot: [ 5, 5 ]
+            Mercenary: [ 5, 5 ]
+            MedicalQuadBorg: [ 3, 3 ]
+            ServiceQuadBorg: [ 3, 3 ]
+            SalvageQuadBorg: [ 3, 3 ]
+            SecurityQuadBorg: [ 3, 3 ]
+            EngineeringQuadBorg: [ 3, 3 ]
+            Valet: [ 1, 1 ]
+            MailCarrier: [ 1, 1 ]
+            Prisoner: [ 3, 3 ]
+            ForensicMantis: [ 1, 1 ]

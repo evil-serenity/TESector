@@ -1,6 +1,7 @@
+using Content.Shared.Humanoid.Prototypes;
+using Content.Shared.Roles;
 using Content.Shared.Whitelist;
 using Robust.Shared.Prototypes;
-using Content.Shared.Humanoid.Prototypes; // DeltaV - Trait species hiding
 
 namespace Content.Shared.Traits;
 
@@ -8,7 +9,7 @@ namespace Content.Shared.Traits;
 /// Describes a trait.
 /// </summary>
 [Prototype]
-public sealed partial class TraitPrototype : IPrototype
+public sealed partial class TraitPrototype : IPrototype, IComparable<TraitPrototype>
 {
     [ViewVariables]
     [IdDataField]
@@ -62,9 +63,62 @@ public sealed partial class TraitPrototype : IPrototype
     [DataField]
     public ProtoId<TraitCategoryPrototype>? Category;
 
+        /// <summary>
+        ///     List of traits that ca't be taken together with this one.
+        /// </summary>
+        [DataField]
+        public HashSet<ProtoId<TraitPrototype>> MutuallyExclusiveTraits { get; private set; } = new();
+
+        /// <summary>
+        ///     List of species that can't have this trait.
+        /// </summary>
+        [DataField]
+        public HashSet<ProtoId<SpeciesPrototype>> SpeciesBlacklist { get; private set; } = new();
+
+    // Einstein Engines - Language begin (remove this if trait system refactor)
     /// <summary>
-    /// DeltaV - Hides traits from specific species
+    ///     The list of all Spoken Languages that this trait adds.
     /// </summary>
     [DataField]
-    public HashSet<ProtoId<SpeciesPrototype>> ExcludedSpecies = new();
+    public List<string>? LanguagesSpoken { get; private set; } = default!;
+
+    /// <summary>
+    ///     The list of all Understood Languages that this trait adds.
+    /// </summary>
+    [DataField]
+    public List<string>? LanguagesUnderstood { get; private set; } = default!;
+
+    /// <summary>
+    ///     The list of all Spoken Languages that this trait removes.
+    /// </summary>
+    [DataField]
+    public List<string>? RemoveLanguagesSpoken { get; private set; } = default!;
+
+    /// <summary>
+    ///     The list of all Understood Languages that this trait removes.
+    /// </summary>
+    [DataField]
+    public List<string>? RemoveLanguagesUnderstood { get; private set; } = default!;
+    // Einstein Engines - Language end
+
+    /// <summary>
+    ///     Requirements for this trait to be selectable.
+    /// </summary>
+    [DataField]
+    public List<JobRequirement> Requirements { get; private set; } = new();
+
+    /// <summary>
+    ///     If this trait should replace the added components. Hardlight change.
+    /// </summary>
+    [DataField]
+    public bool ReplaceComponents = false;
+
+    /// <summary>
+    ///     Comparison for sorting traits by cost.
+    /// </summary>
+    public int CompareTo(TraitPrototype? other)
+    {
+        if (other == null) return 1;
+        return Cost.CompareTo(other.Cost);
+    }
 }

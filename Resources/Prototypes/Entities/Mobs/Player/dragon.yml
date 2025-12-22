@@ -143,7 +143,7 @@
         Piercing: 15
         Slash: 15
   - type: Devourer
-    foodPreference: None
+    foodPreference: All
     shouldStoreDevoured: true
     chemical: Ichor
     healRate: 15.0
@@ -236,8 +236,6 @@
     damage:
       groups:
         Brute: 12
-  - type: Devourer
-    foodPreference: None
 
 - type: entity
   id: ActionSpawnRift

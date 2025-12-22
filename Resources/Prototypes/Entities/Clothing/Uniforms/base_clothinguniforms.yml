@@ -1,6 +1,6 @@
 - type: entity
   abstract: true
-  parent: [Clothing, RecyclableItemClothBasic] # Frontier: added RecyclableItemClothBasic
+  parent: [Clothing, RecyclableItemClothBasic, ClothingConcealsBody] # Frontier: added RecyclableItemClothBasic; # HardLight: Conceals full body
   id: UnsensoredClothingUniformBase
   components:
   - type: Sprite

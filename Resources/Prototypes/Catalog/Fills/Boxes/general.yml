@@ -352,7 +352,7 @@
         amount: 4
 
 - type: entity
-  name: NFSD encryption key box
+  name: TSFMC encryption key box
   parent: BoxEncryptionKeyPassenger
   id: BoxEncryptionKeySecurity
   components:
@@ -394,7 +394,8 @@
   components:
   - type: Sprite
     state: box
-
+  - type: RadiationBlockingContainer
+    resistance: 2
 
 - type: entity
   name: candle box

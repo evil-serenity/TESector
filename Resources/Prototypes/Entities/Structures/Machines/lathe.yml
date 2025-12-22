@@ -3,7 +3,7 @@
 # SPDX-FileCopyrightText: 2020 Decappi
 # SPDX-FileCopyrightText: 2020 Hugo Laloge
 # SPDX-FileCopyrightText: 2020 Vera Aguilera Puerto
-# SPDX-FileCopyrightText: 2020 Víctor Aguilera Puerto
+# SPDX-FileCopyrightText: 2020 V�ctor Aguilera Puerto
 # SPDX-FileCopyrightText: 2020 lajolico
 # SPDX-FileCopyrightText: 2020 py01
 # SPDX-FileCopyrightText: 2020 windarkata
@@ -17,7 +17,7 @@
 # SPDX-FileCopyrightText: 2021 Swept
 # SPDX-FileCopyrightText: 2021 iczero
 # SPDX-FileCopyrightText: 2022 0x6273
-# SPDX-FileCopyrightText: 2022 Andreas Kämper
+# SPDX-FileCopyrightText: 2022 Andreas K�mper
 # SPDX-FileCopyrightText: 2022 Anthemic
 # SPDX-FileCopyrightText: 2022 August Eymann
 # SPDX-FileCopyrightText: 2022 BubblegumBlue
@@ -86,7 +86,7 @@
 # SPDX-FileCopyrightText: 2023 metalgearsloth
 # SPDX-FileCopyrightText: 2023 nmajask
 # SPDX-FileCopyrightText: 2023 ubis1
-# SPDX-FileCopyrightText: 2023 Арт
+# SPDX-FileCopyrightText: 2023 ???
 # SPDX-FileCopyrightText: 2024 Adrian16199
 # SPDX-FileCopyrightText: 2024 Alchebun
 # SPDX-FileCopyrightText: 2024 Alpaccalypse
@@ -188,6 +188,7 @@
         - MachineLayer
   - type: Lathe
   - type: MaterialStorage
+    canEjectStoredMaterials: true
     whitelist: # Frontier
       tags: # Frontier
       - Sheet # Frontier
@@ -222,6 +223,11 @@
   - type: StaticPrice
     price: 800
   - type: ResearchClient
+  - type: AutomationSlots # Goobstation
+    slots:
+    - !type:AutomatedMaterialStorage
+      input: AutomationSlotMaterials
+      output: null
   - type: TechnologyDatabase
   - type: MaterialStorageMagnetPickup # Frontier
     range: 0.30 # Frontier
@@ -286,6 +292,7 @@
   - type: Machine
     board: AutolatheMachineCircuitboard
   - type: MaterialStorage
+    canEjectStoredMaterials: true
     whitelist:
       tags:
       - Sheet
@@ -372,6 +379,7 @@
   - type: Machine
     board: ProtolatheMachineCircuitboard
   - type: MaterialStorage
+    canEjectStoredMaterials: true
     whitelist:
       tags:
       - Sheet
@@ -408,9 +416,11 @@
     - NFScience # Frontier
     - NFPouches # Frontier
     - SMSurgery # Shitmed Change
+    - AutomationKits # HL
     # WD EDIT START
     #- VisionGoggles
     # WD EDIT END
+    - ShuttleWeaponMaterials # HL
   - type: EmagLatheRecipes
     emagDynamicPacks:
     - AdvancedAmmoRecipePack
@@ -480,14 +490,18 @@
     - CameraBoards
     - MechBoards
     - ShuttleBoards
+    - EngineeringBoardsGoob #Goob Factorio port
     - NFEngineeringBoards # Frontier
     - NFMedicalBoards # Frontier + Shitmed Change
     - NFServiceBoards # Frontier
     - MechBoardsPlus
+    - MonoAdvancedShuttleComponents # Hardlight
+    - CivShuttleWeapons # HL
   - type: EmagLatheRecipes
     emagDynamicPacks: # Frontier: empty list
     - SecurityBoards # Frontier
   - type: MaterialStorage
+    canEjectStoredMaterials: true
     whitelist:
       tags:
       - Sheet
@@ -553,17 +567,25 @@
     - GygaxMechParts
     - MechWeapons
     - RipleyUpgrade
+    # Crescent - Cyberware
+    - CombatCybernetics
   - type: EmagLatheRecipes
     emagStaticPacks:
     - WeaponMechCombatArsenal
     # Mono - Space Mecha
-#    - S2Mechs
-#    - SpaceMechaWeapons
-#    - S2MechBoards
+    - S2Mechs
+    - SpaceMechaWeapons
+    - S2MechBoards
     # Hardlight Change
     - BorgArmorEnergy
     - BorgArmorPhys
+    - ShuttleWeaponMaterials
+    - LightShuttleWeapons
+    - MediumShuttleWeapons
+    - HeavyShuttleWeapons
+    - CapitalShuttleWeapons
   - type: MaterialStorage
+    canEjectStoredMaterials: true
     whitelist:
       tags:
       - Sheet
@@ -603,6 +625,7 @@
   - type: Machine
     board: BiofabricatorMachineCircuitboard
   - type: MaterialStorage
+    canEjectStoredMaterials: true
     ignoreColor: true
     whitelist:
       tags:
@@ -622,10 +645,9 @@
 
 - type: entity
   id: SecurityTechFab
-  parent: BaseLatheLube
+  parent: [ BaseLatheLube, BaseC3ContrabandUnredeemable ]
   name: security techfab
   description: Prints equipment for use by security crew.
-  categories: [ HideSpawnMenu ] # Frontier
   components:
   - type: Sprite
     sprite: Structures/Machines/techfab.rsi
@@ -641,12 +663,27 @@
       map: ["enum.MaterialStorageVisualLayers.Inserting"]
     - state: panel
       map: ["enum.WiresVisualLayers.MaintenancePanel"]
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 300
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalBreak
+      - !type:DoActsBehavior
+        acts: ["Destruction"]
   - type: Machine
     board: SecurityTechFabCircuitboard
+  - type: DisableToolUse
+    anchoring: true
+    prying: true
   - type: Lathe
     idleState: icon
     runningState: icon
     staticPacks:
+    - SecurityAmmoStatic
     - SecurityEquipmentStatic
     - SecurityPracticeStatic
     - CivilianAmmoRecipePack
@@ -663,7 +700,23 @@
     - SMCybernetics
     # Mono - Mechs
     - WeaponMechCombatArsenal
+    - S2Mechs
+    - S2MechBoards
+    - SpaceMechaWeapons
+    - MonoAdvancedShuttleComponents
+    - UniversalMissileAmmo
+    - UniversalRailgunAmmo
+    - UniversalShellAmmo
+    - UniversalOrdinance
+    - ShuttleWeaponMaterials
+    - CapitalShuttleWeapons
+    - HeavyShuttleWeapons
+    - MediumShuttleWeapons
+    - LightShuttleWeapons
+    # Crescent - Cyberware
+    - CombatCybernetics
   - type: MaterialStorage
+    canEjectStoredMaterials: true
     whitelist:
       tags:
       - Sheet
@@ -705,6 +758,7 @@
     dynamicPacks:
     - AdvancedAmmoRecipePack
   - type: MaterialStorage
+    canEjectStoredMaterials: true
     whitelist:
       tags:
       - Sheet
@@ -715,6 +769,7 @@
   - type: DeviceLinkSink
     ports:
       - FillbotAnyItem
+  - type: OreSiloClient
 
 - type: entity
   id: MedicalTechFab
@@ -748,6 +803,7 @@
     - EmptyMedkitsStatic
     - SurgeryStatic
     - NFMedicalStatic # Frontier
+    - StratosUniformStatic # HL
     dynamicPacks:
     - Chemistry
     - SyringeGuns # DeltaV
@@ -812,7 +868,11 @@
     emagStaticPacks:
     # - ClothingColComm # Frontier
     - ClothingSyndie
+    # HL Starts
+    - ClothingNT
+    # HL Ends
   - type: MaterialStorage
+    canEjectStoredMaterials: true
     whitelist:
       tags:
       - Sheet
@@ -848,6 +908,7 @@
   - type: Machine
     board: BiogeneratorMachineCircuitboard
   - type: MaterialStorage
+    canEjectStoredMaterials: true
   - type: ProduceMaterialExtractor
   - type: ItemSlots
     slots:
@@ -876,6 +937,7 @@
     - NFBioGenSeedsMedicalStatic # Frontier
     - NFBioGenSoil # Frontier
     - NFBioGenAnimalCubesStatic #Frontier
+  - type: OreSiloClient #Hardlight
   # Frontier: emag lathe recipes, item mapper
   - type: EmagLatheRecipes
     emagStaticPacks:
@@ -916,6 +978,7 @@
   - type: Machine
     board: OreProcessorMachineCircuitboard
   - type: MaterialStorage
+    canEjectStoredMaterials: true
     ignoreColor: true
     whitelist:
       tags:
@@ -1027,6 +1090,7 @@
     emagStaticPacks: # Frontier
     - NFFloorTilesStrange # Frontier
   - type: MaterialStorage
+    canEjectStoredMaterials: true
     whitelist:
       tags:
       - Sheet
@@ -1063,6 +1127,7 @@
   - type: Machine
     board: MedicalBiofabMachineBoard
   - type: MaterialStorage
+    canEjectStoredMaterials: true
     whitelist:
       tags:
       - Sheet
