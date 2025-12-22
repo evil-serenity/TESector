@@ -1,9 +1,25 @@
-- type: job # Move this to _HL later
+- type: job
   id: StationCaptain
   name: job-name-station-captain
   description: job-description-captain
   playTimeTracker: JobStationCaptain
-  setPreference: true # Frontier
+  setPreference: true
+  requirements:
+    - !type:DepartmentTimeRequirement
+      department: Engineering
+      time: 14400 # 4 hours
+    - !type:DepartmentTimeRequirement
+      department: Medical
+      time: 14400 # 4 hours
+    - !type:DepartmentTimeRequirement
+      department: Science
+      time: 14400 # 4 hours
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 14400 # 4 hours
+    - !type:DepartmentTimeRequirement
+      department: Command
+      time: 14400 # 4 hours
   weight: 20
   startingGear: CaptainGear
   icon: "JobIconCaptain"
@@ -39,12 +55,11 @@
   - Medical
   - Frontier
   accessGroups:
-  - GeneralAccess # Frontier
+  - GeneralAccess
   - AllAccess
   special:
-  # - !type:AddImplantSpecial
-  #   implants: [ MindShieldImplant ]
+  - !type:AddImplantSpecial
+    implants: [ MindShieldImplant ]
   - !type:AddComponentSpecial
     components:
       - type: CommandStaff
-  ## Frontier: commented everything above out
