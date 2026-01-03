@@ -1,7 +1,10 @@
-﻿using Content.Client.Gameplay;
+using Content.Client._Afterlight.Kinks.UI;
+using Content.Client._Afterlight.MobInteraction;
+using Content.Client.Gameplay;
 using Content.Client.UserInterface.Controls;
 using Content.Client.UserInterface.Systems.Guidebook;
 using Content.Client.UserInterface.Systems.Info;
+using Content.Client.UserInterface.Systems.MenuBar.Widgets;
 using Content.Shared.CCVar;
 using JetBrains.Annotations;
 using Robust.Client.Console;
@@ -25,6 +28,11 @@ public sealed class EscapeUIController : UIController, IOnStateEntered<GameplayS
     [Dependency] private readonly InfoUIController _info = default!;
     [Dependency] private readonly OptionsUIController _options = default!;
     [Dependency] private readonly GuidebookUIController _guidebook = default!;
+
+    // Afterlight
+    [UISystemDependency] private readonly ALMobInteractionSystem? _alMobInteraction;
+    [Dependency] private readonly KinksUIController _kinks = default!;
+    // Afterlight
 
     private Options.UI.EscapeMenu? _escapeWindow;
 
@@ -110,6 +118,11 @@ public sealed class EscapeUIController : UIController, IOnStateEntered<GameplayS
             .Bind(EngineKeyFunctions.EscapeMenu,
                 InputCmdHandler.FromDelegate(_ => ToggleWindow()))
             .Register<EscapeUIController>();
+
+        // Afterlight
+        _escapeWindow.KinksButton.OnPressed += _ => _kinks.OpenWindow();
+        _escapeWindow.ContentPreferencesButton.OnPressed += _ => _alMobInteraction?.OpenWindow();
+        // Afterlight
     }
 
     public void OnStateExited(GameplayState state)

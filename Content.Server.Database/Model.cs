@@ -13,7 +13,7 @@ using NpgsqlTypes;
 
 namespace Content.Server.Database
 {
-    public abstract class ServerDbContext : DbContext
+    public abstract partial class ServerDbContext : DbContext
     {
         protected ServerDbContext(DbContextOptions options) : base(options)
         {
@@ -405,6 +405,9 @@ namespace Content.Server.Database
                 .OwnsOne(p => p.HWId)
                 .Property(p => p.Type)
                 .HasDefaultValue(HwidType.Legacy);
+
+            // Call Afterlight model configuration
+            AfterlightModel.OnModelCreating(this, modelBuilder);
         }
 
         public virtual IQueryable<AdminLog> SearchLogs(IQueryable<AdminLog> query, string searchText)
@@ -426,6 +429,8 @@ namespace Content.Server.Database
         public Guid UserId { get; set; }
         public int SelectedCharacterSlot { get; set; }
         public string AdminOOCColor { get; set; } = null!;
+        public string AdminOOCNameColor { get; set; } = null!; // AFTERLIGHT
+        [Column(TypeName = "jsonb")] public JsonDocument? ConstructionFavorites { get; set; } // AFTERLIGHT
         public List<Profile> Profiles { get; } = new();
     }
 
@@ -697,6 +702,12 @@ namespace Content.Server.Database
         public List<ServerRoleBan> AdminServerRoleBansCreated { get; set; } = null!;
         public List<ServerRoleBan> AdminServerRoleBansLastEdited { get; set; } = null!;
         public List<RoleWhitelist> JobWhitelists { get; set; } = null!;
+
+        // Afterlight
+        public List<ALKinks> Kinks { get; set; } = null!;
+        public List<ALVoreSpaces> VoreSpaces { get; set; } = null!;
+        public List<ALContentPreferences> InteractionContentPreferences { get; set; } = null!;
+        // Afterlight
     }
 
     [Table("whitelist")]

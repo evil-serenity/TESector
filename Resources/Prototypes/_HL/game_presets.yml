@@ -30,13 +30,14 @@
   description: all-at-once-description
   showInVote: false
   rules:
-    - Nukeops
+    #- Nukeops
     - Traitor
     - Revolutionary
     - Zombie
+    #- Xenoborgs
     #- Wizard
-    - KesslerSyndromeScheduler
-    - RampingStationEventScheduler
+    #- KesslerSyndromeScheduler
+    #- RampingStationEventScheduler
 
 - type: gamePreset
   id: AllerAtOnce
@@ -49,16 +50,17 @@
   description: aller-at-once-description
   showInVote: false #Please god dont do this
   rules:
-    - Nukeops
+    #- Nukeops
     - Traitor
     - Revolutionary
     - Zombie
+    #- Xenoborgs
     #- Wizard
     - BasicStationEventScheduler
-    - KesslerSyndromeScheduler
-    - MeteorSwarmMildScheduler
-    - MeteorSwarmScheduler
-    - RampingStationEventScheduler
+    #- KesslerSyndromeScheduler
+    #- MeteorSwarmMildScheduler
+    #- MeteorSwarmScheduler
+    #- RampingStationEventScheduler
 
 - type: gamePreset
   id: Extended
@@ -139,7 +141,7 @@
   rules:
     - DummyNonAntagChance
     - Traitor
-    - SubGamemodesRule
+#    - SubGamemodesRule
     - BasicStationEventScheduler
     - MeteorSwarmScheduler
 
@@ -198,6 +200,22 @@
     - SubGamemodesRuleNoWizard #No Dual Wizards at the start, midround is fine
     - BasicStationEventScheduler
     - MeteorSwarmScheduler
+
+- type: gamePreset
+  id: Xenoborgs
+  alias:
+    - xenoborgs
+  name: xenoborgs-title
+  description: xenoborgs-description
+  showInVote: false
+  rules:
+  #- Xenoborgs
+  - DummyNonAntagChance
+  - SubGamemodesRuleNoXenoborg # no two motherships
+  - BasicStationEventScheduler
+  - MeteorSwarmScheduler
+  - SpaceTrafficControlEventScheduler
+  - BasicRoundstartVariation
 
 - type: gamePreset
   id: Zombie

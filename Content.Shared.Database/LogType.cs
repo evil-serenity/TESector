@@ -485,31 +485,56 @@ public enum LogType
     /// Events relating to midi playback.
     /// </summary>
     Instrument = 103,
-    AdminRefund = 203,
-    /// <summary>
-    /// An atmos device's direction was changed.
-    /// </summary>
-    AtmosDirectionChanged = 204,
 
-    Consent = 12489, // Floofstation - random high number to avoid conflict when upstream adds new log types
+    #region Starlight log flags
+    Railroading = 1000,
+    #endregion
+
+    #endregion
+
+    // Additional logs added by downstream content
     /// <summary>
-    /// A player has posted a bounty contract.
+    /// Subtle emote events.
     /// </summary>
-    BountyContractCreated = 205,
+    ALSubtle = 104,
+
     /// <summary>
-    /// A player has deleted a bounty contract.
+    /// Atmos device direction changed (e.g., pump in/out).
     /// </summary>
-    BountyContractRemoved = 206,
+    AtmosDirectionChanged = 105,
+
     /// <summary>
-    /// A medical bounty was redeemed.
+    /// Psionics powers usage and effects.
     /// </summary>
-    MedicalBountyRedeemed = 207,
+    Psionics = 106,
+
     /// <summary>
-    /// Shuttle info was changed.
+    /// Bounty contract created.
     /// </summary>
-    ShuttleInfoChanged = 208,
-    #endregion Frontier Values
-    // End Frontier
-    BagOfHolding = 420, //Nyano - Summary: adds bag of holding. 
-    Psionics = 421, //Nyano - Summary: ads psionic as a log type.
+    BountyContractCreated = 107,
+
+    /// <summary>
+    /// Bounty contract removed.
+    /// </summary>
+    BountyContractRemoved = 108,
+
+    /// <summary>
+    /// Medical bounty redeemed.
+    /// </summary>
+    MedicalBountyRedeemed = 109,
+
+    /// <summary>
+    /// Administrative refund logged.
+    /// </summary>
+    AdminRefund = 110,
+
+    /// <summary>
+    /// Shuttle info changed in station records.
+    /// </summary>
+    ShuttleInfoChanged = 111,
+
+    /// <summary>
+    /// Consent-related logs.
+    /// </summary>
+    Consent = 112,
 }

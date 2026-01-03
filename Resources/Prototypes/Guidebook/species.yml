@@ -16,12 +16,12 @@
     - Arachnid
     - Diona # Note: Frontier changes inside
     - Dwarf # Note: Frontier changes inside
-    - Dwarf
     - Human
     - Moth
     - Reptilian
     - SlimePerson
     - Vox
+    - IPC
     - Goblin # Frontier
     - Sheleg # Frontier
     - Vulpkanin # DeltaV
@@ -29,14 +29,15 @@
     - Felinid # DeltaV
     - Oni # DeltaV
     - Chitinid # DeltaV
+    - Rodentia # DeltaV
     - Feroxi # Flooftier
     - Resomi
     - Protogen # Monolith
     - Shadekin
     - Avali
-    - Feroxi
     - Kitsune # DeltaV
     - Skrell
+    - Thaven # Impstation
 
 - type: guideEntry
   id: Arachnid
@@ -73,6 +74,11 @@
   name: species-name-slime
   text: "/ServerInfo/Guidebook/Mobs/SlimePerson.xml"
 
+- type: guideEntry
+  id: IPC
+  name: species-name-ipc
+  text: "/ServerInfo/Guidebook/Mobs/IPCs.xml"
+
 # DeltaV
 
 - type: guideEntry
@@ -92,11 +98,6 @@
   text: "/ServerInfo/Guidebook/Mobs/Vox.xml"
 
 - type: guideEntry
-  id: IPC
-  name: species-name-ipc
-  text: "/ServerInfo/Guidebook/Mobs/IPCs.xml"
-
-- type: guideEntry
   id: Resomi
   name: species-name-resomi
   text: "/ServerInfo/Guidebook/Mobs/Resomi.xml"
@@ -105,6 +106,11 @@
   id: Harpy
   name: species-name-harpy
   text: "/ServerInfo/Guidebook/Mobs/_DV/Harpy.xml" # DeltaV
+
+- type: guideEntry
+  id: Rodentia
+  name: species-name-rodentia
+  text: "/ServerInfo/Guidebook/Mobs/_DV/Rodentia.xml" # DeltaV
 
 - type: guideEntry
   id: Avali
@@ -126,4 +132,9 @@
   name: species-name-skrell
   text: "/ServerInfo/Guidebook/Mobs/Skrell.xml"
 
+  # Impstation
+- type: guideEntry
+  id: Thaven
+  name: species-name-thaven
+  text: "/ServerInfo/_Impstation/Guidebook/Mobs/Thaven.xml"
 

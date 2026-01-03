@@ -1,0 +1,159 @@
+Entries:
+- author: Fenn
+  changes:
+    - message: added ERP?
+      type: Add
+  id: 1
+  time: '2025-12-23T17:10:16-07:00'
+- author: xemeraldwingx-dot
+  changes:
+    - type: Add
+      message: Changelog test
+  id: 2
+  time: '2025-12-25T01:59:27.0000000+00:00'
+- author: NotLivyathan
+  changes:
+    - type: Add
+      message: Added a second tail point for moths and chitinids.
+  id: 3
+  time: '2025-12-27T02:54:30.0000000+00:00'
+- author: fenndragon
+  changes:
+    - type: Add
+      message: Added Xenoborgs and basic ai ship logic
+    - type: Add
+      message: 'Added hostile Xenoborg drones to space '
+  id: 4
+  time: '2025-12-27T08:30:59.0000000+00:00'
+- author: coolbloxxie
+  changes:
+    - type: Fix
+      message: erect tentacle cocks no longer suffer from ED
+  id: 5
+  time: '2025-12-27T08:31:44.0000000+00:00'
+- author: stickycheZ101
+  changes:
+    - type: Add
+      message: >-
+        added like 14 more varieties of spray paint to the paint crate, two of
+        which are a lucky find
+    - type: Add
+      message: added a mad max reference somewhere in the game
+  id: 6
+  time: '2025-12-27T08:37:57.0000000+00:00'
+- author: TrylobyteWasTaken
+  changes:
+    - type: Fix
+      message: High-Flow atmos devices now work properly.
+  id: 7
+  time: '2025-12-27T08:38:40.0000000+00:00'
+- author: Durk
+  changes:
+    - type: Add
+      message: Added missing marking localization
+    - type: Tweak
+      message: Increased size of salvage specialist wall locker
+    - type: Tweak
+      message: Changed PDAs/IDs/Headets back to small items
+    - type: Fix
+      message: Various map and shuttle fixes
+    - type: Fix
+      message: Fixed crass knuckles construction graph
+    - type: Fix
+      message: Fixed Forktail sniper
+    - type: Fix
+      message: Fixed the flamethrower case
+    - type: Fix
+      message: Fixed unmarked cigarette packs
+    - type: Fix
+      message: Fixed various Item prices
+    - type: Fix
+      message: Fixed Xeno evolve action throwing an error
+    - type: Fix
+      message: Fixed fortune cookie dataset
+    - type: Remove
+      message: Removed duplicate emotes
+    - type: Remove
+      message: Removed the ability to cuff quadborgs
+  id: 8
+  time: '2025-12-27T08:55:41.0000000+00:00'
+- author: fenndragon
+  changes:
+    - type: Add
+      message: Added XenoQuadborg
+  id: 9
+  time: '2025-12-29T07:01:00.0000000+00:00'
+- author: amareyeen
+  changes:
+    - type: Add
+      message: Ability for Vulps and Shadekins to have psionics
+  id: 10
+  time: '2025-12-29T08:22:29.0000000+00:00'
+- author: NotLivyathan
+  changes:
+    - type: Add
+      message: >-
+        Medical quadborgs now have built-in medical HUDs and chemical analysis
+        goggles.
+    - type: Add
+      message: Engineer quadborgs now have built-in diagnostic HUDs.
+    - type: Add
+      message: >-
+        Security quadborgs now have built-in security glasses complete with
+        flash protection.
+    - type: Tweak
+      message: Security quadborgs are now cyan like the rest of SEC.
+  id: 11
+  time: '2025-12-29T09:12:46.0000000+00:00'
+- author: Serah64
+  changes:
+    - type: Tweak
+      message: Peregrine now has FUC value at Contra Exchange of 1
+    - type: Fix
+      message: Restored Maxim Hardsuit to Expedition loot tables
+  id: 12
+  time: '2025-12-31T16:45:51.0000000+00:00'
+- author: Fenndragon
+  changes:
+    - type: Add
+      message: Added Vore
+    - type: Add
+      message: Added kink list
+    - type: Fix
+      message: fixed round logic issues
+  id: 13
+  time: '2026-01-02T23:01:27.0000000+00:00'
+- author: pankakakas
+  changes: []
+  id: 14
+  time: '2026-01-03T01:26:41.0000000+00:00'
+- author: TrylobyteWasTaken
+  changes:
+    - type: Add
+      message: added the TraversalDistorter component to artifact analyzer
+    - type: Add
+      message: added the Window tag to shuttle windows
+    - type: Tweak
+      message: Syndicate FTL Interceptions and Syndicate Weapons Cache spawn
+    - type: Fix
+      message: Paramedic hoverbikes move again
+  id: 15
+  time: '2026-01-03T01:30:45.0000000+00:00'
+- author: Mariiibo
+  changes:
+    - type: Fix
+      message: Fixed a bunch of guidebook entry organization.
+  id: 16
+  time: '2026-01-03T01:34:17.0000000+00:00'
+- author: carccborg
+  changes:
+    - type: Tweak
+      message: Characters with the Numb trait no longer scream during surgery.
+  id: 17
+  time: '2026-01-03T01:39:17.0000000+00:00'
+- author: carccborg
+  changes:
+    - type: Fix
+      message: Falling asleep no longer makes you fall out of a chair or bed
+  id: 18
+  time: '2026-01-03T01:40:59.0000000+00:00'
