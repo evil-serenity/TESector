@@ -144,7 +144,7 @@ uplink-security-energyshield-name = Energy Shield
 uplink-security-energyshield-desc = An exotic energy shield that blocks most incoming damage.
 
 uplink-security-swat-name = Swat Gas Mask
-uplink-security-swat-desc = A full-face covering version of the standard issue TSFMC Gas Mask.
+uplink-security-swat-desc = A full-face covering version of the standard issue ColSec Gas Mask.
 uplink-security-speedloader-name = .45 Magnum Speed Loader
 uplink-security-speedloader-desc = A revolver speed loader that comes pre-loaded with .45 magnum cartridges.
 uplink-security-speedloaderrubber-name = .45 magnum Rubber Speed Loader

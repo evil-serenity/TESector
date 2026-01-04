@@ -81,8 +81,8 @@
 - type: entity
   id: ComputerShipyardNfsd
   parent: [BaseStructureDisableToolUse, BaseStructureIndestructible, ComputerShipyardBase]
-  name: TSFMC shipyard console
-  description: Used to buy TSFMC vessels.
+  name: ColSec shipyard console
+  description: Used to buy ColSec vessels.
   components:
   - type: Sprite
     sprite: _NF/Structures/Machines/computers.rsi

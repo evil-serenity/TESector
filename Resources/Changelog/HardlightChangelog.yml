@@ -157,3 +157,31 @@ Entries:
       message: Falling asleep no longer makes you fall out of a chair or bed
   id: 18
   time: '2026-01-03T01:40:59.0000000+00:00'
+- author: Mariiibo
+  changes:
+    - type: Fix
+      message: Fixed the rest of the guidebook errors.
+  id: 19
+  time: '2026-01-03T18:11:58.0000000+00:00'
+- author: carccborg
+  changes:
+    - type: Tweak
+      message: >-
+        Reduced thruster plume damage from 1400 Heat per second to 140 Heat per
+        second.
+  id: 20
+  time: '2026-01-03T18:12:40.0000000+00:00'
+- author: pankakakas
+  changes:
+    - type: Fix
+      message: Avali Genital Markings Render!
+  id: 21
+  time: '2026-01-03T18:13:29.0000000+00:00'
+- author: warcrazed11
+  changes:
+    - type: Add
+      message: Rename TSFMC items to ColSec
+    - type: Add
+      message: Sensors to tracking implants
+  id: 22
+  time: '2026-01-04T04:34:22.0000000+00:00'

@@ -555,8 +555,8 @@
   - VehicleHoverbikeMailcarrier
   - BaseC2ContrabandUnredeemable
   id: VehicleHoverbikeNfsd
-  name: TSFMC hoverbike
-  description: An TSFMC issued turbine with bike handles. Very safe.
+  name: ColSec hoverbike
+  description: An ColSec issued turbine with bike handles. Very safe.
   components:
   - type: Vehicle
     sirenSound:

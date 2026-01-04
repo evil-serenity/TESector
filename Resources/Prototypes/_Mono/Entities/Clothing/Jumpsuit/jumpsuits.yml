@@ -1,7 +1,7 @@
 - type: entity
   parent: ClothingUniformBase
   id: ClothingUniformTSFMC
-  name: TSFMC uniform
+  name: ColSec uniform
   description: A black and blue urban camo uniform. Its uncomfortable and cheap, and it probably doesn't blend in with anything other than a ship interior.
   components:
   - type: Sprite

@@ -10,7 +10,7 @@
 - type: entity
   parent: ClothingBackpackDuffelSecurity
   id: ClothingBackpackDuffelNfsdBrown
-  name: TSFMC duffel
+  name: ColSec duffel
   components:
   - type: Sprite
     sprite: _NF/Clothing/Back/Duffels/nfsd_brown.rsi

@@ -1,7 +1,7 @@
 - type: entity
   parent: ClothingHeadsetAlt
   id: ClothingHeadsetAltTsfmc
-  name: TSFMC over-ear headset
+  name: ColSec over-ear headset
   components:
   - type: ContainerFill
     containers:
@@ -17,7 +17,7 @@
 - type: entity
   parent: ClothingHeadsetAlt
   id: ClothingHeadsetAltTsfmcCommander
-  name: TSFMC command over-ear headset
+  name: ColSec command over-ear headset
   components:
   - type: ContainerFill
     containers:
@@ -31,7 +31,7 @@
 - type: entity
   parent: ClothingHeadset
   id: ClothingHeadsetTsfmc
-  name: TSFMC headset
+  name: ColSec headset
   components:
   - type: Sprite
     sprite: Clothing/Ears/Headsets/security.rsi

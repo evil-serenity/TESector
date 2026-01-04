@@ -1454,8 +1454,8 @@
 - type: entity
   parent: NFClothingOuterEVASuitBase
   id: ClothingOuterEVASuitNfsd
-  name: TSFMC EVA suit
-  description: An EVA suit with a built-in helmet commonly issued to TSFMC personnel.
+  name: ColSec EVA suit
+  description: An EVA suit with a built-in helmet commonly issued to ColSec personnel.
   components:
   - type: Sprite
     sprite: _NF/Clothing/OuterClothing/Suits/eva_color.rsi
