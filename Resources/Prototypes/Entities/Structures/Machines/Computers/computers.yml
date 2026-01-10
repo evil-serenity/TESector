@@ -300,6 +300,18 @@
   suffix: Syndicate
   description: Allows you to control the IFF and stealth characteristics of this vessel.
   components:
+  - type: DisableToolUse
+    anchoring: true
+    prying: true
+    screwing: true
+    cutting: true
+    welding: true
+    pulsing: true
+    slicing: true
+    sawing: true
+    honking: true
+    rolling: true
+    digging: true
   - type: IFFConsole
     allowedFlags:
       - Hide
@@ -308,7 +320,7 @@
     key: enum.IFFConsoleUiKey.Key
   - type: Anchorable
     flags:
-    - Unanchorable 
+    - Unanchorable
   - type: UserInterface
     interfaces:
         enum.IFFConsoleUiKey.Key:
@@ -316,7 +328,7 @@
         enum.WiresUiKey.Key:
           type: WiresBoundUserInterface
   - type: Computer
-    board: ComputerIFFCircuitboard
+    board: ComputerIFFSyndicateCircuitboard
 
 - type: entity
   parent: BaseComputerAiAccess
@@ -1768,7 +1780,7 @@
   - type: ApcPowerReceiver
     powerLoad: 1000
   - type: Computer
-    board: StationAiUploadCircuitboard
+    board: StationAiUploadCircuitboardUnlocked
   - type: AccessReader
     access: [ [ "ResearchDirector" ] ]
   - type: Lock

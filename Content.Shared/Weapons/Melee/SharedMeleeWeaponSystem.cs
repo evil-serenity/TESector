@@ -544,7 +544,7 @@ public abstract class SharedMeleeWeaponSystem : EntitySystem
         RaiseLocalEvent(target.Value, attackedEvent);
 
         var modifiedDamage = DamageSpecifier.ApplyModifierSets(damage + hitEvent.BonusDamage + attackedEvent.BonusDamage, hitEvent.ModifiersList);
-        var damageResult = Damageable.TryChangeDamage(target, modifiedDamage, origin: user, partMultiplier: component.ClickPartDamageMultiplier); // Shitmed Change
+        var damageResult = Damageable.TryChangeDamage(target, modifiedDamage, ignoreResistances: resistanceBypass, origin: user, partMultiplier: component.ClickPartDamageMultiplier); // Shitmed Change
 
         if (damageResult is {Empty: false})
         {
@@ -595,6 +595,7 @@ public abstract class SharedMeleeWeaponSystem : EntitySystem
         var distance = Math.Min(component.Range, direction.Length());
 
         var damage = GetDamage(meleeUid, user, component);
+        var resistanceBypass = GetResistanceBypass(meleeUid, user, component);
         var entities = GetEntityList(ev.Entities);
 
         if (entities.Count == 0)
@@ -699,7 +700,7 @@ public abstract class SharedMeleeWeaponSystem : EntitySystem
             RaiseLocalEvent(entity, attackedEvent);
             var modifiedDamage = DamageSpecifier.ApplyModifierSets(damage + hitEvent.BonusDamage + attackedEvent.BonusDamage, hitEvent.ModifiersList);
 
-            var damageResult = Damageable.TryChangeDamage(entity, modifiedDamage, origin: user, partMultiplier: component.HeavyPartDamageMultiplier); // Shitmed Change
+            var damageResult = Damageable.TryChangeDamage(entity, modifiedDamage, ignoreResistances: resistanceBypass, origin: user, partMultiplier: component.HeavyPartDamageMultiplier); // Shitmed Change
 
             if (damageResult != null && damageResult.GetTotal() > FixedPoint2.Zero)
             {
@@ -740,7 +741,7 @@ public abstract class SharedMeleeWeaponSystem : EntitySystem
         return true;
     }
 
-    protected HashSet<EntityUid> ArcRayCast(Vector2 position, Angle angle, Angle arcWidth, float range, MapId mapId, EntityUid ignore)
+    protected HashSet<EntityUid> ArcRayCast(Vector2 position, Angle angle, Angle arcWidth, float range, MapId mapId, EntityUid origin, params EntityUid[] ignores)
     {
         // TODO: This is pretty sucky.
         var widthRad = arcWidth;
@@ -753,12 +754,13 @@ public abstract class SharedMeleeWeaponSystem : EntitySystem
         for (var i = 0; i < increments; i++)
         {
             var castAngle = new Angle(baseAngle + increment * i);
+            var primaryIgnore = ignores != null && ignores.Length > 0 ? ignores[0] : EntityUid.Invalid;
             var res = _physics.IntersectRay(mapId,
                 new CollisionRay(position,
                     castAngle.ToWorldVec(),
                     AttackMask),
                 range,
-                ignore,
+                primaryIgnore,
                 false)
                 .ToList();
 
@@ -768,7 +770,11 @@ public abstract class SharedMeleeWeaponSystem : EntitySystem
                 var resChecked = res.Where(x => x.Distance.Equals(res[0].Distance));
                 foreach (var r in resChecked)
                 {
-                    if (Interaction.InRangeUnobstructed(ignore, r.HitEntity, range + 0.1f, overlapCheck: false))
+                    // Exclude any explicitly ignored entities.
+                    if (ignores != null && ignores.Contains(r.HitEntity))
+                        continue;
+
+                    if (Interaction.InRangeUnobstructed(origin, r.HitEntity, range + 0.1f, overlapCheck: false))
                         resSet.Add(r.HitEntity);
                 }
             }

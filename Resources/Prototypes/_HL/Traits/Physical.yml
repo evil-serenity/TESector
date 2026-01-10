@@ -1,0 +1,165 @@
+- type: trait
+  id: Leadfooted
+  name: Lead-footed-name
+  description: Lead-footed-text
+  category: Physical
+  cost: 3
+  components:
+  - type: FTLKnockdownImmune
+
+- type: trait
+  id: Innoculated
+  name: Innoculated
+  description: Innoculated-text
+  category: Physical
+  cost: 5
+  components:
+  - type: ZombieImmune
+
+- type: trait
+  id: insulated
+  name: Insulated
+  description: Insulated-text
+  category: Physical
+  cost: 10
+  speciesBlacklist:
+  - IPC
+  mutuallyExclusiveTraits:
+  - heatresistant
+  - radproof
+  - snakeeater
+  - cryoresistant
+  components:
+  - type: Insulated
+
+- type: trait
+  id: heatresistant
+  name: heatresistant
+  description: heatresistant-text
+  category: Physical
+  cost: 10
+  speciesBlacklist:
+  - IPC
+  mutuallyExclusiveTraits:
+  - insulated
+  - radproof
+  - snakeeater
+  - cryoresistant
+  components:
+  - type: FireproofBodyParts
+  - type: DamageProtectionBuff
+    modifiers:
+      dermal:
+        id: heatresistantTrait
+        coefficients:
+          Heat: 0.01
+  - type: FireProtection
+    reduction: 0
+
+- type: trait
+  id: radproof
+  name: radproof
+  description: radproof-text
+  category: Physical
+  cost: 10
+  speciesBlacklist:
+  - IPC
+  mutuallyExclusiveTraits:
+  - insulated
+  - heatresistant
+  - snakeeater
+  - cryoresistant
+  components:
+  - type: DamageProtectionBuff
+    modifiers:
+      dermal:
+        id: RadproofTrait
+        coefficients:
+          Radiation: 0.01
+
+- type: trait
+  id: snakeeater
+  name: snakeeater
+  description: snakeeater-text
+  category: Physical
+  cost: 10
+  speciesBlacklist:
+  - IPC
+  mutuallyExclusiveTraits:
+  - insulated
+  - heatresistant
+  - radproof
+  - cryoresistant
+  components:
+  - type: DamageProtectionBuff
+    modifiers:
+      dermal:
+        id: SnakeeaterTrait
+        coefficients:
+          Poison: 0.01
+
+- type: trait
+  id: cryoresistant
+  name: cryo-resistant
+  description: Cryo-resistant-text
+  category: Physical
+  cost: 8
+  speciesBlacklist:
+  - IPC
+  mutuallyExclusiveTraits:
+  - heatresistant
+  - insulated
+  - snakeeater
+  - radproof
+  components:
+  - type: DamageProtectionBuff
+    modifiers:
+      dermal:
+        id: cryoresistantTrait
+        coefficients:
+          Cold: 0.01
+
+- type: trait
+  id: NaturalRegen
+  name: natural-regeneration-name
+  description: natural-regeneration-text
+  category: Physical
+  cost: 6
+  mutuallyExclusiveTraits:
+  - PlateletFactories
+  - Hemophilia
+  - UnnaturalRegen
+  components:
+  - type: PassiveDamage
+    allowedStates:
+    - Alive
+    damageCap: 500
+    damage:
+      groups:
+        Brute: -0.3
+        Burn: -0.3
+        Airloss: -1
+
+- type: trait
+  id: UnnaturalRegen
+  name: unnatural-regeneration-name
+  description: unnatural-regeneration-text
+  category: Physical
+  cost: 8
+  mutuallyExclusiveTraits:
+  - PlateletFactories
+  - NaturalRegen
+  - Hemophilia
+  components:
+  - type: PassiveDamage
+    allowedStates:
+    - Alive
+    - Critical
+    damageCap: 500
+    damage:
+      groups:
+        Brute: -0.4
+        Burn: -0.4
+        Airloss: -1
+
+
