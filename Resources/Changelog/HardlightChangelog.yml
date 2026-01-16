@@ -419,3 +419,45 @@ Entries:
         purposes 
   id: 40
   time: '2026-01-14T00:31:10.0000000+00:00'
+- author: Warcrazed
+  changes:
+    - type: Fix
+      message: Fixed Deaddrop system to properly work
+  id: 41
+  time: '2026-01-15T00:40:01.0000000+00:00'
+- author: Warcrazed
+  changes:
+    - type: Add
+      message: Ported time transfer window.
+  id: 42
+  time: '2026-01-15T04:23:28.0000000+00:00'
+- author: Warcrazed
+  changes:
+    - type: Add
+      message: Added admin spawn chronolegionnares.
+  id: 43
+  time: '2026-01-15T04:23:42.0000000+00:00'
+- author: Warcrazed
+  changes:
+    - type: Add
+      message: Added Civilian Chameleon Clothes.
+  id: 44
+  time: '2026-01-15T05:09:48.0000000+00:00'
+- author: NotLivyathan
+  changes:
+    - type: Add
+      message: Vox now have animated tail wagging similar to Reptilians.
+    - type: Add
+      message: Vox are now able to eat trash and drink welding fuel.
+    - type: Add
+      message: >-
+        Vox now have additional emote sounds; including coo, hiss, cough, sigh,
+        gasp, and more.
+  id: 45
+  time: '2026-01-15T18:11:58.0000000+00:00'
+- author: Warcrazed
+  changes:
+    - type: Add
+      message: Added Genetics
+  id: 46
+  time: '2026-01-15T19:01:40.0000000+00:00'

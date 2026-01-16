@@ -310,6 +310,9 @@
   - type: LayingDown
   - type: OfferItem # _HL
 
+  - type: Carriable # Goobstation
+  - type: Genetics # Funkystation - Genetics
+    mutationSlots: 8
 
 - type: entity
   save: false

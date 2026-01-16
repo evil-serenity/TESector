@@ -24,6 +24,7 @@
   - Brig
   - Cryogenics
   - Paramedic # Hardlight: Add Paramedic access
+  - Genetics # Funkystation: Add Genetics access
   special:
   - !type:AddImplantSpecial
     implants: [ MindShieldImplant ]

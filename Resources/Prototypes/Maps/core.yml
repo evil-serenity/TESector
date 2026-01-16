@@ -42,12 +42,13 @@
             StationEngineer: [ 4, 4 ]
             AtmosphericTechnician: [ 2, 2 ]
             TechnicalAssistant: [ 2, 2 ] #intern, not counted
-            #medical (6 - 8)
+            #medical (7 - 9)
             MedicalDoctor: [ 3, 4 ]
             Chemist: [ 2, 2 ]
             MedicalIntern: [ 2, 2 ] #intern, not counted
             Paramedic: [ 1, 2 ]
             Psychologist: [ 1, 1 ]
+            Geneticist: [ 1, 2 ]
             #science (3)
             Scientist: [ 3, 3 ]
             ResearchAssistant: [ 1, 1 ] #intern, not counted
@@ -81,3 +82,7 @@
             MailCarrier: [ 1, 1 ]
             Prisoner: [ 3, 3 ]
             ForensicMantis: [ 1, 1 ]
+        - type: StationDeadDrop
+          maxDeadDrops: 8 # medium station
+        - type: StationDeadDropReporting
+          messageSet: Nfsd

@@ -101,6 +101,7 @@
   - Psychologist
   - Paramedic
   - MedicalQuadBorg # Floof
+  - Geneticist # Funkystation - Genetics
 
 - type: department
   id: Security
