@@ -371,6 +371,7 @@
   - NaturalRegen
   speciesBlacklist:
   - IPC
+  - Avali
   - Synth # HardLight
   blacklist:
     components:
@@ -378,5 +379,5 @@
   components:
   - type: PlateletFactories
     intervalSeconds: 1
-    healPerSecond: .4
+    healPerSecond: .3
     critMultiplier: .25

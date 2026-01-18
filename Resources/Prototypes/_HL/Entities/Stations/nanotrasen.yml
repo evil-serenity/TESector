@@ -33,6 +33,7 @@
     - BaseStationSiliconLawFrontierStation
     - BaseStationRenameWarpPoints
     - BaseStationMail
+    - BaseStationCargoMarket
   categories: [ HideSpawnMenu ]
   components:
     - type: Transform

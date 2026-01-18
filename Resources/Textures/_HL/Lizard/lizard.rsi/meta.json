@@ -11,6 +11,27 @@
       "name": "segment"
     },
 	{
+      "name": "trainsegment"
+    },
+	{
+      "name": "pinksegment"
+    },
+	{
+      "name": "greensegment"
+    },
+	{
+      "name": "bluesegment"
+    },
+	{
+      "name": "redsegment"
+    },
+	{
+      "name": "frontcyansegment"
+    },
+	{
+      "name": "backcyansegment"
+    },
+	{
      "name": "fronttassle"
     },
 	{

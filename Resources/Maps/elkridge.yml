@@ -4,8 +4,8 @@ meta:
   engineVersion: 267.3.0
   forkId: ""
   forkVersion: ""
-  time: 01/11/2026 00:56:51
-  entityCount: 18827
+  time: 01/16/2026 20:34:43
+  entityCount: 18830
 maps:
 - 1
 grids:
@@ -1698,17 +1698,13 @@ entities:
             color: '#408AA07F'
             id: BrickTileWhiteCornerNe
           decals:
-            16107: 17,-6
-        - node:
-            color: '#408AA07F'
-            id: BrickTileWhiteCornerNe
-          decals:
             15541: 2,-18
             15555: 6,-27
             15589: -4,-29
             15837: -2,30
             16004: -34,-34
             16026: -18,-42
+            16107: 17,-6
         - node:
             color: '#43990996'
             id: BrickTileWhiteCornerNe
@@ -1758,10 +1754,6 @@ entities:
             15835: -4,30
             16012: -37,-34
             16025: -23,-42
-        - node:
-            color: '#408AA07F'
-            id: BrickTileWhiteCornerNw
-          decals:
             16108: 15,-6
         - node:
             color: '#43990996'
@@ -1812,10 +1804,6 @@ entities:
             16008: -34,-36
             16016: -34,-40
             16027: -18,-44
-        - node:
-            color: '#408AA07F'
-            id: BrickTileWhiteCornerSe
-          decals:
             16112: 17,-9
         - node:
             color: '#43990996'
@@ -1869,10 +1857,6 @@ entities:
             16011: -37,-36
             16020: -38,-40
             16028: -23,-44
-        - node:
-            color: '#408AA07F'
-            id: BrickTileWhiteCornerSw
-          decals:
             16114: 15,-9
         - node:
             color: '#43990996'
@@ -2074,12 +2058,6 @@ entities:
             color: '#408AA07F'
             id: BrickTileWhiteLineE
           decals:
-            16110: 17,-7
-            16111: 17,-8
-        - node:
-            color: '#408AA07F'
-            id: BrickTileWhiteLineE
-          decals:
             15496: -4,-21
             15497: -4,-22
             15498: -4,-23
@@ -2113,6 +2091,8 @@ entities:
             15842: -2,29
             16007: -34,-35
             16030: -18,-43
+            16110: 17,-7
+            16111: 17,-8
         - node:
             color: '#43990996'
             id: BrickTileWhiteLineE
@@ -2179,11 +2159,6 @@ entities:
             color: '#408AA07F'
             id: BrickTileWhiteLineN
           decals:
-            16109: 16,-6
-        - node:
-            color: '#408AA07F'
-            id: BrickTileWhiteLineN
-          decals:
             15520: -3,-25
             15521: -2,-25
             15522: -1,-25
@@ -2208,6 +2183,7 @@ entities:
             16032: -21,-42
             16033: -20,-42
             16034: -19,-42
+            16109: 16,-6
         - node:
             color: '#43990996'
             id: BrickTileWhiteLineN
@@ -2286,11 +2262,6 @@ entities:
             color: '#408AA07F'
             id: BrickTileWhiteLineS
           decals:
-            16113: 16,-9
-        - node:
-            color: '#408AA07F'
-            id: BrickTileWhiteLineS
-          decals:
             15513: -4,-27
             15514: -3,-27
             15518: 0,-27
@@ -2315,6 +2286,7 @@ entities:
             16036: -21,-44
             16037: -20,-44
             16038: -19,-44
+            16113: 16,-9
         - node:
             color: '#43990996'
             id: BrickTileWhiteLineS
@@ -2390,12 +2362,6 @@ entities:
             color: '#408AA07F'
             id: BrickTileWhiteLineW
           decals:
-            16115: 15,-8
-            16116: 15,-7
-        - node:
-            color: '#408AA07F'
-            id: BrickTileWhiteLineW
-          decals:
             15503: -5,-17
             15504: -5,-18
             15505: -5,-19
@@ -2436,6 +2402,8 @@ entities:
             15834: -4,29
             16013: -37,-35
             16029: -23,-43
+            16115: 15,-8
+            16116: 15,-7
         - node:
             color: '#43990996'
             id: BrickTileWhiteLineW
@@ -11276,42 +11244,36 @@ entities:
     components:
     - type: Transform
       parent: 2102
-    - type: Action
   - uid: 15056
     mapInit: true
     paused: true
     components:
     - type: Transform
       parent: 6149
-    - type: Action
   - uid: 15092
     mapInit: true
     paused: true
     components:
     - type: Transform
       parent: 6152
-    - type: Action
   - uid: 15172
     mapInit: true
     paused: true
     components:
     - type: Transform
       parent: 15171
-    - type: Action
   - uid: 15233
     mapInit: true
     paused: true
     components:
     - type: Transform
       parent: 6187
-    - type: Action
   - uid: 18034
     mapInit: true
     paused: true
     components:
     - type: Transform
       parent: 16950
-    - type: Action
 - proto: ActionToggleLight
   entities:
   - uid: 4689
@@ -11320,21 +11282,18 @@ entities:
     components:
     - type: Transform
       parent: 5084
-    - type: Action
   - uid: 4690
     mapInit: true
     paused: true
     components:
     - type: Transform
       parent: 10913
-    - type: Action
   - uid: 18263
     mapInit: true
     paused: true
     components:
     - type: Transform
       parent: 18262
-    - type: Action
 - proto: AirAlarm
   entities:
   - uid: 488
@@ -53887,6 +53846,22 @@ entities:
     - type: Transform
       pos: -12.5,-7.5
       parent: 2
+- proto: ComputerMarketConsoleNFHigh
+  entities:
+  - uid: 18828
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: 12.5,33.5
+      parent: 2
+- proto: ComputerMarketConsoleNFLow
+  entities:
+  - uid: 18829
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 15.5,29.5
+      parent: 2
 - proto: ComputerMassMedia
   entities:
   - uid: 4518
@@ -54625,6 +54600,14 @@ entities:
     components:
     - type: Transform
       pos: 26.5,-13.5
+      parent: 2
+- proto: CrateMachine
+  entities:
+  - uid: 18830
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 15.5,33.5
       parent: 2
 - proto: CrateMaterialRandom
   entities:

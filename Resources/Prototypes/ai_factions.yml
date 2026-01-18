@@ -25,6 +25,62 @@
   - TSFMC # Mono
   - TSFMCTurret # Mono
   - USSP # Mono
+  
+  
+- type: npcFaction
+  id: Wawa
+  hostile:
+  - Lizard
+  - AgressiveLizard
+  - SimpleHostile
+  - Zombie
+  - Xeno
+  - AllHostile
+  
+- type: npcFaction
+  id: Lizard
+  friendly: # Frontier
+  - AgressiveLizard # Frontier
+  hostile:
+  - Mouse
+  - Wawa
+  - SimpleHostile # Frontier
+  - Zombie # Frontier
+  - Xeno # Frontier
+  - AllHostile # Frontier
+  
+- type: npcFaction
+  id: AgressiveLizard
+  friendly: # Frontier
+  - Lizard # Frontier
+  hostile:
+  - Mouse
+  - Wawa
+  - SimpleHostile # Frontier
+  - NanoTrasen
+  - Syndicate
+  - Xeno
+  - PetsNT
+  - Zombie
+  - Revolutionary
+  - AllHostile
+  - Wizard
+  - Xenoborg
+  - WizFedFaction # Frontier
+  - BloodCultNF # Frontier
+  - PirateNF # Frontier
+  - ExplorersExpeditionNF # Frontier
+  - ArtifactConstruct # Frontier
+  - StreetGangNF # Frontier
+  - DinosaursNF # Frontier
+  - MercenariesExpeditionNF # Frontier
+  - SiliconsExpeditionNF # Frontier
+  - AberrantFleshExpeditionNF # Frontier
+  - ContrabandClothing # Frontier
+  - ContrabandDetection # Frontier
+  - TSFMC # Mono
+  - TSFMCTurret # Mono
+  - USSP # Mono
 
 - type: npcFaction
   id: NanoTrasen
@@ -65,10 +121,10 @@
   id: PetsNT
   hostile:
   - Mouse
-  # - SimpleHostile # Frontier
-  # - Zombie # Frontier
-  # - Xeno # Frontier
-  # - AllHostile # Frontier
+  - SimpleHostile # Frontier
+  - Zombie # Frontier
+  - Xeno # Frontier
+  - AllHostile # Frontier
   # - Wizard # Frontier
 
 - type: npcFaction

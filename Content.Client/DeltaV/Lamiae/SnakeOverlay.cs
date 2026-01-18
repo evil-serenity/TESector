@@ -2,6 +2,7 @@ using Content.Shared.SegmentedEntity;
 using Content.Shared.Humanoid;
 using Content.Shared.Humanoid.Markings;
 using Content.Client.Resources;
+using Robust.Client.GameObjects;
 using Robust.Client.ResourceManagement;
 using Robust.Client.Graphics;
 using Robust.Shared.Prototypes;
@@ -26,6 +27,7 @@ public sealed class SnakeOverlay : Overlay
     private readonly SharedTransformSystem _transform;
     private readonly SharedHumanoidAppearanceSystem _humanoid = default!;
     private readonly IPrototypeManager _prototypes = default!;
+    private readonly ContainerSystem _containerSystem;
 
     // Look through these carefully. WorldSpace is useful for debugging. Note that this defaults to "screen space" which breaks when you try and get the world handle.
     public override OverlaySpace Space => OverlaySpace.WorldSpaceEntities;
@@ -41,6 +43,7 @@ public sealed class SnakeOverlay : Overlay
         _transform = _entManager.EntitySysManager.GetEntitySystem<SharedTransformSystem>();
         _humanoid = _entManager.EntitySysManager.GetEntitySystem<SharedHumanoidAppearanceSystem>();
         _prototypes = IoCManager.Resolve<IPrototypeManager>();
+        _containerSystem = _entManager.EntitySysManager.GetEntitySystem<ContainerSystem>();
 
         // draw at drawdepth 3
         ZIndex = 3;
@@ -53,13 +56,18 @@ public sealed class SnakeOverlay : Overlay
         var handle = args.WorldHandle;
 
         // Get all lamiae the client knows of and their transform in a way we can enumerate over
-        var enumerator = _entManager.AllEntityQueryEnumerator<SegmentedEntityComponent, TransformComponent>();
+        var enumerator = _entManager.AllEntityQueryEnumerator<SegmentedEntityComponent, TransformComponent, MetaDataComponent>();
 
         // I go over the collection above, pulling out an EntityUid and the two components I need for each.
-        while (enumerator.MoveNext(out var uid, out var lamia, out var xform))
+        while (enumerator.MoveNext(out var uid, out var lamia, out var xform, out var meta))
         {
             // Skip ones that are off-map. "Map" in this context means interconnected stuff you can travel between by moving, rather than needing e.g. FTL to load a new map.
             if (xform.MapID != args.MapId)
+                continue;
+
+            // Skip entities that are inside containers (lockers, crates, disposals, etc.)
+            // This prevents shader glitches when the head is stored in a container
+            if (_containerSystem.IsEntityInContainer(uid, meta))
                 continue;
 
             // Skip ones where they are not loaded properly, uninitialized, or w/e
@@ -109,13 +117,42 @@ public sealed class SnakeOverlay : Overlay
         if (shaderInstance != null)
             handle.UseShader(shaderInstance);
 
+        // Maximum reasonable distance between segments (prevents stretching when segments are outside PVS)
+        const float maxSegmentDistance = 5f;
+
         int i = 1;
         // do each segment except the last one normally
         while (i < lamia.Segments.Count - 1)
         {
+            var originEnt = _entManager.GetEntity(lamia.Segments[i - 1]);
+            var destEnt = _entManager.GetEntity(lamia.Segments[i]);
+
+            // Skip if either segment doesn't exist or isn't initialized (outside PVS range)
+            if (!_entManager.EntityExists(originEnt) || !_entManager.EntityExists(destEnt))
+            {
+                i++;
+                radius *= lamia.SlimFactor;
+                lastPtCW = null;
+                lastPtCCW = null;
+                continue;
+            }
+
             // get centerpoints of last segment and this one
-            var origin = _transform.GetWorldPosition(_entManager.GetEntity(lamia.Segments[i - 1]));
-            var destination = _transform.GetWorldPosition(_entManager.GetEntity(lamia.Segments[i]));
+            var origin = _transform.GetWorldPosition(originEnt);
+            var destination = _transform.GetWorldPosition(destEnt);
+
+            // Check if the distance is unreasonably large (segment outside PVS range returns 0,0)
+            var distance = (destination - origin).Length();
+            if (distance > maxSegmentDistance || distance < 0.001f)
+            {
+                // Skip this segment pair - likely outside render distance
+                i++;
+                radius *= lamia.SlimFactor;
+                lastPtCW = null;
+                lastPtCCW = null;
+                continue;
+            }
+
             // get direction between the two points and normalize it
             var connectorVec = destination - origin;
             connectorVec = connectorVec.Normalized();
@@ -169,14 +206,26 @@ public sealed class SnakeOverlay : Overlay
         }
 
         // draw tail (1 tri)
-        if (lastPtCW != null && lastPtCCW != null)
+        if (lastPtCW != null && lastPtCCW != null && lamia.Segments.Count > 0)
         {
-            verts.Add(new DrawVertexUV2D((Vector2) lastPtCW, new Vector2(0, 0)));
-            verts.Add(new DrawVertexUV2D((Vector2) lastPtCCW, new Vector2(1, 0)));
-
-            var destination = _transform.GetWorldPosition(_entManager.GetEntity(lamia.Segments.Last()));
-
-            verts.Add(new DrawVertexUV2D(destination, new Vector2(0.5f, 1f)));
+            var tailEnt = _entManager.GetEntity(lamia.Segments.Last());
+            
+            // Only draw tail if the entity exists
+            if (_entManager.EntityExists(tailEnt))
+            {
+                var destination = _transform.GetWorldPosition(tailEnt);
+                
+                // Check that the tail position is reasonable (not stretched due to PVS)
+                var lastPos = ((Vector2)lastPtCW + (Vector2)lastPtCCW) / 2f;
+                var tailDistance = (destination - lastPos).Length();
+                
+                if (tailDistance <= maxSegmentDistance && tailDistance >= 0.001f)
+                {
+                    verts.Add(new DrawVertexUV2D((Vector2) lastPtCW, new Vector2(0, 0)));
+                    verts.Add(new DrawVertexUV2D((Vector2) lastPtCCW, new Vector2(1, 0)));
+                    verts.Add(new DrawVertexUV2D(destination, new Vector2(0.5f, 1f)));
+                }
+            }
         }
 
         // Draw all of the triangles we just pit in at once

@@ -4,8 +4,8 @@ meta:
   engineVersion: 267.3.0
   forkId: ""
   forkVersion: ""
-  time: 01/14/2026 18:29:08
-  entityCount: 24489
+  time: 01/16/2026 20:23:52
+  entityCount: 24481
 maps:
 - 1
 grids:
@@ -16485,7 +16485,7 @@ entities:
       pos: -18.5,-45.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -48551.402
+      secondsUntilStateChange: -48822.168
       state: Opening
     - type: DeviceLinkSink
       invokeCounter: 1
@@ -17343,7 +17343,7 @@ entities:
       pos: -41.5,-28.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -47814.8
+      secondsUntilStateChange: -48085.566
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -18213,7 +18213,7 @@ entities:
       pos: -20.5,-6.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -261096.72
+      secondsUntilStateChange: -261367.48
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -18352,7 +18352,7 @@ entities:
       pos: -42.5,-9.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -48926.504
+      secondsUntilStateChange: -49197.27
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -54331,38 +54331,6 @@ entities:
     - type: Transform
       pos: 24.5,-17.5
       parent: 2
-- proto: CargoPalletBuy
-  entities:
-  - uid: 8843
-    components:
-    - type: Transform
-      pos: 26.5,20.5
-      parent: 2
-  - uid: 8844
-    components:
-    - type: Transform
-      pos: 25.5,20.5
-      parent: 2
-  - uid: 8845
-    components:
-    - type: Transform
-      pos: 24.5,19.5
-      parent: 2
-  - uid: 8846
-    components:
-    - type: Transform
-      pos: 26.5,19.5
-      parent: 2
-  - uid: 8847
-    components:
-    - type: Transform
-      pos: 25.5,19.5
-      parent: 2
-  - uid: 8848
-    components:
-    - type: Transform
-      pos: 24.5,20.5
-      parent: 2
 - proto: CargoPalletSell
   entities:
   - uid: 8849
@@ -66367,22 +66335,24 @@ entities:
     - type: Transform
       pos: -32.349377,38.541374
       parent: 2
-- proto: ComputerMarketConsoleNFNormal
+- proto: ComputerMarketConsoleNFHigh
   entities:
-  - uid: 10954
+  - uid: 1022
     components:
     - type: Transform
-      pos: 26.5,45.5
+      pos: 22.5,13.5
       parent: 2
-    - type: Anchorable
-      flags: None
-  - uid: 10955
+    - type: MarketConsole
+      maxCrateMachineDistance: 2
+- proto: ComputerMarketConsoleNFLow
+  entities:
+  - uid: 1013
     components:
     - type: Transform
-      pos: 28.5,45.5
+      pos: 25.5,19.5
       parent: 2
-    - type: Anchorable
-      flags: None
+    - type: MarketConsole
+      maxCrateMachineDistance: 2
 - proto: ComputerMassMedia
   entities:
   - uid: 10956
@@ -66405,6 +66375,14 @@ entities:
       rot: 3.141592653589793 rad
       pos: 46.5,1.5
       parent: 2
+- proto: ComputerPalletConsoleNFHighMarket
+  entities:
+  - uid: 1019
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 32.5,20.5
+      parent: 2
 - proto: ComputerPalletConsoleNFNormalMarket
   entities:
   - uid: 10959
@@ -66415,14 +66393,6 @@ entities:
       parent: 2
     - type: Anchorable
       flags: None
-  - uid: 10960
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: 32.5,20.5
-      parent: 2
-    - type: NFCargoPalletConsole
-      palletDistance: 4
 - proto: ComputerPowerMonitoring
   entities:
   - uid: 10961
@@ -67279,15 +67249,25 @@ entities:
       parent: 2
 - proto: CrateMachine
   entities:
-  - uid: 11151
+  - uid: 1014
     components:
     - type: Transform
-      pos: 26.5,46.5
+      pos: 26.5,20.5
       parent: 2
-  - uid: 11152
+  - uid: 1020
     components:
     - type: Transform
-      pos: 28.5,46.5
+      pos: 22.5,14.5
+      parent: 2
+  - uid: 1021
+    components:
+    - type: Transform
+      pos: 25.5,20.5
+      parent: 2
+  - uid: 1023
+    components:
+    - type: Transform
+      pos: 24.5,20.5
       parent: 2
 - proto: CrateNPCHamlet
   entities:
@@ -82296,6 +82276,12 @@ entities:
       parent: 2
     - type: AtmosPipeColor
       color: '#0335FCFF'
+  - uid: 1018
+    components:
+    - type: Transform
+      rot: 1.5707963267948966 rad
+      pos: 25.5,19.5
+      parent: 2
   - uid: 14143
     components:
     - type: Transform
@@ -84008,14 +83994,6 @@ entities:
     - type: Transform
       rot: -1.5707963267948966 rad
       pos: 26.5,19.5
-      parent: 2
-    - type: AtmosPipeColor
-      color: '#0335FCFF'
-  - uid: 14372
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: 25.5,19.5
       parent: 2
     - type: AtmosPipeColor
       color: '#0335FCFF'
@@ -118134,16 +118112,6 @@ entities:
     - type: Transform
       pos: -55.888382,-26.473818
       parent: 2
-  - uid: 20480
-    components:
-    - type: Transform
-      pos: 22.587116,14.608842
-      parent: 2
-  - uid: 20481
-    components:
-    - type: Transform
-      pos: 22.430866,14.483842
-      parent: 2
   - uid: 20488
     components:
     - type: Transform
@@ -140379,18 +140347,6 @@ entities:
     components:
     - type: Transform
       pos: 24.5,14.5
-      parent: 2
-  - uid: 24621
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: 22.5,14.5
-      parent: 2
-  - uid: 24622
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: 22.5,13.5
       parent: 2
   - uid: 24623
     components:

@@ -228,6 +228,11 @@
       - CrystalBlue
       - CrystalCyan
       components:
+      - Gun
+      - Ammo
+      - Food
+      - Drink
+      - Contraband
       - Material
       - ConstructionMaterials
       - ToolRefinable
@@ -243,13 +248,8 @@
       - Paper
       components:
       - Anchorable # No structures, they won't fit in crates
-      - Food
       - Currency # No selling money.
       - SpaceGarbage
-      - Contraband
-      - Gun
-      - Ammo
-      - Drink
       - GasTank # Default containers won't be empty
       - Explosive
       - Actor

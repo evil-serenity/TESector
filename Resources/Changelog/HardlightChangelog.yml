@@ -461,3 +461,71 @@ Entries:
       message: Added Genetics
   id: 46
   time: '2026-01-15T19:01:40.0000000+00:00'
+- author: fenndragon
+  changes:
+    - type: Add
+      message: added Rainlizards
+    - type: Add
+      message: added Rainlizard events
+  id: 47
+  time: '2026-01-16T20:25:20.0000000+00:00'
+- author: NotLivyathan
+  changes:
+    - type: Add
+      message: Avali, Resomi, and Vow will now turn into fried chicken when ashed.
+  id: 48
+  time: '2026-01-16T20:25:45.0000000+00:00'
+- author: Generic_Eagle
+  changes:
+    - type: Add
+      message: >-
+        Eaglerock now has a genetics room in medical for geneticists to make
+        mutations
+    - type: Add
+      message: Eaglerock now has a Butlertron for the station chef
+  id: 49
+  time: '2026-01-16T20:49:45.0000000+00:00'
+- author: Warcrazed
+  changes:
+    - type: Add
+      message: Added Cargo markets to stations.
+    - type: Fix
+      message: Fixed Cargo market system.
+  id: 50
+  time: '2026-01-16T20:50:19.0000000+00:00'
+- author: fenndragon
+  changes:
+    - type: Add
+      message: 'Added visual cue to radar at the 5K mark '
+    - type: Tweak
+      message: Changed shuttle AI behavior
+  id: 51
+  time: '2026-01-17T01:12:12.0000000+00:00'
+- author: TrylobyteWasTaken
+  changes:
+    - type: Add
+      message: Added custom species
+  id: 52
+  time: '2026-01-17T01:17:21.0000000+00:00'
+- author: Generic_Eagle
+  changes:
+    - type: Fix
+      message: Geneticist can now roll on Eaglerock
+    - type: Fix
+      message: Eaglerock Become Station fixed for billionth time
+  id: 53
+  time: '2026-01-17T01:43:11.0000000+00:00'
+- author: warcrazed11
+  changes:
+    - type: Remove
+      message: Removes chameleon belt!
+  id: 54
+  time: '2026-01-17T03:57:28.0000000+00:00'
+- author: warcrazed11
+  changes:
+    - type: Add
+      message: Added a green qipao.
+    - type: Add
+      message: Adds the coyote clothes to the loudout options.
+  id: 55
+  time: '2026-01-17T19:20:23.0000000+00:00'

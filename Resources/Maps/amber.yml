@@ -4,8 +4,8 @@ meta:
   engineVersion: 267.3.0
   forkId: ""
   forkVersion: ""
-  time: 01/14/2026 18:22:07
-  entityCount: 23738
+  time: 01/16/2026 20:25:36
+  entityCount: 23740
 maps:
 - 1
 grids:
@@ -56667,6 +56667,11 @@ entities:
     - type: Transform
       pos: 2.5,19.5
       parent: 2
+  - uid: 23740
+    components:
+    - type: Transform
+      pos: 6.5,16.5
+      parent: 2
 - proto: Carpet
   entities:
   - uid: 7407
@@ -58457,12 +58462,6 @@ entities:
       rot: -1.5707963267948966 rad
       pos: 8.5,23.5
       parent: 2
-  - uid: 7739
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: 8.5,24.5
-      parent: 2
   - uid: 7740
     components:
     - type: Transform
@@ -58492,12 +58491,6 @@ entities:
     - type: Transform
       rot: -1.5707963267948966 rad
       pos: 9.5,23.5
-      parent: 2
-  - uid: 7745
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: 9.5,24.5
       parent: 2
   - uid: 7746
     components:
@@ -65505,18 +65498,6 @@ entities:
       parent: 2
 - proto: ComputerCargoOrders
   entities:
-  - uid: 8951
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: 9.5,23.5
-      parent: 2
-  - uid: 8952
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: 3.5,14.5
-      parent: 2
   - uid: 8953
     components:
     - type: Transform
@@ -65703,6 +65684,21 @@ entities:
     - type: Transform
       rot: 3.141592653589793 rad
       pos: -18.5,-57.5
+      parent: 2
+- proto: ComputerMarketConsoleNFHigh
+  entities:
+  - uid: 7745
+    components:
+    - type: Transform
+      pos: 3.5,12.5
+      parent: 2
+- proto: ComputerMarketConsoleNFLow
+  entities:
+  - uid: 17460
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 9.5,23.5
       parent: 2
 - proto: ComputerMassMedia
   entities:
@@ -66676,6 +66672,23 @@ entities:
     components:
     - type: Transform
       pos: 0.5,-39.5
+      parent: 2
+- proto: CrateMachine
+  entities:
+  - uid: 7739
+    components:
+    - type: Transform
+      pos: 8.5,24.5
+      parent: 2
+  - uid: 8951
+    components:
+    - type: Transform
+      pos: 9.5,24.5
+      parent: 2
+  - uid: 8952
+    components:
+    - type: Transform
+      pos: 3.5,13.5
       parent: 2
 - proto: CrateMaterialPlasma
   entities:
@@ -123170,11 +123183,6 @@ entities:
     - type: Transform
       pos: -12.5,11.5
       parent: 2
-  - uid: 17460
-    components:
-    - type: Transform
-      pos: 3.5,13.5
-      parent: 2
   - uid: 17461
     components:
     - type: Transform
@@ -132958,6 +132966,17 @@ entities:
       rot: 1.5707963267948966 rad
       pos: 3.5,19.5
       parent: 2
+  - uid: 23739
+    components:
+    - type: Transform
+      rot: 1.5707963267948966 rad
+      pos: 3.5,14.5
+      parent: 2
+    - type: DeviceLinkSource
+      linkedPorts:
+        23740:
+        - - OrderSender
+          - OrderReceiver
 - proto: StationEfficiencyCircuitBoard
   entities:
   - uid: 19141
