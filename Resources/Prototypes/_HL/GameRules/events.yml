@@ -95,6 +95,9 @@
     children:
     - id: ClosetSkeleton
     - id: DragonSpawn
+    - id: RainbowDragonSpawn
+    - id: MagicDragonSpawn
+    - id: HoloDragonSpawn
     - id: KingRatMigration
     - id: NinjaSpawn
     - id: ParadoxCloneSpawn
@@ -242,6 +245,93 @@
     spawnDistance: 0
   - type: AntagSpawner # Frontier
     prototype: MobDragon # Frontier
+  - type: DragonRule
+  - type: AntagObjectives
+    objectives:
+    - CarpRiftsObjective
+    - DragonSurviveObjective
+  - type: AntagSelection
+    agentName: dragon-round-end-agent-name
+    definitions:
+    - spawnerPrototype: SpawnPointGhostDragon
+      min: 1
+      max: 1
+      pickPlayer: false
+      mindRoles:
+      - MindRoleDragon
+
+- type: entity
+  parent: BaseGameRule
+  id: RainbowDragonSpawn
+  components:
+  - type: StationEvent
+    weight: 6.5
+    earliestStart: 40
+    reoccurrenceDelay: 200
+    minimumPlayers: 15
+    duration: null
+  - type: SpaceSpawnRule
+    spawnDistance: 0
+  - type: AntagSpawner # Frontier
+    prototype: MobRainbowDragon # Frontier
+  - type: DragonRule
+  - type: AntagObjectives
+    objectives:
+    - CarpRiftsObjective
+    - DragonSurviveObjective
+  - type: AntagSelection
+    agentName: dragon-round-end-agent-name
+    definitions:
+    - spawnerPrototype: SpawnPointGhostDragon
+      min: 1
+      max: 1
+      pickPlayer: false
+      mindRoles:
+      - MindRoleDragon
+      
+- type: entity
+  parent: BaseGameRule
+  id: MagicDragonSpawn
+  components:
+  - type: StationEvent
+    weight: 6.5
+    earliestStart: 40
+    reoccurrenceDelay: 200
+    minimumPlayers: 15
+    duration: null
+  - type: SpaceSpawnRule
+    spawnDistance: 0
+  - type: AntagSpawner # Frontier
+    prototype: MobMagicDragon # Frontier
+  - type: DragonRule
+  - type: AntagObjectives
+    objectives:
+    - CarpRiftsObjective
+    - DragonSurviveObjective
+  - type: AntagSelection
+    agentName: dragon-round-end-agent-name
+    definitions:
+    - spawnerPrototype: SpawnPointGhostDragon
+      min: 1
+      max: 1
+      pickPlayer: false
+      mindRoles:
+      - MindRoleDragon
+      
+- type: entity
+  parent: BaseGameRule
+  id: HoloDragonSpawn
+  components:
+  - type: StationEvent
+    weight: 6.5
+    earliestStart: 40
+    reoccurrenceDelay: 200
+    minimumPlayers: 15
+    duration: null
+  - type: SpaceSpawnRule
+    spawnDistance: 0
+  - type: AntagSpawner # Frontier
+    prototype: MobHoloDragon # Frontier
   - type: DragonRule
   - type: AntagObjectives
     objectives:
@@ -579,6 +669,7 @@
     minimumPlayers: 20
     weight: 1 # Zombies was happening basically every single survival round, so now it's super rare
     duration: 1
+    maxOccurrences: 1
   - type: ZombieRule
   - type: AntagSelection
     definitions:
@@ -739,7 +830,7 @@
   - type: StationEvent
     earliestStart: 0
     minimumPlayers: 20
-    maxOccurrences: 2 # this event has diminishing returns on interesting-ness, so we cap it
+    maxOccurrences: 1 # this event has diminishing returns on interesting-ness, so we cap it
     weight: 5
   - type: MobReplacementRule
 
@@ -753,6 +844,7 @@
     weight: 5
     minimumPlayers: 25
     reoccurrenceDelay: 200
+    maxOccurrences: 1
   - type: GreytideVirusRule
     accessGroups:
     - Cargo
@@ -777,26 +869,26 @@
   - type: RandomSpawnRule
     prototype: RandomSatchelSpawner
 
-# - type: entity
-  # parent: BaseGameRule
-  # id: DerelictCyborgSpawn
-  # components:
-  # - type: StationEvent
-    # weight: 5
-    # earliestStart: 15
-    # reoccurrenceDelay: 20
-    # minimumPlayers: 4
-    # duration: null
-  # - type: SpaceSpawnRule
-    # spawnDistance: 0
-  # - type: AntagSpawner
-    # prototype: PlayerBorgDerelict
-  # - type: AntagSelection
-    # definitions:
-    # - spawnerPrototype: SpawnPointGhostDerelictCyborg
-      # min: 1
-      # max: 1
-      # pickPlayer: false
+- type: entity
+  parent: BaseGameRule
+  id: DerelictCyborgSpawn
+  components:
+  - type: StationEvent
+    weight: 5
+    earliestStart: 15
+    reoccurrenceDelay: 20
+    minimumPlayers: 4
+    duration: null
+  - type: SpaceSpawnRule
+    spawnDistance: 0
+  - type: AntagSpawner
+    prototype: SyndiQuad
+  - type: AntagSelection
+    definitions:
+    - spawnerPrototype: SpawnPointGhostDerelictCyborg
+      min: 1
+      max: 1
+      pickPlayer: false
 
 # - type: entityTable
 #  id: NFBasicCalmEventsTable
@@ -1028,8 +1120,8 @@
       grid: !type:GridSpawnGroup
         nameDataset: NamesScrap
         nameDatasetType: Nanotrasen # they're shuttles
-        minCount: 3
-        maxCount: 5
+        minCount: 1
+        maxCount: 3
         minimumDistance: 1000
         maximumDistance: 2000
         addComponents:
@@ -1071,7 +1163,7 @@
     weight: 5
     duration: 1350
     maxDuration: 1560
-    reoccurrenceDelay: 120 # 2 hours
+    reoccurrenceDelay: 520 # 2 hours
 #    requiredJobs:
 #      Sheriff: 1
   - type: BluespaceErrorRule
@@ -1079,8 +1171,8 @@
       grid: !type:GridSpawnGroup
         nameLoc:
         - station-event-bluespace-name-SyndicateWeaponsCache
-        minimumDistance: 1500
-        maximumDistance: 2500
+        minimumDistance: 5000
+        maximumDistance: 7500
         addComponents:
         - type: Gravity
           enabled: true
@@ -1094,7 +1186,7 @@
         - type: PreventPilot
         - type: ForceAnchor # Added post-FTL, so anchoring is fine.
         - type: WorldLoader
-          radius: 64
+          radius: 10
         paths:
         - /Maps/_NF/Bluespace/cache.yml
     rewardAccounts:
@@ -1114,7 +1206,7 @@
     weight: 5
     duration: 1020
     maxDuration: 1350
-    reoccurrenceDelay: 120 # 2 hours
+    reoccurrenceDelay: 520 # 2 hours
 #    requiredJobs:
 #      Sheriff: 1
   - type: BluespaceErrorRule
@@ -1122,8 +1214,8 @@
       grid: !type:GridSpawnGroup
         nameLoc:
         - station-event-bluespace-name-SecureNTVault
-        minimumDistance: 1500
-        maximumDistance: 2500
+        minimumDistance: 5000
+        maximumDistance: 7500
         addComponents:
         - type: Gravity
           enabled: true
@@ -1136,7 +1228,7 @@
         - type: PreventPilot
         - type: ForceAnchor
         - type: WorldLoader
-          radius: 64
+          radius: 10
         paths:
         - /Maps/_NF/Bluespace/vault.yml
     rewardAccounts:
@@ -1157,7 +1249,7 @@
     weight: 5
     duration: 590
     maxDuration: 780
-    reoccurrenceDelay: 180 # 3 hours
+    reoccurrenceDelay: 580 # 3 hours
 #    requiredJobs:
 #      Sheriff: 1
   - type: BluespaceErrorRule
@@ -1165,8 +1257,8 @@
       grid: !type:GridSpawnGroup
         nameLoc:
         - station-event-bluespace-name-SecureNTVault
-        minimumDistance: 1500
-        maximumDistance: 2500
+        minimumDistance: 5000
+        maximumDistance: 7500
         addComponents:
         - type: Gravity
           enabled: true
@@ -1179,7 +1271,7 @@
         - type: PreventPilot
         - type: ForceAnchor
         - type: WorldLoader
-          radius: 64
+          radius: 10
         paths:
         - /Maps/_NF/Bluespace/vaultsmall.yml
     rewardAccounts:
@@ -1200,14 +1292,14 @@
     weight: 1
     duration: 1800
     maxDuration: 2400
-    reoccurrenceDelay: 120 # 2 hours
+    reoccurrenceDelay: 320 # 2 hours
   - type: BluespaceErrorRule
     groups:
       grid: !type:GridSpawnGroup
         nameLoc:
         - station-event-bluespace-name-UnidentifiedVessel
-        minimumDistance: 1500
-        maximumDistance: 2500
+        minimumDistance: 5000
+        maximumDistance: 7500
         addComponents:
         - type: Gravity
           enabled: true
@@ -1220,7 +1312,7 @@
         - type: PreventPilot
         - type: ForceAnchor
         - type: WorldLoader
-          radius: 64
+          radius: 10
         paths:
         - /Maps/_NF/Bluespace/syndieftlintercept.yml
 
@@ -1245,8 +1337,8 @@
       grid: !type:GridSpawnGroup
         nameLoc:
         - station-event-bluespace-name-UnidentifiedVessel
-        minimumDistance: 1500
-        maximumDistance: 2500
+        minimumDistance: 5000
+        maximumDistance: 7500
         addComponents:
         - type: Gravity
           enabled: true
@@ -1259,7 +1351,7 @@
         - type: PreventPilot
         - type: ForceAnchor
         - type: WorldLoader
-          radius: 64
+          radius: 10
         paths:
         - /Maps/_NF/Bluespace/wizardprobealt.yml
 
@@ -1284,8 +1376,8 @@
       grid: !type:GridSpawnGroup
         nameLoc:
         - station-event-bluespace-name-UnidentifiedVessel
-        minimumDistance: 1500
-        maximumDistance: 2500
+        minimumDistance: 5000
+        maximumDistance: 7500
         addComponents:
         - type: Gravity
           enabled: true
@@ -1298,7 +1390,7 @@
         - type: PreventPilot
         - type: ForceAnchor
         - type: WorldLoader
-          radius: 64
+          radius: 10
         paths:
         - /Maps/_NF/Bluespace/bloodmoon.yml
 
@@ -1322,8 +1414,8 @@
       grid: !type:GridSpawnGroup
         nameLoc:
         - station-event-bluespace-name-Cave
-        minimumDistance: 1500
-        maximumDistance: 2500
+        minimumDistance: 5000
+        maximumDistance: 7500
         addComponents:
         - type: Gravity
           enabled: true
@@ -1335,7 +1427,7 @@
         - type: PreventPilot
         - type: ForceAnchor
         - type: WorldLoader
-          radius: 64
+          radius: 10
         paths:
         - /Maps/_NF/Bluespace/cave.yml
 
@@ -1371,7 +1463,7 @@
           preventArtifactTriggers: true
         - type: PreventPilot
         - type: WorldLoader
-          radius: 64
+          radius: 10
         paths:
         - /Maps/_NF/Bluespace/mcevent.yml
 
@@ -1405,8 +1497,8 @@
     groups:
       vgroid: !type:DungeonSpawnGroup
         nameDataset: NamesBorer
-        minimumDistance: 1500
-        maximumDistance: 2500
+        minimumDistance: 5000
+        maximumDistance: 7500
         addComponents: &dungeonComponents
         - type: Gravity
           enabled: true
@@ -1417,7 +1509,7 @@
           preventArtifactTriggers: true
         - type: PreventPilot
         - type: WorldLoader
-          radius: 64
+          radius: 10
         # FIXME: the dungeon dosen't pass FTL events even though it should FTL in
         #        and we don't get a MapInitEvent, so this just forces static physics
         - type: Physics
@@ -1435,8 +1527,8 @@
     groups:
       vgroid: !type:DungeonSpawnGroup
         nameDataset: NamesBorer
-        minimumDistance: 1500
-        maximumDistance: 2500
+        minimumDistance: 5000
+        maximumDistance: 7500
         addComponents: *dungeonComponents
         protos:
         - NFVGRoidSnow
@@ -1450,8 +1542,8 @@
     groups:
       vgroid: !type:DungeonSpawnGroup
         nameDataset: NamesBorer
-        minimumDistance: 1500
-        maximumDistance: 2500
+        minimumDistance: 5000
+        maximumDistance: 7500
         addComponents: *dungeonComponents
         protos:
         - NFVGRoidCave
@@ -1465,8 +1557,8 @@
     groups:
       vgroid: !type:DungeonSpawnGroup
         nameDataset: NamesBorer
-        minimumDistance: 1500
-        maximumDistance: 2500
+        minimumDistance: 5000
+        maximumDistance: 7500
         addComponents: *dungeonComponents
         protos:
         - NFVGRoidChromite
@@ -1480,8 +1572,8 @@
     groups:
       vgroid: !type:DungeonSpawnGroup
         nameDataset: NamesBorer
-        minimumDistance: 1500
-        maximumDistance: 2500
+        minimumDistance: 5000
+        maximumDistance: 7500
         addComponents: *dungeonComponents
         protos:
         - NFVGRoidScrap
@@ -1696,51 +1788,51 @@
     - id: XenoEggSpawner
       prob: 0.01
     - id: MobXenoPraetorianNPC
-      prob: 0.001
-    - id: MobXenoDroneNPC
-      prob: 0.001
-    - id: MobXenoQueenNPC
       prob: 0.0001
+    - id: MobXenoDroneNPC
+      prob: 0.0001
+    - id: MobXenoQueenNPC
+      prob: 0.00001
     - id: MobXenoRavagerNPC
-      prob: 0.001
+      prob: 0.0001
     - id: MobXenoRunnerNPC
-      prob: 0.001
+      prob: 0.0001
     - id: MobXenoRounyNPC
-      prob: 0.001
+      prob: 0.0001
     - id: MobXenoSpitterNPC
-      prob: 0.001
+      prob: 0.0001
     - id: MobXenoAcidRunner
-      prob: 0.001
+      prob: 0.0001
     - id: MobXenoAcidRunnerPrimed
-      prob: 0.001
+      prob: 0.0001
     - id: MobXenoLarva
       prob: 0.001
     - id: MobXenoBoiler
-      prob: 0.001
+      prob: 0.0001
     - id: MobXenoBoxerWarrior
-      prob: 0.001
+      prob: 0.0001
     - id: MobXenoCarrier
-      prob: 0.001
+      prob: 0.0001
     - id: MobXenoCrusher
-      prob: 0.001
+      prob: 0.0001
     - id: MobXenoChargerCrusher
-      prob: 0.001
+      prob: 0.0001
     - id: MobXenoDancerPraetorian
-      prob: 0.001
+      prob: 0.0001
     - id: MobXenoDefender
-      prob: 0.001
+      prob: 0.0001
     - id: MobXenoSentinel
-      prob: 0.001
+      prob: 0.0001
     - id: MobXenoHivelord
-      prob: 0.001
+      prob: 0.0001
     - id: MobXenoParasite
-      prob: 0.001
+      prob: 0.0001
     - id: MobXenoBloodyLarva
-      prob: 0.001
+      prob: 0.0001
     - id: MobXenoLurker
-      prob: 0.001
+      prob: 0.0001
     - id: MobXenoWarrior
-      prob: 0.001
+      prob: 0.0001
 
 - type: entity
   id: AiVents
@@ -1830,18 +1922,18 @@
     - id: HostileWhiteRainLizard
       prob: 0.008
     - id: CyanRainLizard
-      prob: 0.01
-    - id: HostileCyanRainLizard
       prob: 0.009
-    - id: RedRainLizard
+    - id: HostileCyanRainLizard
       prob: 0.008
+    - id: RedRainLizard
+      prob: 0.006
     - id: HostileRedRainLizard
-      prob: 0.007
+      prob: 0.005
     - id: TrainRainLizard
       prob: 0.003
     - id: HostileTrainRainLizard
       prob: 0.001
-      
+
 - type: entity
   id: WawaVents
   parent: [VentCrittersBase, BaseGameRule]
