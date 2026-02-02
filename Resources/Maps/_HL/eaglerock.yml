@@ -4,8 +4,8 @@ meta:
   engineVersion: 267.3.0
   forkId: ""
   forkVersion: ""
-  time: 01/26/2026 22:56:30
-  entityCount: 20946
+  time: 01/31/2026 01:14:16
+  entityCount: 20947
 maps:
 - 1
 grids:
@@ -7892,7 +7892,7 @@ entities:
       pos: -21.5,45.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -47046.027
+      secondsUntilStateChange: -47105.13
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -8286,7 +8286,7 @@ entities:
       pos: 35.5,24.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -10534.472
+      secondsUntilStateChange: -10593.573
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -8696,7 +8696,7 @@ entities:
       pos: -23.5,-12.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -133360.5
+      secondsUntilStateChange: -133419.6
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -8708,7 +8708,7 @@ entities:
       pos: -23.5,-13.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -133550.89
+      secondsUntilStateChange: -133609.98
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -8741,7 +8741,7 @@ entities:
       pos: -23.5,-1.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -125189.555
+      secondsUntilStateChange: -125248.66
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -8832,7 +8832,7 @@ entities:
       pos: 21.5,-13.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -114580
+      secondsUntilStateChange: -114639.1
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -8878,7 +8878,7 @@ entities:
       pos: 23.5,-5.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -84550.695
+      secondsUntilStateChange: -84609.8
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -9092,7 +9092,7 @@ entities:
       pos: 20.5,17.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -84098.63
+      secondsUntilStateChange: -84157.734
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -9862,7 +9862,7 @@ entities:
       pos: -23.5,39.5
       parent: 2
     - type: Door
-      secondsUntilStateChange: -41523.77
+      secondsUntilStateChange: -41582.87
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
@@ -46674,6 +46674,13 @@ entities:
     - type: DnaScannerConsole
       nextHealthUpdate: 0
       jokerCooldownEnd: 0
+- proto: ComputerExpeditionDiskPrinter
+  entities:
+  - uid: 9260
+    components:
+    - type: Transform
+      pos: 30.5,2.5
+      parent: 2
 - proto: ComputerGunneryConsole
   entities:
   - uid: 7507

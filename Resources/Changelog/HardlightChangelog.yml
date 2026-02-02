@@ -788,3 +788,97 @@ Entries:
         Nanites, which remain at 100% efficiency.
   id: 83
   time: '2026-01-28T04:46:13.0000000+00:00'
+- author: warcrazed11
+  changes:
+    - type: Tweak
+      message: Tweaked Station Payroll amount.
+    - type: Tweak
+      message: Doubled station terminal payouts.
+    - type: Tweak
+      message: Doubled Gas deposit size.
+  id: 84
+  time: '2026-01-30T17:10:02.0000000+00:00'
+- author: warcrazed11
+  changes:
+    - type: Add
+      message: Added AAC tablet!
+  id: 85
+  time: '2026-01-30T17:10:26.0000000+00:00'
+- author: NotLivyathan
+  changes:
+    - type: Add
+      message: Added Unborgable and Uncloneable traits from DeltaV.
+    - type: Remove
+      message: >-
+        Blacklisted Synths, IPC, and Cyborgs from several traits that didn't
+        make sense for them to have access to, including: Inoculated,
+        Unnatural/Natural Regeneration, Synthetic, Unrevivable (IPC), and Horny
+        (Synths).
+    - type: Remove
+      message: Cyborgs can no longer benefit from Unnatural Regeneration.
+    - type: Remove
+      message: Synths and IPC can no longer be cloned.
+  id: 86
+  time: '2026-01-30T17:11:20.0000000+00:00'
+- author: NotLivyathan
+  changes:
+    - type: Fix
+      message: >-
+        Fixed audio lingering from energy melee weapons when no longer
+        activated.
+  id: 87
+  time: '2026-01-30T17:11:38.0000000+00:00'
+- author: fenndragon
+  changes:
+    - type: Add
+      message: Added Expedition printer and disks
+    - type: Tweak
+      message: Changed roles so there is only one spacer role listed "freelancer"
+    - type: Remove
+      message: 'removed the contractor and pilot roles from station selection. '
+  id: 88
+  time: '2026-01-31T00:29:27.0000000+00:00'
+- author: TrylobyteWasTaken
+  changes:
+    - type: Tweak
+      message: >-
+        Stacked produce now splits itself when being inserted into a microwave,
+        electric range, or food-o-mat.
+    - type: Fix
+      message: You can cook food again.
+  id: 89
+  time: '2026-01-31T00:33:21.0000000+00:00'
+- author: Generic_Eagle
+  changes:
+    - type: Tweak
+      message: Eaglerock cargo can now sell exped disks
+  id: 90
+  time: '2026-01-31T02:16:11.0000000+00:00'
+- author: rtasva
+  changes:
+    - type: Add
+      message: added exped disk printer to every map
+  id: 91
+  time: '2026-01-31T03:17:31.0000000+00:00'
+- author: TrylobyteWasTaken
+  changes:
+    - type: Tweak
+      message: >-
+        Plant Analyzer now automatically refreshes if left open so you can watch
+        mutations in real-time.
+    - type: Tweak
+      message: >-
+        Plant Analyzer window now remains open even if you switch hands or put
+        it away.
+    - type: Fix
+      message: >-
+        Plant Analyzer UI now works properly when scanning an item without the
+        window already open.
+  id: 92
+  time: '2026-01-31T06:03:20.0000000+00:00'
+- author: warcrazed11
+  changes:
+    - type: Fix
+      message: Fixed multiple bugs with shadekin.
+  id: 93
+  time: '2026-02-02T17:26:45.0000000+00:00'
