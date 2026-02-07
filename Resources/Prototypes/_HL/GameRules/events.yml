@@ -2013,18 +2013,16 @@
       prob: 0.05
 
 # Dynamic Job Allocation Rule
-# Adjusts Contractor, Mercenary, and Pilot job slots based on player count
+# Adjusts Mercenary job slot based on player count
 # Runs at round start and every 10 minutes
 - type: entity
   id: DynamicJobAllocation
   parent: BaseGameRule
   components:
-  - type: StationEvent
-    weight: 0
-    duration: null
-    minimumPlayers: 0
+  - type: GameRule # Changed to game rule so its treated as a persistent game rule instead of event
+    minPlayers: 0
   - type: DynamicJobAllocationRule
     checkInterval: 600  # Check every 10 minutes (600 seconds)
-    mercenaryPercentage: 0.5  # 20%
-    mercenaryCap: 40
-  - type: ActiveGameRule  # This makes it start immediately when added
+    mercenaryJob: Mercenary  # Job ID, since we're just using 1 now
+    mercenaryPercentage: 0.5  # 20% --- Did you want me to set it to 20%? Right now its running at 50% of players
+    mercenaryCap: 40  # Maximum slots
