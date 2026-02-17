@@ -1,16 +1,16 @@
 meta:
   format: 7
-  category: Grid
+  category: Map
   engineVersion: 267.3.0
   forkId: ""
   forkVersion: ""
-  time: 02/03/2026 00:03:54
-  entityCount: 1933
-maps: []
+  time: 02/11/2026 00:07:42
+  entityCount: 1935
+maps:
+- 1934
 grids:
 - 1
-orphans:
-- 1
+orphans: []
 nullspace: []
 tilemap:
   4: Space
@@ -38,7 +38,7 @@ entities:
       name: grid
     - type: Transform
       pos: -0.53125,-0.703125
-      parent: invalid
+      parent: 1934
     - type: MapGrid
       chunks:
         0,0:
@@ -1153,6 +1153,16 @@ entities:
       id: Deterrence
     - type: IFF
       color: '#FFFFFFFF'
+  - uid: 1934
+    components:
+    - type: MetaData
+      name: Map Entity
+    - type: Transform
+    - type: Map
+      mapPaused: True
+    - type: GridTree
+    - type: Broadphase
+    - type: OccluderTree
 - proto: AirAlarm
   entities:
   - uid: 534
@@ -10566,6 +10576,13 @@ entities:
     components:
     - type: Transform
       pos: -6.673067,-7.216087
+      parent: 1
+- proto: MobileEmpGenerator
+  entities:
+  - uid: 1935
+    components:
+    - type: Transform
+      pos: 0.5,25.5
       parent: 1
 - proto: NFHolopadShip
   entities:

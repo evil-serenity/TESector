@@ -44,12 +44,13 @@
   form: Protagonist
   name: NanoTrasen
   color: "#334E6D" # navy blue
-  disabled: true # locked for now, private admin company
+  disabled: true # locked, private
   logins:
   - Generic_Eagle
   - Warcrazed
   - Raccoon_Chan
   - DizzyEevee
+  - Snakeman9
   
 - type: company
   id: InterdynePharmaceuticals

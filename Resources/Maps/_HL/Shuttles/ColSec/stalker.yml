@@ -1,16 +1,16 @@
 meta:
   format: 7
-  category: Grid
+  category: Map
   engineVersion: 267.3.0
   forkId: ""
   forkVersion: ""
-  time: 02/03/2026 00:01:41
-  entityCount: 733
-maps: []
+  time: 02/11/2026 00:08:33
+  entityCount: 735
+maps:
+- 733
 grids:
 - 1
-orphans:
-- 1
+orphans: []
 nullspace: []
 tilemap:
   2: Space
@@ -32,7 +32,7 @@ entities:
       name: grid
     - type: Transform
       pos: -0.53125,-0.53125
-      parent: invalid
+      parent: 733
     - type: MapGrid
       chunks:
         0,0:
@@ -481,6 +481,16 @@ entities:
       id: Stalker
     - type: IFF
       color: '#FFFFFFFF'
+  - uid: 733
+    components:
+    - type: MetaData
+      name: Map Entity
+    - type: Transform
+    - type: Map
+      mapPaused: True
+    - type: GridTree
+    - type: Broadphase
+    - type: OccluderTree
 - proto: AirAlarm
   entities:
   - uid: 2
@@ -4015,6 +4025,13 @@ entities:
     components:
     - type: Transform
       pos: 5.7780137,0.7838764
+      parent: 1
+- proto: MobileEmpGenerator
+  entities:
+  - uid: 734
+    components:
+    - type: Transform
+      pos: 1.5,4.5
       parent: 1
 - proto: NFHolopadShip
   entities:

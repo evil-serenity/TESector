@@ -201,9 +201,11 @@
       - id: Flash
         amount: 2
       - id: MedicalTrackingImplanterDisposable
+      - id: RadioImplanterColcommDisposable
       - id: DeathRattleImplanterColcommDisposable
-      - id: MedicalTrackingImplanterDisposable
+      - id: MindShieldImplanterDisposable
       - id: StorageImplanterDisposable
+      - id: CQCManual #Will replace with the dragon defensive form, but we do not have that yet
 
 # ID Card
 # - type: entity

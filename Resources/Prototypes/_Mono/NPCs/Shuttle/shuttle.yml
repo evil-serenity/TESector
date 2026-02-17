@@ -95,6 +95,7 @@
   id: NearbyShuttleTargets
   query:
   - !type:NearbyHostileShuttlesQuery
+    range: 150
     blacklist:
       tags:
       - ShuttleAIIgnore
@@ -178,7 +179,7 @@
         shutdownState: TaskFinished
         removeKeyOnFinish: false
         inRangeMaxSpeed: 0.1
-        range: 50
+        range: 200
         rangeTolerance: 5
         alwaysFaceTarget: true
         targetKey: TargetCoordinates

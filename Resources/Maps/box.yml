@@ -6420,41 +6420,6 @@ entities:
             63: 23,41
         - node:
             color: '#FFFFFFFF'
-            id: SpaceStationSign1
-          decals:
-            1081: -4,-2
-        - node:
-            color: '#FFFFFFFF'
-            id: SpaceStationSign2
-          decals:
-            1082: -3,-2
-        - node:
-            color: '#FFFFFFFF'
-            id: SpaceStationSign3
-          decals:
-            1083: -2,-2
-        - node:
-            color: '#FFFFFFFF'
-            id: SpaceStationSign4
-          decals:
-            1084: -1,-2
-        - node:
-            color: '#FFFFFFFF'
-            id: SpaceStationSign5
-          decals:
-            1085: 0,-2
-        - node:
-            color: '#FFFFFFFF'
-            id: SpaceStationSign6
-          decals:
-            1086: 1,-2
-        - node:
-            color: '#FFFFFFFF'
-            id: SpaceStationSign7
-          decals:
-            1087: 2,-2
-        - node:
-            color: '#FFFFFFFF'
             id: StandClear
           decals:
             2394: -32,-38

@@ -1008,3 +1008,155 @@ Entries:
       message: Bluespace Cryobeakers.  Like cryobeakers, but bluespace.  Per request.
   id: 105
   time: '2026-02-06T22:10:11.0000000+00:00'
+- author: NotLivyathan
+  changes:
+    - type: Add
+      message: New markings inspired by Xenomorphs are now available for Reptilians.
+    - type: Add
+      message: >-
+        Synths now have access to two new tails inspired by Xenomorphs, as well
+        as a set of lights for them.
+  id: 106
+  time: '2026-02-09T23:08:59.0000000+00:00'
+- author: warcrazed11
+  changes:
+    - type: Fix
+      message: gives HM shoes..... and a gun.
+    - type: Fix
+      message: Fixed freelancer headsets not having freelance radio.
+  id: 107
+  time: '2026-02-09T23:33:30.0000000+00:00'
+- author: NotLivyathan
+  changes:
+    - type: Tweak
+      message: >-
+        All lockers, wall lockers, and suit storages will now once again save on
+        ship save.
+    - type: Tweak
+      message: Vending machines will now once again save on ship save.
+    - type: Fix
+      message: >-
+        Entities with MindContainers (sentient machines, plushies, pAI, etc)
+        should no longer interfere with ship saving.
+    - type: Fix
+      message: >-
+        ChemMasters should no longer mix solutions contained within their buffer
+        when saved on a ship.
+  id: 108
+  time: '2026-02-09T23:34:31.0000000+00:00'
+- author: NotLivyathan
+  changes:
+    - type: Add
+      message: Ported Martial Arts from Goobstation.
+  id: 109
+  time: '2026-02-09T23:35:33.0000000+00:00'
+- author: JenreyDominos
+  changes:
+    - type: Add
+      message: Dominos Robotics Encryption Key
+    - type: Add
+      message: Dominos Robotics Glass Airlock
+    - type: Add
+      message: Dominos Robotics Standard Airlock
+    - type: Add
+      message: Factions to the pallet menu
+    - type: Add
+      message: Dominos Robotics to the Factions tab of the pallet menu
+  id: 110
+  time: '2026-02-09T23:43:38.0000000+00:00'
+- author: re-silvered
+  changes:
+    - type: Add
+      message: Biting and checking out as interaction options
+  id: 111
+  time: '2026-02-09T23:47:00.0000000+00:00'
+- author: fenndragon
+  changes:
+    - type: Add
+      message: Added a new Xenoborg AI ship
+    - type: Add
+      message: Added the basis of new ship guns
+    - type: Tweak
+      message: 'tweaked the settings for the AI targeting '
+    - type: Tweak
+      message: 'tweaked LOS so AI will try to shoot through windows '
+    - type: Fix
+      message: Fixed server side errors causing lag in two places
+  id: 112
+  time: '2026-02-10T00:19:53.0000000+00:00'
+- author: fenndragon
+  changes:
+    - type: Fix
+      message: Fixed xenoborg targeting
+  id: 113
+  time: '2026-02-10T07:38:57.0000000+00:00'
+- author: Suraru
+  changes:
+    - type: Tweak
+      message: >-
+        Changed rad collectors checking every tick to every 5s. Should earn us
+        between 10-15% TPS
+    - type: Tweak
+      message: >-
+        Changes the PTK-1500e "Matter Dematerializer" to be C1, instead of C3,
+        since you can literally get it from the vending machine
+    - type: Fix
+      message: Robotic arm running every tick to what I assume was a coding error
+    - type: Tweak
+      message: >-
+        Changes StartableMachineSystem to every second to reduce what can be
+        thousands of of checks a second down to hundreds
+    - type: Tweak
+      message: >-
+        Checks payout every second now, instead of every tick. Reduces thousands
+        of checks a second, to like, 80 tops. 
+  id: 114
+  time: '2026-02-10T07:39:29.0000000+00:00'
+- author: warcrazed11
+  changes:
+    - type: Add
+      message: Added pool toy trait!
+  id: 115
+  time: '2026-02-13T09:17:55.0000000+00:00'
+- author: Generic_eagle
+  changes:
+    - type: Add
+      message: Added EMPs to the Aultman Industries Stalker and Deterrence
+    - type: Tweak
+      message: Turned the vacant office near Bridge into a HM office on Eaglerock.
+  id: 116
+  time: '2026-02-13T09:18:47.0000000+00:00'
+- author: Suraru
+  changes:
+    - type: Remove
+      message: Removes the SS14 decal from all wizden maps since they were broken
+  id: 117
+  time: '2026-02-13T09:20:10.0000000+00:00'
+- author: Suraru
+  changes:
+    - type: Add
+      message: Pink Hoodies
+  id: 118
+  time: '2026-02-13T09:22:21.0000000+00:00'
+- author: warcrazed11
+  changes:
+    - type: Add
+      message: >-
+        Added document cases to printing in autolathes, and the ability for them
+        to store disks.
+  id: 119
+  time: '2026-02-14T00:43:41.0000000+00:00'
+- author: warcrazed11
+  changes:
+    - type: Add
+      message: Added the volkite calvalier, Pistol, Charger, and Culverin
+  id: 120
+  time: '2026-02-14T22:53:21.0000000+00:00'
+- author: TrylobyteWasTaken
+  changes:
+    - type: Fix
+      message: Inflatable floors are no longer ripped up by spacing.
+    - type: Tweak
+      message: Inflatable floors are now deconstructed with a screwdriver.
+  id: 121
+  time: '2026-02-14T22:54:23.0000000+00:00'

@@ -160,7 +160,7 @@
     - map: ["computerLayerKeys"]
       state: blackmarket_key
   - type: ShipyardConsole
-    shipyardChannel: Freelance
+    shipyardChannel: Pirate
     #secretShipyardChannel: Nfsd #Find out via communicating with other players
     taxAccounts:
       Invalid: 0.30

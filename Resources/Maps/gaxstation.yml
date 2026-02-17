@@ -5453,41 +5453,6 @@ entities:
             2839: 27.985142,61.999886
         - node:
             color: '#FFFFFFFF'
-            id: SpaceStationSign1
-          decals:
-            1603: 65,20
-        - node:
-            color: '#FFFFFFFF'
-            id: SpaceStationSign2
-          decals:
-            1604: 66,20
-        - node:
-            color: '#FFFFFFFF'
-            id: SpaceStationSign3
-          decals:
-            1605: 67,20
-        - node:
-            color: '#FFFFFFFF'
-            id: SpaceStationSign4
-          decals:
-            1606: 68,20
-        - node:
-            color: '#FFFFFFFF'
-            id: SpaceStationSign5
-          decals:
-            1607: 69,20
-        - node:
-            color: '#FFFFFFFF'
-            id: SpaceStationSign6
-          decals:
-            1608: 70,20
-        - node:
-            color: '#FFFFFFFF'
-            id: SpaceStationSign7
-          decals:
-            1609: 71,20
-        - node:
-            color: '#FFFFFFFF'
             id: StandClear
           decals:
             4582: 25,-1

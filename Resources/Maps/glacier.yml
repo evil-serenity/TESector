@@ -5224,12 +5224,6 @@ entities:
             1167: -2,49
         - node:
             color: '#FFFFFFFF'
-            id: SpaceStationSign1
-          decals:
-            4746: -55,-9
-            4747: -55,-9
-        - node:
-            color: '#FFFFFFFF'
             id: StandClear
           decals:
             5869: 46,-21

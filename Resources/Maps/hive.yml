@@ -8079,41 +8079,6 @@ entities:
           decals:
             714: 45.524166,2.0617561
         - node:
-            color: '#FFFFFFFF'
-            id: SpaceStationSign1
-          decals:
-            4513: 20,19
-        - node:
-            color: '#FFFFFFFF'
-            id: SpaceStationSign2
-          decals:
-            4514: 21,19
-        - node:
-            color: '#FFFFFFFF'
-            id: SpaceStationSign3
-          decals:
-            4515: 22,19
-        - node:
-            color: '#FFFFFFFF'
-            id: SpaceStationSign4
-          decals:
-            4516: 23,19
-        - node:
-            color: '#FFFFFFFF'
-            id: SpaceStationSign5
-          decals:
-            4517: 24,19
-        - node:
-            color: '#FFFFFFFF'
-            id: SpaceStationSign6
-          decals:
-            4518: 25,19
-        - node:
-            color: '#FFFFFFFF'
-            id: SpaceStationSign7
-          decals:
-            4519: 26,19
-        - node:
             color: '#DE3A3ABF'
             id: StandClear
           decals:

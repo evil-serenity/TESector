@@ -7453,41 +7453,6 @@ entities:
           decals:
             13221: -25,30
         - node:
-            color: '#FFFFFFFF'
-            id: SpaceStationSign1
-          decals:
-            7462: 1,-14
-        - node:
-            color: '#FFFFFFFF'
-            id: SpaceStationSign2
-          decals:
-            7463: 2,-14
-        - node:
-            color: '#FFFFFFFF'
-            id: SpaceStationSign3
-          decals:
-            7464: 3,-14
-        - node:
-            color: '#FFFFFFFF'
-            id: SpaceStationSign4
-          decals:
-            7465: 4,-14
-        - node:
-            color: '#FFFFFFFF'
-            id: SpaceStationSign5
-          decals:
-            7466: 5,-14
-        - node:
-            color: '#FFFFFFFF'
-            id: SpaceStationSign6
-          decals:
-            7467: 6,-14
-        - node:
-            color: '#FFFFFFFF'
-            id: SpaceStationSign7
-          decals:
-            7468: 7,-14
-        - node:
             color: '#D4D4D496'
             id: StandClear
           decals:
