@@ -436,6 +436,129 @@ namespace Content.Server.Shuttles.Save
             }
         }
 
+        public ShipGridData SerializeShipArea(EntityUid gridId, NetUserId playerId, string shipName, Box2 bounds, HashSet<EntityUid>? excludeEntities = null)
+        {
+            var verbose = _configManager.GetCVar(Content.Shared.CCVar.CCVars.ShipyardSaveVerbose);
+            var excludeVending = _configManager.GetCVar(Content.Shared.HL.CCVar.HLCCVars.ExcludeVendingInShipSave);
+
+            if (!_entityManager.TryGetComponent<MapGridComponent>(gridId, out var grid))
+                throw new ArgumentException($"Grid with ID {gridId} not found.");
+
+            if (!_entityManager.EntityExists(gridId) || _entityManager.IsQueuedForDeletion(gridId))
+                throw new ArgumentException($"Grid with ID {gridId} is being deleted or doesn't exist.");
+
+            var gridTransform = _entityManager.GetComponent<TransformComponent>(gridId);
+            var originalGridRotation = gridTransform.LocalRotation;
+
+            try
+            {
+                if (originalGridRotation != Angle.Zero)
+                {
+                    if (verbose)
+                        _sawmill.Debug($"Normalizing grid rotation from {originalGridRotation.Degrees:F2}° to 0° for room save");
+                    _transform.SetLocalRotation(gridId, Angle.Zero, gridTransform);
+                }
+
+                var shipGridData = new ShipGridData
+                {
+                    Metadata = new ShipMetadata
+                    {
+                        OriginalGridId = gridId.ToString(),
+                        PlayerId = playerId.ToString(),
+                        ShipName = shipName,
+                        Timestamp = DateTime.UtcNow
+                    }
+                };
+
+                var gridData = new GridData
+                {
+                    GridId = gridId.ToString(),
+                    AtmosphereData = null,
+                    DecalData = null
+                };
+
+                var tiles = _map.GetAllTiles(gridId, grid);
+                foreach (var tile in tiles)
+                {
+                    var tileDef = _tileDefManager[tile.Tile.TypeId];
+                    if (tileDef.ID == "Space")
+                        continue;
+
+                    var pos = new Vector2(tile.GridIndices.X + 0.5f, tile.GridIndices.Y + 0.5f);
+                    if (!bounds.Contains(pos))
+                        continue;
+
+                    gridData.Tiles.Add(new TileData
+                    {
+                        X = tile.GridIndices.X,
+                        Y = tile.GridIndices.Y,
+                        TileType = tileDef.ID
+                    });
+                }
+
+                var serializedEntities = new HashSet<EntityUid>();
+                var childEnumerator = gridTransform.ChildEnumerator;
+                while (childEnumerator.MoveNext(out var childUid))
+                {
+                    if (excludeEntities != null && excludeEntities.Contains(childUid))
+                        continue;
+
+                    if (!_entityManager.EntityExists(childUid) || _entityManager.IsQueuedForDeletion(childUid))
+                        continue;
+
+                    if (!_entityManager.TryGetComponent<TransformComponent>(childUid, out var childTransform))
+                        continue;
+
+                    if (!childTransform.Anchored)
+                        continue;
+
+                    if (!bounds.Contains(childTransform.LocalPosition))
+                        continue;
+
+                    var meta = _entityManager.GetComponentOrNull<MetaDataComponent>(childUid);
+                    var proto = meta?.EntityPrototype?.ID ?? string.Empty;
+                    if (string.IsNullOrEmpty(proto))
+                        continue;
+
+                    if (excludeVending && _entityManager.HasComponent<VendingMachineComponent>(childUid))
+                        continue;
+
+                    var entityData = SerializeEntity(childUid, childTransform, proto, gridId);
+                    if (entityData != null)
+                    {
+                        gridData.Entities.Add(entityData);
+                        serializedEntities.Add(childUid);
+                    }
+                }
+
+                SerializeContainedEntities(gridId, gridData, serializedEntities);
+                ValidateContainerRelationships(gridData);
+
+                shipGridData.Grids.Add(gridData);
+
+                if (verbose)
+                    _sawmill.Debug($"Room serialized: {gridData.Entities.Count} entities, {gridData.Tiles.Count} tiles");
+
+                return shipGridData;
+            }
+            finally
+            {
+                if (originalGridRotation != Angle.Zero)
+                {
+                    try
+                    {
+                        _transform.SetLocalRotation(gridId, originalGridRotation, gridTransform);
+                        if (verbose)
+                            _sawmill.Debug($"Restored grid rotation to {originalGridRotation.Degrees:F2}° after room save");
+                    }
+                    catch (Exception ex)
+                    {
+                        _sawmill.Error($"Failed to restore grid rotation after room save: {ex.Message}");
+                    }
+                }
+            }
+        }
+
         private ShipGridData SerializeShipRefactored(EntityUid gridId, NetUserId playerId, string shipName)
         {
             if (!_entityManager.TryGetComponent<MapGridComponent>(gridId, out var grid))
@@ -1229,6 +1352,103 @@ namespace Content.Server.Shuttles.Save
             }
 
             return newGrid.Owner;
+        }
+
+        public void ReconstructShipOnExistingGrid(ShipGridData shipGridData, EntityUid targetGrid, System.Numerics.Vector2 offset)
+        {
+            if (shipGridData.Grids.Count == 0)
+                throw new ArgumentException("No grid data to reconstruct.");
+
+            if (!_entityManager.TryGetComponent<MapGridComponent>(targetGrid, out var gridComp))
+                throw new ArgumentException($"Target grid {targetGrid} not found.");
+
+            var primaryGridData = shipGridData.Grids[0];
+            var tileOffset = new Vector2i((int)MathF.Round(offset.X), (int)MathF.Round(offset.Y));
+
+            foreach (var tileData in primaryGridData.Tiles)
+            {
+                if (string.IsNullOrEmpty(tileData.TileType) || tileData.TileType == "Space")
+                    continue;
+
+                try
+                {
+                    var tileDef = _tileDefManager[tileData.TileType];
+                    var tile = new Tile(tileDef.TileId);
+                    var tileCoords = new Vector2i(tileData.X + tileOffset.X, tileData.Y + tileOffset.Y);
+                    _map.SetTile(targetGrid, gridComp, tileCoords, tile);
+                }
+                catch (Exception ex)
+                {
+                    _sawmill.Error($"Failed to place tile {tileData.TileType} at ({tileData.X}, {tileData.Y}): {ex.Message}");
+                }
+            }
+
+            var entityIdMapping = new Dictionary<string, EntityUid>();
+            var hasContainerData = primaryGridData.Entities.Any(e => e.IsContainer || e.IsContained);
+
+            if (!hasContainerData)
+            {
+                foreach (var entityData in primaryGridData.Entities)
+                {
+                    if (string.IsNullOrEmpty(entityData.Prototype))
+                        continue;
+
+                    var coords = new EntityCoordinates(targetGrid, entityData.Position + offset);
+                    var newEntity = SpawnEntityWithComponents(entityData, coords, clearDefaultsForContainers: false);
+                    if (newEntity != null)
+                        entityIdMapping[entityData.EntityId] = newEntity.Value;
+                }
+
+                return;
+            }
+
+            var nonContained = new List<EntityData>();
+            var contained = new List<EntityData>();
+
+            foreach (var entityData in primaryGridData.Entities)
+            {
+                if (string.IsNullOrEmpty(entityData.Prototype))
+                    continue;
+
+                if (entityData.IsContained)
+                    contained.Add(entityData);
+                else
+                    nonContained.Add(entityData);
+            }
+
+            foreach (var entityData in nonContained)
+            {
+                var coords = new EntityCoordinates(targetGrid, entityData.Position + offset);
+                var newEntity = SpawnEntityWithComponents(entityData, coords, clearDefaultsForContainers: true);
+                if (newEntity != null)
+                    entityIdMapping[entityData.EntityId] = newEntity.Value;
+            }
+
+            foreach (var entityData in contained)
+            {
+                var tempCoords = new EntityCoordinates(targetGrid, Vector2.Zero);
+                var containedEntity = SpawnEntityWithComponents(entityData, tempCoords, clearDefaultsForContainers: true);
+                if (containedEntity == null)
+                    continue;
+
+                entityIdMapping[entityData.EntityId] = containedEntity.Value;
+
+                if (!string.IsNullOrEmpty(entityData.ParentContainerEntity) &&
+                    !string.IsNullOrEmpty(entityData.ContainerSlot) &&
+                    entityIdMapping.TryGetValue(entityData.ParentContainerEntity, out var parentContainer))
+                {
+                    if (!InsertIntoContainer(containedEntity.Value, parentContainer, entityData.ContainerSlot))
+                    {
+                        _entityManager.DeleteEntity(containedEntity.Value);
+                        entityIdMapping.Remove(entityData.EntityId);
+                    }
+                }
+                else
+                {
+                    _entityManager.DeleteEntity(containedEntity.Value);
+                    entityIdMapping.Remove(entityData.EntityId);
+                }
+            }
         }
 
         public EntityUid ReconstructShip(ShipGridData shipGridData)

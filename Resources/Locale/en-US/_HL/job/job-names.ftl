@@ -1,5 +1,7 @@
 job-name-station-captain = Station Captain
 job-name-mantis = Mantis
+job-name-directorate = Directorate
+job-name-intelligence = LAMBA Operator
 
 # Job titles
 job-title-bounty-hunter = Bounty Hunter

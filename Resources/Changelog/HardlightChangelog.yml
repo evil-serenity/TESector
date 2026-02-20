@@ -1160,3 +1160,87 @@ Entries:
       message: Inflatable floors are now deconstructed with a screwdriver.
   id: 121
   time: '2026-02-14T22:54:23.0000000+00:00'
+- author: rtasva
+  changes:
+    - type: Add
+      message: Ported numerous clothes/armor from RMC
+    - type: Add
+      message: Added a new UNMC vending machine to the exped spawn pool
+  id: 122
+  time: '2026-02-17T23:53:16.0000000+00:00'
+- author: Suraru
+  changes:
+    - type: Add
+      message: Added CC Directorate
+    - type: Add
+      message: 'Added CC SOF Intelligence "LAMBA" operatives. '
+  id: 123
+  time: '2026-02-17T23:54:02.0000000+00:00'
+- author: Suraru
+  changes:
+    - type: Add
+      message: Added AME controllers to flatpack vending machine
+    - type: Tweak
+      message: Increased auto-cryo from 5m to 15m
+    - type: Tweak
+      message: greatly increases dock spawning radius
+  id: 124
+  time: '2026-02-17T23:54:23.0000000+00:00'
+- author: warcrazed11
+  changes:
+    - type: Add
+      message: Added Dart gun, printable in the med techfab!
+    - type: Tweak
+      message: Changed the volkite damage and fire rate.
+  id: 125
+  time: '2026-02-17T23:56:54.0000000+00:00'
+- author: fenndragon
+  changes:
+    - type: Add
+      message: Added per character apartment system
+  id: 126
+  time: '2026-02-18T00:02:16.0000000+00:00'
+- author: NotLivyathan
+  changes:
+    - type: Add
+      message: Client-sided wall-based ambient occlusion for soft shadows around walls.
+    - type: Add
+      message: >-
+        Grids that would reasonably have roofs now have roofs that block weather
+        effects and gas overlays.
+    - type: Tweak
+      message: >-
+        AME fuel jars and rad collector plasma tanks now persist on save/load
+        when contained within an AME/rad collector.
+    - type: Tweak
+      message: Crates can once again be anchored.
+    - type: Fix
+      message: False walls will no longer revert states when welded during save/load.
+    - type: Fix
+      message: >-
+        Airlocks, gas canisters, lockers, and crates no longer lose custom
+        paintjobs on save/load.
+    - type: Fix
+      message: 'Custom lights no longer revert to default lights on save/load. '
+  id: 127
+  time: '2026-02-19T04:58:43.0000000+00:00'
+- author: warcrazed11
+  changes:
+    - type: Tweak
+      message: made genetic injectors unsavable.
+    - type: Tweak
+      message: made genetic console undeconstructable.
+  id: 128
+  time: '2026-02-19T04:59:03.0000000+00:00'
+- author: warcrazed11
+  changes:
+    - type: Add
+      message: Adds the pissing trait. It... lets you piss...
+  id: 129
+  time: '2026-02-19T05:01:15.0000000+00:00'
+- author: Suraru
+  changes:
+    - type: Tweak
+      message: You can now eat money
+  id: 130
+  time: '2026-02-19T05:03:00.0000000+00:00'
