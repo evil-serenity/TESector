@@ -1314,3 +1314,21 @@ Entries:
       message: Scurrets can now equip bags of holding.
   id: 140
   time: '2026-02-21T03:19:40.0000000+00:00'
+- author: NotLivyathan
+  changes:
+    - type: Add
+      message: >-
+        Alt+click now takes beakers from ChemMasters instead of initiating a
+        vault.
+    - type: Add
+      message: Alt+click now signs papers when executed while holding a pen.
+    - type: Fix
+      message: >-
+        Alt+click will no longer attempt to open the transfer UI when executed
+        on a beaker.
+    - type: Fix
+      message: >-
+        Consents will no longer be violated upon alt+click and will once again
+        execute normal actions before lewd ones.
+  id: 141
+  time: '2026-02-21T16:25:57.0000000+00:00'
