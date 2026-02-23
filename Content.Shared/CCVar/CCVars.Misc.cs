@@ -1,4 +1,4 @@
-﻿using Robust.Shared.Configuration;
+using Robust.Shared.Configuration;
 
 namespace Content.Shared.CCVar;
 
@@ -26,6 +26,12 @@ public sealed partial class CCVars
     /// </summary>
     public static readonly CVarDef<float> AnomalyGenerationGridBoundsScale =
         CVarDef.Create("anomaly.generation_grid_bounds_scale", 0.6f, CVar.SERVERONLY);
+
+    /// <summary>
+    ///     Whether the AFK cleanup system is enabled.
+    /// </summary>
+    public static readonly CVarDef<bool> AfkCleanupEnabled =
+        CVarDef.Create("afk.cleanup", false, CVar.SERVERONLY);
 
     /// <summary>
     ///     How long a client can go without any input before being considered AFK.
