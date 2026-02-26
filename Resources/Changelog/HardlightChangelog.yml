@@ -1402,3 +1402,9 @@ Entries:
       message: Added a Livyathan plushie!
   id: 150
   time: '2026-02-24T21:37:39.0000000+00:00'
+- author: Generic_Eagle
+  changes:
+    - type: Add
+      message: Added Security and Command companies and applied them to said jobs.
+  id: 151
+  time: '2026-02-26T05:33:32.0000000+00:00'
