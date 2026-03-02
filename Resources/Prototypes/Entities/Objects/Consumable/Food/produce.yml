@@ -36,6 +36,9 @@
   id: FoodProduceBase
   abstract: true
   components:
+  - type: Perishable
+    rotAfter: 300 # 5 minutes outside a body until rotting, 15 to completely perish
+    molsPerSecondPerUnitMass: 0
   - type: SolutionContainerManager
   - type: Sprite
     state: produce
