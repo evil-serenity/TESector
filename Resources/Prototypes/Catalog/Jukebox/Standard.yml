@@ -116,6 +116,12 @@
   id: deathsquad
   name: Death Squad
   path:
+    path: /Audio/Jukebox/Disposalunit.ogg
+
+- type: jukebox
+  id: disposalunit
+  name: Disposal Unit
+  path:
     path: /Audio/Jukebox/DeathSquad.ogg
 
 - type: jukebox
@@ -183,6 +189,12 @@
   name: Kings
   path:
     path: /Audio/Jukebox/Kings.ogg
+
+- type: jukebox
+  id: lostinrhythm
+  name: Lost In The Rhythm
+  path:
+    path: /Audio/Jukebox/LostInTheRhythm.ogg
 
 - type: jukebox
   id: lastninja3
