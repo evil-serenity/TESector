@@ -1585,3 +1585,9 @@ Entries:
       message: 'term loose to hazard category in AAC tablet '
   id: 171
   time: '2026-03-03T08:34:53.0000000+00:00'
+- author: NotLivyathan
+  changes:
+    - type: Add
+      message: Added a placeholder system for Patreon supporter custom entities.
+  id: 172
+  time: '2026-03-05T22:29:36.0000000+00:00'
