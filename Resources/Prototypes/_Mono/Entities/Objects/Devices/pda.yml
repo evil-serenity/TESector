@@ -9,6 +9,7 @@
     - CrewManifestCartridge
     - NotekeeperCartridge
     - NewsReaderCartridge
+    - LawsReaderCartridge
     - BountyContractsCartridge
     - AstroNavCartridge
 
@@ -23,6 +24,7 @@
     - CrewManifestCartridge
     - NotekeeperCartridge
     - NewsReaderCartridge
+    - LawsReaderCartridge
     - BountyContractsCartridge
     - AstroNavCartridge
     - MedTekCartridge

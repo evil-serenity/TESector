@@ -101,6 +101,7 @@
       - NotekeeperCartridge
       - NanoTaskCartridge
       - NewsReaderCartridge
+      - LawsReaderCartridge
       - BountyContractsCartridge
       - AstroNavCartridge
   - type: Tag #  Ignore Chameleon tags

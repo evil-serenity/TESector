@@ -11,6 +11,7 @@
   parent:
     - BaseStation
     - BaseStationNews
+    - BaseStationLaws
     - BaseStationCargo
     - BaseStationJobsSpawning
     - BaseStationRecords
@@ -30,6 +31,7 @@
     - BaseStationSectorServices
     - NFBaseStationCargo
     - BaseStationSectorNews
+    - BaseStationSectorLaws
     - BaseStationSiliconLawFrontierStation
     - BaseStationRenameWarpPoints
     - BaseStationMail
@@ -69,11 +71,13 @@
   - BaseStation
   - BaseStationJobsSpawning
   - BaseStationNews
+  - BaseStationLaws
   - BaseStationRecords
   - BaseStationSiliconLawFrontierStation
   - BaseStationSectorNews
   - BaseStationMail # Mail
   - BaseStationSectorServices # Hosts all sector-wide services
+  - BaseStationSectorLaws
   - BaseStationDampening
   - BaseStationDeadDropHintExempt # No hints
   - BaseStationRenameWarpPoints
