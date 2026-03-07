@@ -12,6 +12,7 @@
     - LawsReaderCartridge
     - BountyContractsCartridge
     - AstroNavCartridge
+    - NanoChatCartridge
 
 - type: entity
   parent: BasePDA

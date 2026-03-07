@@ -104,6 +104,7 @@
       - LawsReaderCartridge
       - BountyContractsCartridge
       - AstroNavCartridge
+      - NanoChatCartridge
   - type: Tag #  Ignore Chameleon tags
     tags:
     - DoorBumpOpener
