@@ -94,6 +94,7 @@
       - NotekeeperCartridge
       - NanoTaskCartridge
       - NewsReaderCartridge
+      - LawsReaderCartridge
       - BountyContractsCartridge # Frontier
       - AstroNavCartridge # Frontier
       - NanoChatCartridge # DeltaV
@@ -178,6 +179,7 @@
     - NotekeeperCartridge
     - NanoTaskCartridge
     - NewsReaderCartridge
+    - LawsReaderCartridge
     - BountyContractsCartridge # Frontier
     - AstroNavCartridge # Frontier
     - WantedListCartridge
@@ -195,6 +197,7 @@
       - NotekeeperCartridge
       - NanoTaskCartridge
       - NewsReaderCartridge
+      - LawsReaderCartridge
       - BountyContractsCartridge # HardLight
       - AstroNavCartridge # HardLight
       - MedTekCartridge
@@ -573,6 +576,7 @@
       - NotekeeperCartridge
       - NanoTaskCartridge
       - NewsReaderCartridge
+      - LawsReaderCartridge
       - BountyContractsCartridge # HardLight
       - AstroNavCartridge
       - NanoChatCartridge # DeltaV
@@ -949,6 +953,7 @@
     - NotekeeperCartridge
     - NanoTaskCartridge
     - NewsReaderCartridge
+    - LawsReaderCartridge
     - BountyContractsCartridge # HardLight
     - AstroNavCartridge # HardLight
     - WantedListCartridge
@@ -1024,6 +1029,7 @@
       - NotekeeperCartridge
       - NanoTaskCartridge
       - NewsReaderCartridge
+      - LawsReaderCartridge
       - AstroNavCartridge
       - BountyContractsCartridge # HardLight
       - MedTekCartridge
@@ -1054,6 +1060,7 @@
       - NotekeeperCartridge
       - NanoTaskCartridge
       - NewsReaderCartridge
+      - LawsReaderCartridge
       - BountyContractsCartridge # HardLight
       - AstroNavCartridge
       - LogProbeCartridge
@@ -1212,6 +1219,7 @@
       - NotekeeperCartridge
       - NanoTaskCartridge
       - NewsReaderCartridge
+      - LawsReaderCartridge
       - BountyContractsCartridge # HardLight
       - AstroNavCartridge
       - MedTekCartridge
@@ -1386,6 +1394,7 @@
     - NotekeeperCartridge
     - NanoTaskCartridge
     - NewsReaderCartridge
+    - LawsReaderCartridge
     - BountyContractsCartridge # HardLight
     - AstroNavCartridge # HardLight
     - WantedListCartridge
@@ -1417,6 +1426,7 @@
     - NotekeeperCartridge
     - NanoTaskCartridge
     - NewsReaderCartridge
+    - LawsReaderCartridge
     - BountyContractsCartridge # HardLight
     - AstroNavCartridge # HardLight
     - WantedListCartridge

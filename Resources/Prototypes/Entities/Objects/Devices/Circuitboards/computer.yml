@@ -122,6 +122,23 @@
 
 - type: entity
   parent: BaseComputerCircuitboard
+  id: ComputerLawsCircuitboard
+  name: laws manager console board
+  description: Write your laws!
+  components:
+  - type: Sprite
+    state: cpu_security
+  - type: ComputerBoard
+    prototype: ComputerLaws
+  - type: ComputerTabletopBoard
+    prototype: ComputerTabletopLaws
+  - type: Construction
+    deconstructionTarget: null
+    graph: ComputerCircuitBoard
+    node: laws
+
+- type: entity
+  parent: BaseComputerCircuitboard
   id: StationRecordsComputerCircuitboard
   name: station records computer board
   description: A computer printed circuit board for a station records computer.
@@ -384,7 +401,7 @@
     prototype: ComputerSurveillanceWirelessCameraMonitor
   - type: ComputerTabletopBoard # Frontier
     prototype: ComputerTabletopSurveillanceWirelessCameraMonitor # Frontier
-  
+
 - type: entity
   parent: BaseComputerCircuitboard
   id: XenoborgCameraMonitorCircuitboard
