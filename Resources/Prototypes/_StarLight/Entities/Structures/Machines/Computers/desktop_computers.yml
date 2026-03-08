@@ -194,6 +194,15 @@
     board: CriminalRecordsComputerCircuitboardDesktop
 
 - type: entity
+  parent: [ BaseDesktop, ComputerLaws ]
+  id: ComputerLawsDesktop
+  name: laws manager desktop computer
+  description: Write your laws! Only Head of Security can modify them.
+  components:
+  - type: Computer
+    board: ComputerLawsCircuitboardDesktop
+
+- type: entity
   parent: [ BaseDesktop, ComputerStationRecords ]
   id: ComputerStationRecordsDesktop
   name: employment records desktop computer

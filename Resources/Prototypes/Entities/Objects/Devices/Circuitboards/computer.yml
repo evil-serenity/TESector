@@ -124,7 +124,7 @@
   parent: BaseComputerCircuitboard
   id: ComputerLawsCircuitboard
   name: laws manager console board
-  description: Write your laws!
+  description: A computer printed circuit board for a laws manager computer.
   components:
   - type: Sprite
     state: cpu_security
