@@ -114,24 +114,6 @@
       - Forensics
 
 - type: entity
-  parent: NFBasePDACartridge
-  id: LawsReaderCartridge
-  name: laws cartridge
-  description: A program for reading laws.
-  components:
-  - type: Sprite
-    sprite: Objects/Devices/cartridge.rsi
-    state: cart-y
-  - type: UIFragment
-    ui: !type:LawsReaderUi
-  - type: Cartridge
-    programName: laws-read-program-name
-    icon:
-      sprite: Interface/Misc/program_icons.rsi
-      state: laws_read
-  - type: LawsReaderCartridge
-
-- type: entity
   parent: NFBasePDACartridge # Frontier: BaseItem<NFBasePDACartridge
   id: WantedListCartridge
   name: Wanted list cartridge
