@@ -26,7 +26,6 @@
   <ItemGroup>
     <Folder Include="DeltaV\Abilities\" />
     <Folder Include="_Impstation\" />
-    <Folder Include="_TE\_NF\" />
   </ItemGroup>
   <!-- Explicitly include .CM14 shared sources; dot-prefixed folders may be excluded by default globs -->
   <ItemGroup>

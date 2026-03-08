@@ -22,7 +22,6 @@
       - NotekeeperCartridge
       - NanoTaskCartridge
       - NewsReaderCartridge
-      - LawsReaderCartridge
       - BountyContractsCartridge
       - AstroNavCartridge
       - WantedListCartridge
@@ -162,7 +161,6 @@
     - NotekeeperCartridge
     - NanoTaskCartridge
     - NewsReaderCartridge
-    - LawsReaderCartridge
     - BountyContractsCartridge
     - AstroNavCartridge
     - WantedListCartridge
@@ -385,7 +383,6 @@
     - NotekeeperCartridge
     - NanoTaskCartridge
     - NewsReaderCartridge
-    - LawsReaderCartridge
     - BountyContractsCartridge
     - AstroNavCartridge
     - LedgerCartridge
@@ -488,7 +485,6 @@
     - NotekeeperCartridge
     - NanoTaskCartridge
     - NewsReaderCartridge
-    - LawsReaderCartridge
     - BountyContractsCartridge
     - AstroNavCartridge
     - LedgerCartridge

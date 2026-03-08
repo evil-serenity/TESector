@@ -25,8 +25,6 @@ log-probe-printout-device = Scanned Device: {$name}
 log-probe-printout-header = Latest logs:
 log-probe-printout-entry = #{$number} / {$time} / {$accessor}
 
-laws-read-program-name = Station laws
-
 astro-nav-program-name = AstroNav
 
 med-tek-program-name = MedTek
