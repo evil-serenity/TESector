@@ -132,7 +132,7 @@
           type: WiresBoundUserInterface
   - type: RadarConsole
   - type: WorldLoader
-    radius: 256 # Mono
+    radius: 656 # Mono
   - type: PointLight
     radius: 1.5
     energy: 1.6
@@ -219,9 +219,9 @@
     tags:
       - Syndicate
   - type: RadarConsole
-    maxRange: 256
+    maxRange: 756
   - type: WorldLoader
-    radius: 256
+    radius: 656
   - type: PointLight
     radius: 1.5
     energy: 1.6
@@ -252,7 +252,7 @@
     components:
       - type: CargoShuttle
   - type: RadarConsole
-    maxRange: 256
+    maxRange: 512
   - type: PointLight
     radius: 1.5
     energy: 1.6
@@ -918,7 +918,7 @@
     - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
       state: generic_panel_open
   - type: RadarConsole
-    maxRange: 256 # Frontier
+    maxRange: 512 # Frontier
     maxIffRange: 512 # Frontier
   - type: ActivatableUI
     key: enum.RadarConsoleUiKey.Key
