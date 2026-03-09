@@ -1,9 +1,11 @@
 using Content.Server.Afk;
 using Content.Server.Afk.Events;
 using Content.Server.Mind;
+using Content.Shared.CCVar;
 using Content.Shared.Ghost;
 using Content.Shared.Mind;
 using Robust.Server.Player;
+using Robust.Shared.Configuration;
 using Robust.Shared.Enums;
 using Robust.Shared.Network;
 using Robust.Shared.Player;
@@ -18,6 +20,7 @@ public sealed class InactivityCleanupSystem : EntitySystem
 {
     [Dependency] private readonly IAfkManager _afkManager = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly IConfigurationManager _cfg = default!;
     [Dependency] private readonly IPlayerManager _playerManager = default!;
     [Dependency] private readonly MindSystem _mindSystem = default!;
 
@@ -77,6 +80,10 @@ public sealed class InactivityCleanupSystem : EntitySystem
     public override void Update(float frameTime)
     {
         base.Update(frameTime);
+
+        // Skip clean up if the system is disabled.
+        if (!_cfg.GetCVar(CCVars.AfkCleanupEnabled))
+            return;
 
         if (_timing.RealTime < _nextCheck)
             return;
