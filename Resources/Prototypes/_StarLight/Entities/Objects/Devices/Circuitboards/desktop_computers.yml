@@ -77,6 +77,19 @@
       node: crimeDesktop
 
 - type: entity
+  parent: ComputerLawsCircuitboard
+  id: ComputerLawsCircuitboardDesktop
+  name: laws manager desktop computer board
+  description: A circuit board for a laws manager desktop computer.
+  components:
+  - type: ComputerBoard
+    prototype: ComputerLawsDesktop
+  - type: Construction
+    deconstructionTarget: null
+    graph: ComputerCircuitBoard
+    node: lawsDesktop
+
+- type: entity
   parent: StationRecordsComputerCircuitboard
   id: StationRecordsComputerCircuitboardDesktop
   name: employment records desktop computer board
