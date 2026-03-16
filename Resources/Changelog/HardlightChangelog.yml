@@ -1743,3 +1743,29 @@ Entries:
       message: Added a new maints hallway to Eaglerock, among other changes.
   id: 189
   time: '2026-03-14T00:57:57.0000000+00:00'
+- author: TrylobyteWasTaken
+  changes:
+    - type: Tweak
+      message: >-
+        Shuttle speed is now capped at 50m/s instead of 75, owing to Hardlight
+        having a smaller 'play area' than Frontier or Monolith.
+    - type: Fix
+      message: Weapons fired while moving will now obey physics.
+    - type: Fix
+      message: >-
+        Mining Pulser projectile speed has been increased so you can't shoot
+        yourself with them.
+  id: 190
+  time: '2026-03-15T18:56:45.0000000+00:00'
+- author: Sully669
+  changes:
+    - type: Fix
+      message: Fixed interactions showing target/origin as their uid
+  id: 191
+  time: '2026-03-15T18:57:20.0000000+00:00'
+- author: Sully669
+  changes:
+    - type: Fix
+      message: fixed broken access for genetics and journalism
+  id: 192
+  time: '2026-03-15T18:57:41.0000000+00:00'
