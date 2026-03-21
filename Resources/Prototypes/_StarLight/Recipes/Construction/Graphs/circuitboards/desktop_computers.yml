@@ -93,6 +93,21 @@
       - tool: Screwing
         doAfter: 2
 
+  - node: laws
+    entity: ComputerLawsCircuitboard
+    edges:
+    - to: lawsDesktop
+      steps:
+      - tool: Screwing
+        doAfter: 2
+  - node: lawsDesktop
+    entity: ComputerLawsCircuitboardDesktop
+    edges:
+    - to: laws
+      steps:
+      - tool: Screwing
+        doAfter: 2
+
   - node: stationRecords
     entity: StationRecordsComputerCircuitboard
     edges:

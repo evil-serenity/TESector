@@ -69,7 +69,7 @@
     supplyRampTolerance: 500
     supplyRampRate: 500
   - type: NFSolarPanel # Frontier: SolarPanel<NFSolarPanel (grid-based tracking)
-    maxSupply: 2000
+    maxSupply: 3000
   - type: Sprite
     sprite: Structures/Power/Generation/solar_panel.rsi
     state: solar_panel_plasma
@@ -103,7 +103,7 @@
     supplyRampTolerance: 500
     supplyRampRate: 500
   - type: NFSolarPanel # Frontier: SolarPanel<NFSolarPanel (grid-based tracking)
-    maxSupply: 4500
+    maxSupply: 5500
   - type: Sprite
     sprite: Structures/Power/Generation/solar_panel.rsi
     state: solar_panel_uranium
@@ -136,6 +136,7 @@
   - type: PowerSupplier
     supplyRampTolerance: 500
     supplyRampRate: 500
+    maxSupply: 5500
   - type: NFSolarPanel # Frontier: SolarPanel<NFSolarPanel (grid-based tracking)
   - type: Damageable
     damageContainer: StructuralInorganic
