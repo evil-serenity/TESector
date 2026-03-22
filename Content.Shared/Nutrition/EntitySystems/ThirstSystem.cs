@@ -172,7 +172,7 @@ public sealed class ThirstSystem : EntitySystem
         {
             case ThirstThreshold.OverHydrated:
                 component.LastThirstThreshold = component.CurrentThirstThreshold;
-                component.ActualDecayRate = component.BaseDecayRate * 1.2f;
+                component.ActualDecayRate = component.BaseDecayRate * 0.4f;
                 return;
 
             case ThirstThreshold.Okay:
@@ -183,12 +183,12 @@ public sealed class ThirstSystem : EntitySystem
             case ThirstThreshold.Thirsty:
                 // Same as okay except with UI icon saying drink soon.
                 component.LastThirstThreshold = component.CurrentThirstThreshold;
-                component.ActualDecayRate = component.BaseDecayRate * 0.8f;
+                component.ActualDecayRate = component.BaseDecayRate * 0.2f;
                 return;
             case ThirstThreshold.Parched:
                 _movement.RefreshMovementSpeedModifiers(uid);
                 component.LastThirstThreshold = component.CurrentThirstThreshold;
-                component.ActualDecayRate = component.BaseDecayRate * 0.6f;
+                component.ActualDecayRate = component.BaseDecayRate * 0.1f;
                 return;
 
             case ThirstThreshold.Dead:
