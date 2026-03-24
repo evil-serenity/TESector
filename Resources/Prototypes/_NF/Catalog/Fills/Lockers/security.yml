@@ -1,3 +1,32 @@
+- type: entityTable
+  id: MercLoot
+  table: !type:GroupSelector
+    children:
+    - id: ClothingBeltWebbingMecranaryTier1Pistol
+      weight: 0.5
+    - id: ClothingBackpackDuffelMecranaryTier2Revolver
+      weight: 0.3
+    - id: ClothingBeltWebbingMecranaryTier2Revolver
+      weight: 0.3
+    - id: ClothingBeltMecranaryTier3Medic
+      weight: 0.2
+    - id: ClothingBackpackDuffelMecranaryTier3Medic
+      weight: 0.2
+
+- type: entityTable
+  id: MercLockerLoot
+  table: !type:AllSelector
+    children:
+    - !type:NestedSelector
+      tableId: MercLoot
+      rolls: !type:RangeNumberSelector
+        range: 1, 1
+    - !type:NestedSelector
+      tableId: MercLoot
+      prob: 0.6
+      rolls: !type:RangeNumberSelector
+        range: 1, 1
+
 - type: entity
   id: LockerMercenaryFilled
   suffix: Filled
@@ -9,6 +38,16 @@
       - id: HandHeldMassScanner
       - id: WeaponGrapplingGun
       - id: BoxZiptie
+
+- type: entity
+  id: LockerMercenaryWreck
+  suffix: WreckFilled
+  parent: LockerMercenary
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      entity_storage: !type:NestedSelector
+        tableId: MercLockerLoot
 
 - type: entity
   id: LockerNfsdSilverDetectiveFilled
