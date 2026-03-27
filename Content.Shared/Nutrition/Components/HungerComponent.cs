@@ -68,8 +68,8 @@ public sealed partial class HungerComponent : Component
     [AutoNetworkedField]
     public Dictionary<HungerThreshold, float> Thresholds = new()
     {
-        { HungerThreshold.Overfed, 200.0f },
-        { HungerThreshold.Okay, 150.0f },
+        { HungerThreshold.Overfed, 300.0f },
+        { HungerThreshold.Okay, 200.0f },
         { HungerThreshold.Peckish, 100.0f },
         { HungerThreshold.Starving, 50.0f },
         { HungerThreshold.Dead, 0.0f }
@@ -97,11 +97,11 @@ public sealed partial class HungerComponent : Component
     [AutoNetworkedField]
     public Dictionary<HungerThreshold, float> HungerThresholdDecayModifiers = new()
     {
-        { HungerThreshold.Overfed, 1.2f },
-        { HungerThreshold.Okay, 1f },
-        { HungerThreshold.Peckish, 0.8f },
-        { HungerThreshold.Starving, 0.6f },
-        { HungerThreshold.Dead, 0.6f }
+        { HungerThreshold.Overfed, 0.4f },
+        { HungerThreshold.Okay, 0.3f },
+        { HungerThreshold.Peckish, 0.2f },
+        { HungerThreshold.Starving, 0.1f },
+        { HungerThreshold.Dead, 0.1f }
     };
 
     /// <summary>
@@ -109,7 +109,7 @@ public sealed partial class HungerComponent : Component
     /// </summary>
     [DataField("starvingSlowdownModifier"), ViewVariables(VVAccess.ReadWrite)]
     [AutoNetworkedField]
-    public float StarvingSlowdownModifier = 0.75f;
+    public float StarvingSlowdownModifier = 0.85f;
 
     /// <summary>
     /// Damage dealt when your current threshold is at HungerThreshold.Dead
