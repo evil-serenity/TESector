@@ -1934,3 +1934,63 @@ Entries:
       message: Syrup has had its nutritional value restored.
   id: 211
   time: '2026-03-24T05:07:07.0000000+00:00'
+- author: VoidedDevNull
+  changes:
+    - type: Add
+      message: Geneticist room/spawn on box
+    - type: Tweak
+      message: Added better kitchen gear to box
+    - type: Fix
+      message: 'Fixes station captain spawn on  '
+  id: 212
+  time: '2026-03-25T23:18:36.0000000+00:00'
+- author: IrkallaEpsilon
+  changes:
+    - type: Fix
+      message: Tajara can be psychic now.
+  id: 213
+  time: '2026-03-25T23:19:17.0000000+00:00'
+- author: warcrazed11
+  changes:
+    - type: Tweak
+      message: Tweaked Peregrines contraband level due to damage dealt.
+    - type: Tweak
+      message: >-
+        lowers peregrine's damage to 25 pierce, 5 heat, 5 shock, 50 structural,
+        and 20 stamina
+  id: 214
+  time: '2026-03-25T23:19:52.0000000+00:00'
+- author: NotLivyathan
+  changes:
+    - type: Fix
+      message: >-
+        Space docks should no longer have the potential to vibrate into
+        nullspace and crash the server.
+  id: 215
+  time: '2026-03-25T23:21:19.0000000+00:00'
+- author: NotLivyathan
+  changes:
+    - type: Add
+      message: >-
+        Galio plushies have been delivered via Nanotrasen mail services, which
+        for some reason is a thing ColComm supports.
+  id: 216
+  time: '2026-03-26T21:18:22.0000000+00:00'
+- author: NotLivyathan
+  changes:
+    - type: Add
+      message: Chat text can now be highlighted for ease of readability.
+  id: 217
+  time: '2026-03-26T21:19:09.0000000+00:00'
+- author: VoidedDevNull
+  changes:
+    - type: Tweak
+      message: IPCs now have binary built in
+  id: 218
+  time: '2026-03-26T21:19:27.0000000+00:00'
+- author: VoidedDevNull
+  changes:
+    - type: Fix
+      message: .45 Magnum magazines properly reflect their ammo fill
+  id: 219
+  time: '2026-03-26T21:21:13.0000000+00:00'

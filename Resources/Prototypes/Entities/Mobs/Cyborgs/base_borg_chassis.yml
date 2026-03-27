@@ -70,12 +70,11 @@
         type: BorgBoundUserInterface
       enum.StrippingUiKey.Key:
         type: StrippableBoundUserInterface
-      #enum.SurgeryUIKey.Key: # Disabled: borgs are silicon, not surgery targets
-      #  type: SurgeryBui
+      enum.SurgeryUIKey.Key:
+        type: SurgeryBui
   - type: ActivatableUI
     key: enum.BorgUiKey.Key
-  - type: Targeting # Shitmed Change
-  # - type: SurgeryTarget # Sandwich: Borgs are silicon, not surgery targets
+  - type: Targeting # Shitmed
   - type: SiliconLawBound
   - type: ActionGrant
     actions:
@@ -86,7 +85,7 @@
   - type: SiliconLawProvider
     laws: Crewsimov
   - type: Inventory
-    templateId: borgnorm # Hardlight. Edits regular borgs to use our Inventories.
+    templateId: borgnorm # Hardlight: Edits regular borgs to use our inventories.
   - type: Hands
     showInHands: false
     disableExplosionRecursion: true

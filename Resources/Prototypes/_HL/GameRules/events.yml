@@ -2023,7 +2023,7 @@
     entries:
     - id: MobEmotionalSupportScurret
       prob: 0.05
-      
+
 - type: entity
   id: Beehallucination
   parent: [VentCrittersBase, BaseGameRule]
