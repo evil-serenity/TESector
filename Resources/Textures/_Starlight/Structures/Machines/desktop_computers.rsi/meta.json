@@ -155,6 +155,11 @@
   			"copyright": "Citrea"
         },
         {
+            "name": "security",
+            "directions": 4,
+  			"copyright": "evil-serenity"
+        },
+        {
             "name": "science_key",
             "directions": 4,
   			"copyright": "Citrea"
