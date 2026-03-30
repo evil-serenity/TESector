@@ -1,49 +1,48 @@
-using Content.Server.Chemistry.Components;
-using Content.Shared.Chemistry.EntitySystems;
-using Content.Shared._NF.Shipyard.Components;
-using Content.Shared._NF.Shipyard.Events;
-using Content.Shared.DeviceLinking;
-using Content.Shared.DeviceLinking.Components;
-using Content.Shared.Shuttles.Save; // For SendShipSaveDataClientMessage
-using Content.Server.Atmos.Piping.Components;
-using Content.Server.Power.Components;
-using Content.Server.Power.EntitySystems;
-using Content.Shared.VendingMachines;
-using Robust.Shared.Player;
-using Robust.Shared.Map.Components;
-using Robust.Shared.EntitySerialization.Systems;
-using Robust.Shared.Utility;
-using Robust.Shared.ContentPack;
-using Robust.Server.Player;
-using Robust.Shared.EntitySerialization;
-using Robust.Shared.Physics.Components;
-using Robust.Shared.Containers;
 using System.IO;
 using System.Threading.Tasks;
+using Content.Server.Atmos.Piping.Components;
+using Content.Server.Chemistry.Components;
+using Content.Server.Construction.Components;
+using Content.Server.Power.Components;
+using Content.Server.Power.EntitySystems;
+using Content.Server.Store.Components; // HardLight
+using Content.Server._HL.Shipyard; // HardLight
+using Content.Shared._Common.Consent; // HardLight
+using Content.Shared._HL.Shipyard; // HardLight
+using Content.Shared._NF.Shipyard.Components;
+using Content.Shared._NF.Shipyard.Events;
+using Content.Shared.Chemistry.Components;
+using Content.Shared.Chemistry.Components.SolutionManager;
+using Content.Shared.Chemistry.EntitySystems;
+using Content.Shared.DeviceLinking;
+using Content.Shared.DeviceLinking.Components;
+using Content.Shared.Implants.Components; // HardLight
+using Content.Shared.Light.Components; // HardLight
+using Content.Shared.Mind.Components; // HardLight
+using Content.Shared.Shuttles.Save; // For SendShipSaveDataClientMessage
+using Content.Shared.SprayPainter.Components; // HardLight
+using Content.Shared.SprayPainter.Prototypes; // HardLight
+using Content.Shared.Storage.Components;
+using Content.Shared.VendingMachines;
+using Content.Shared.Wall; // WallMountComponent for preserving wall-mounted fixtures
+using Robust.Server.GameObjects; // HardLight
+using Robust.Server.Player;
+using Robust.Shared.Containers;
+using Robust.Shared.ContentPack;
+using Robust.Shared.EntitySerialization;
+using Robust.Shared.EntitySerialization.Systems;
+using Robust.Shared.Map.Components;
+using Robust.Shared.Physics;
+using Robust.Shared.Physics.Components;
+using Robust.Shared.Player;
+using Robust.Shared.Prototypes; // HardLight
+using Robust.Shared.Serialization;
 using Robust.Shared.Serialization.Markdown.Mapping;
 using Robust.Shared.Serialization.Markdown.Sequence;
 using Robust.Shared.Serialization.Markdown.Value;
-using YamlDotNet.RepresentationModel;
+using Robust.Shared.Utility;
 using YamlDotNet.Core;
-using Robust.Shared.Serialization;
-using Content.Shared.Storage.Components;
-using Content.Shared.Wall; // WallMountComponent for preserving wall-mounted fixtures
-using Robust.Shared.Physics;
-using Content.Shared.Chemistry.Components;
-using Content.Shared.Chemistry.Components.SolutionManager;
-using Content.Server.Construction.Components;
-using Content.Shared._HL.Shipyard;
-// HardLight start
-using Content.Server.Store.Components;
-using Content.Shared._Common.Consent;
-using Content.Shared.Implants.Components;
-using Content.Shared.Light.Components;
-using Content.Shared.Mind.Components;
-using Content.Shared.SprayPainter.Components;
-using Content.Shared.SprayPainter.Prototypes;
-using Robust.Server.GameObjects;
-using Robust.Shared.Prototypes;
-// HardLight end
+using YamlDotNet.RepresentationModel;
 
 namespace Content.Server._NF.Shipyard.Systems;
 
@@ -54,23 +53,13 @@ namespace Content.Server._NF.Shipyard.Systems;
 /// </summary>
 public sealed class ShipyardGridSaveSystem : EntitySystem
 {
-    // HardLight start
-    // List of currency prototypes that should be stripped from ship saves.
+    // HardLight: List of currency prototypes that should be stripped from ship saves.
     private static readonly HashSet<string> NonPersistentShipSaveCurrencies = new(StringComparer.Ordinal)
     {
         "FrontierUplinkCoin",
         "Telecrystal",
         "Doubloon",
     };
-
-    // Implants that should not persist when found inside implanters during ship save.
-    private static readonly HashSet<string> BlockedContainedImplantPrototypes = new(StringComparer.Ordinal)
-    {
-        "DeathRattleImplantColcomm",
-        "RadioImplantColcomm",
-        "UplinkImplant",
-    };
-    // HardLight end
 
     [Dependency] private readonly IEntityManager _entityManager = default!;
     [Dependency] private readonly IEntitySystemManager _entitySystemManager = default!;
@@ -1583,23 +1572,6 @@ public sealed class ShipyardGridSaveSystem : EntitySystem
             }
         }
     }
-
-    private static void ApplyPaintStyleToAppearance(MappingDataNode appearanceComp, string stylePrototype)
-    {
-        MappingDataNode appearanceDataInit;
-        if (appearanceComp.TryGet("appearanceDataInit", out MappingDataNode? existing) && existing != null)
-        {
-            appearanceDataInit = existing;
-        }
-        else
-        {
-            appearanceDataInit = new MappingDataNode();
-            appearanceComp["appearanceDataInit"] = appearanceDataInit;
-        }
-
-        appearanceDataInit["enum.PaintableVisuals.Prototype"] = new ValueDataNode(stylePrototype);
-    }
-    // HardLight end
 
     private string WriteYamlToString(MappingDataNode node)
     {
