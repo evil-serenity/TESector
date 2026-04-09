@@ -35,7 +35,7 @@
   checkEntityName: true
   logins:
   - FeatheredMenace
-  entity: XenoQuadfeathered
+  entity: PlayerBorgQuadfeathered
 
 - type: spawnCharacterOverrideRule
   id: Glitzonspawn
@@ -44,7 +44,7 @@
   checkEntityName: true
   logins:
   - RUINtheDRAGON
-  entity: BorgChassisGl1tz
+  entity: PlayerBorgQuadGlitz
   
 - type: spawnCharacterOverrideRule
   id: Dogborgonspawn
@@ -53,7 +53,7 @@
   checkEntityName: true
   logins:
   - MyNameIsRune 
-  entity: BorgChassisDog
+  entity: PlayerBorgQuaddog
   
 - type: spawnCharacterOverrideRule
   id: Petalborgonspawn
@@ -73,6 +73,34 @@
   - MystiCanine
   entity: PlayerBorgQuadMoss
 
+
+- type: spawnCharacterOverrideRule
+  id: Quadvizonspawn
+  match: VexonOrkali
+  checkProfileName: true
+  checkEntityName: true
+  logins:
+  - VexonOrkali
+  entity: PlayerBorgQuadViz
+
+- type: spawnCharacterOverrideRule
+  id: orchidonspawn
+  match: Vytian
+  checkProfileName: true
+  checkEntityName: true
+  logins:
+  - Vytian
+  entity: PlayerBorgQuadorchid
+
+- type: spawnCharacterOverrideRule
+  id: engiservspawn
+  match: potato3s
+  checkProfileName: true
+  checkEntityName: true
+  logins:
+  - potato3s
+  entity: PlayerBorgQuadengiserv
+  
 ## Component example
 - type: spawnCharacterOverrideRule
   id: abyssbloodverzi
