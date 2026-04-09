@@ -106,5 +106,5 @@ public sealed class HLCCVars
     /// Starlight: Sends afk players to cryo.
     /// </summary>
     public static readonly CVarDef<bool> CryoTeleportation =
-        CVarDef.Create("game.cryo_teleportation", true, CVar.SERVERONLY);
+        CVarDef.Create("game.cryo_teleportation", false, CVar.SERVERONLY);
 }

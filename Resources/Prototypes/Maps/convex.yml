@@ -68,8 +68,8 @@
             #silicon (4)
             StationAi: [ 1, 1 ]
             Borg: [ 3, 3 ]
-            #Contractor: [ -1, -1 ]
-            #Pilot: [ 5, 5 ]
+            Contractor: [ -1, -1 ]
+            Pilot: [ 5, 5 ]
             Mercenary: [ 0, 40 ]
             MedicalQuadBorg: [ 3, 3 ]
             ServiceQuadBorg: [ 3, 3 ]
