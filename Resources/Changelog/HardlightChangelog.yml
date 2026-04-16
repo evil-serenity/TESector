@@ -2752,3 +2752,11 @@ Entries:
       message: Normal shuttle windows to the RCD
   id: 292
   time: '2026-04-16T20:46:03.0000000+00:00'
+- author: R3v3l4t1on
+  changes:
+    - type: Fix
+      message: Removes a test fail from the PILE
+    - type: Fix
+      message: MapChecker works again after someone broke it.
+  id: 293
+  time: '2026-04-16T20:46:41.0000000+00:00'
