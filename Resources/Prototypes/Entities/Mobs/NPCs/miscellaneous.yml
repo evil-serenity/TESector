@@ -79,6 +79,35 @@
   parent: [SimpleSpaceMobBase, BaseBorgChassisNotIonStormable]
   description: From who the hell knows. 
   components:
+    - type: LayingDown
+    - type: IdExaminable
+    - type: InventorySlots
+    - type: Stripping
+    - type: Strippable
+    #- type: Cuffable
+    - type: Hands
+    - type: Access
+    - type: Tag
+      tags:
+        - CanPilot
+        - FootstepSound
+        - DoorBumpOpener
+    - type: Prying
+      pryPowered: true
+      force: true
+      speedModifier: 20 # fast because dragon strong
+      useSound:
+        path: /Audio/Items/crowbar.ogg
+    - type: Targeting # Shitmed Change
+    - type: SurgeryTarget # Shitmed Change
+    - type: Pullable
+    - type: Puller
+    - type: AnimationPlayer
+    - type: CanEscapeInventory
+    - type: CanEnterCryostorage
+    - type: StandingState
+    - type: BodyEmotes
+      soundsId: GeneralBodyEmotes
     - type: Body # Shitmed Change
       prototype: LaserRaptor
     - type: NpcFactionMember
@@ -88,23 +117,44 @@
       rootTask:
         task: SimpleRangedHostileCompound
     - type: BorgChassis
-    maxModules: 5
-    moduleWhitelist:
-      tags:
-      - BorgModuleGeneric
-      - XenoborgModuleGeneric
-      - BorgModuleSecurity
-      - BorgModuleSyndicate
-      - BorgModuleSyndicateAssault
-    hasMindState: drdinobonese
-    noMindState: drdinobonesl
+      maxModules: 5
+      moduleWhitelist:
+        tags:
+        - BorgModuleGeneric
+        - XenoborgModuleGeneric
+        - BorgModuleSecurity
+        - BorgModuleSyndicate
+        - BorgModuleSyndicateAssault
+      hasMindState: drdinobonese
+      noMindState: drdinobonesl
+    - type: ContainerFill
+      containers:
+        borg_brain:
+          - PositronicBrain
+        borg_module:
+          - BorgModuleKill
+          - BorgModuleTool
+          - BorgModuleAdvancedSurgery
+    - type: ItemSlots
+      slots:
+        cell_slot:
+          name: power-cell-slot-component-slot-name-default
+          startingItem: PowerCellAntiqueProto
     - type: Sprite
       drawdepth: Mobs
       sprite: _HL/Mobs/Characters/drdb.rsi
       scale: 0.7, 0.7
       layers:
-        - map: [ "enum.DamageStateVisualLayers.Base" ]
-          state: drdinobones
+        - state: drdinobones
+          map: [ "enum.DamageStateVisualLayers.Base" ]
+        - state: drdinobonese
+          map: ["enum.BorgVisualLayers.Light"]
+          shader: unshaded
+          visible: false
+        - state: drdinobonesl
+          shader: unshaded
+          map: ["light"]
+          visible: false
     - type: Fixtures
       fixtures:
         fix1:
@@ -119,11 +169,8 @@
     - type: MovementSpeedModifier
       baseWalkSpeed: 2
       baseSprintSpeed: 5
-    - type: Tag
-      tags:
-        - FootstepSound
     - type: HitscanBatteryAmmoProvider
-      proto: NFRedLightLaser # Frontier: use NF variant
+      proto: Abysslaser # Frontier: use NF variant
       fireCost: 50
     - type: BatterySelfRecharger
       autoRecharge: true
@@ -132,12 +179,12 @@
       maxCharge: 1000
       startingCharge: 1000
     - type: Gun
-      fireRate: 1
+      fireRate: 5
       useKey: false
-      selectedMode: SemiAuto
+      selectedMode: FullAuto
       availableModes:
-        - SemiAuto
-      soundGunshot: /Audio/Weapons/Guns/Gunshots/laser_cannon.ogg
+        - FullAuto
+      soundGunshot: /Audio/_HL/Effects/abysslaser.ogg
     - type: CombatMode
     - type: InteractionPopup
       successChance: 0.3
@@ -321,7 +368,7 @@
     - type: InventorySlots
     - type: Stripping
     - type: Strippable
-    - type: Cuffable
+    #- type: Cuffable
     - type: Hands
     - type: Access
     - type: Tag
