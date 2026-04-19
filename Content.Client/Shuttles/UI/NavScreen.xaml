@@ -137,8 +137,8 @@
                         <controls:SliderIntInput Name="MaximumIFFDistanceValue"
                                                  Access="Public"
                                                  MinValue="0"
-                                                 MaxValue="3000"
-                                                 Value="3000"
+                                                 MaxValue="7500"
+                                                 Value="7500"
                                                  HorizontalExpand="True"/>
                     </controls:BoxContainer>
                     <!-- End Frontier - Maximum IFF Distance -->
