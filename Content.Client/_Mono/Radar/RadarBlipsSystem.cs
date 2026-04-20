@@ -1,5 +1,6 @@
 using System.Numerics;
 using Content.Shared._Mono.Radar;
+using Content.Shared.Shuttles.Components;
 using Robust.Shared.Map;
 using Robust.Shared.Timing;
 using System.Linq;
@@ -13,7 +14,6 @@ public sealed partial class RadarBlipsSystem : EntitySystem
     [Dependency] private readonly SharedTransformSystem _xform = default!;
 
     private const double BlipStaleSeconds = 3.0;
-    private const float MaxBlipRenderDistance = 256f;
     private static readonly List<(NetEntity? Grid, Vector2 Start, Vector2 End, float Thickness, Color Color)> EmptyHitscanList = new();
     private TimeSpan _lastRequestTime = TimeSpan.Zero;
     public static readonly TimeSpan RequestThrottle = TimeSpan.FromMilliseconds(500);
@@ -23,6 +23,7 @@ public sealed partial class RadarBlipsSystem : EntitySystem
     private List<HitscanNetData> _hitscans = new();
     private List<BlipConfig> _configPalette = new();
     private Vector2 _radarWorldPosition;
+    private float _radarRenderDistanceSq = float.MaxValue;
 
     // cached results to avoid allocating on every draw/frame
     private readonly List<BlipData> _cachedBlipData = new();
@@ -62,6 +63,9 @@ public sealed partial class RadarBlipsSystem : EntitySystem
 
         // Cache the radar position for distance culling
         _radarWorldPosition = _xform.GetWorldPosition(console);
+        _radarRenderDistanceSq = TryComp<RadarConsoleComponent>(console, out var radar)
+            ? radar.MaxRange * radar.MaxRange
+            : float.MaxValue;
         var netConsole = GetNetEntity(console);
         var ev = new RequestBlipsEvent(netConsole);
         RaiseNetworkEvent(ev);
@@ -141,8 +145,8 @@ public sealed partial class RadarBlipsSystem : EntitySystem
                 var startDist = Vector2.DistanceSquared(worldStart, _radarWorldPosition);
                 var endDist = Vector2.DistanceSquared(worldEnd, _radarWorldPosition);
 
-                if (startDist > MaxBlipRenderDistance * MaxBlipRenderDistance &&
-                    endDist > MaxBlipRenderDistance * MaxBlipRenderDistance)
+                if (startDist > _radarRenderDistanceSq &&
+                    endDist > _radarRenderDistanceSq)
                     continue;
 
                 result.Add((worldStart, worldEnd, hitscan.Thickness, hitscan.Color));
@@ -167,8 +171,8 @@ public sealed partial class RadarBlipsSystem : EntitySystem
                 var startDist = Vector2.DistanceSquared(worldStart, _radarWorldPosition);
                 var endDist = Vector2.DistanceSquared(worldEnd, _radarWorldPosition);
 
-                if (startDist > MaxBlipRenderDistance * MaxBlipRenderDistance &&
-                    endDist > MaxBlipRenderDistance * MaxBlipRenderDistance)
+                if (startDist > _radarRenderDistanceSq &&
+                    endDist > _radarRenderDistanceSq)
                     continue;
 
                 result.Add((worldStart, worldEnd, hitscan.Thickness, hitscan.Color));
@@ -200,8 +204,8 @@ public sealed partial class RadarBlipsSystem : EntitySystem
                 var startDist = Vector2.DistanceSquared(hitscan.Start, _radarWorldPosition);
                 var endDist = Vector2.DistanceSquared(hitscan.End, _radarWorldPosition);
 
-                if (startDist <= MaxBlipRenderDistance * MaxBlipRenderDistance ||
-                    endDist <= MaxBlipRenderDistance * MaxBlipRenderDistance)
+                if (startDist <= _radarRenderDistanceSq ||
+                    endDist <= _radarRenderDistanceSq)
                 {
                     filteredHitscans.Add((hitscan.Grid, hitscan.Start, hitscan.End, hitscan.Thickness, hitscan.Color));
                 }
@@ -224,8 +228,8 @@ public sealed partial class RadarBlipsSystem : EntitySystem
                 var startDist = Vector2.DistanceSquared(worldStart, _radarWorldPosition);
                 var endDist = Vector2.DistanceSquared(worldEnd, _radarWorldPosition);
 
-                if (startDist <= MaxBlipRenderDistance * MaxBlipRenderDistance ||
-                    endDist <= MaxBlipRenderDistance * MaxBlipRenderDistance)
+                if (startDist <= _radarRenderDistanceSq ||
+                    endDist <= _radarRenderDistanceSq)
                 {
                     filteredHitscans.Add((hitscan.Grid, hitscan.Start, hitscan.End, hitscan.Thickness, hitscan.Color));
                 }
