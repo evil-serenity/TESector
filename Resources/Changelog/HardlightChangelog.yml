@@ -2963,3 +2963,11 @@ Entries:
         their job slot.
   id: 320
   time: '2026-04-22T21:06:55.0000000+00:00'
+- author: TrylobyteWasTaken
+  changes:
+    - type: Fix
+      message: SmartFridges should work again.
+    - type: Fix
+      message: SmartFridges should no longer block ships from saving.
+  id: 321
+  time: '2026-04-22T21:08:13.0000000+00:00'
