@@ -398,7 +398,7 @@
       shader: unshaded
       map: ["light"]
       visible: false  
-   - type: BorgChassis
+  - type: BorgChassis
     maxModules: 8
     moduleWhitelist:
       tags:
