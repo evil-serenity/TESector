@@ -3019,3 +3019,9 @@ Entries:
         multiple grids.
   id: 326
   time: '2026-04-23T23:33:27.0000000+00:00'
+- author: Illumos
+  changes:
+    - type: Tweak
+      message: Glasses now properly fix short-sightedness.
+  id: 327
+  time: '2026-04-23T23:34:43.0000000+00:00'
