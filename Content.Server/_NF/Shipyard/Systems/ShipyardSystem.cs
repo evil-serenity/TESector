@@ -453,6 +453,12 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
         if (ShipyardMap == null)
             return false;
 
+        if (LooksLikeStandardGridYaml(yamlData))
+        {
+            _sawmill.Debug("[ShipLoad] Skipping ship-data fallback for standard grid YAML.");
+            return false;
+        }
+
         try
         {
             var shipData = _shipSerialization.DeserializeShipGridDataFromYaml(yamlData, Guid.Empty, out _);
@@ -620,7 +626,8 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
             if (documents.Length != 1 || documents[0].Root is not MappingDataNode root)
                 return PruneLoadYamlReferencesToRemovedEntitiesLineBased(yamlData, removedEntityUids);
 
-            PruneLoadNodeReferencesToRemovedEntities(root, removedEntityUids);
+            var knownEntityUids = CollectSerializedEntityUids(root);
+            PruneLoadNodeReferencesToRemovedEntities(root, removedEntityUids, knownEntityUids);
             return WriteLoadYamlNodeToString(root);
         }
         catch
@@ -630,7 +637,7 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
     }
 
     // Structured pass for pruning stale container and storage references.
-    private static void PruneLoadNodeReferencesToRemovedEntities(MappingDataNode root, HashSet<string> removedEntityUids)
+    private static void PruneLoadNodeReferencesToRemovedEntities(MappingDataNode root, HashSet<string> removedEntityUids, HashSet<string> knownEntityUids)
     {
         if (!root.TryGet("entities", out SequenceDataNode? protoSeq) || protoSeq == null)
             return;
@@ -645,7 +652,7 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
                 foreach (var entityNode in entitiesSeq)
                 {
                     if (entityNode is MappingDataNode entMap)
-                        PruneLoadEntityNodeReferences(entMap, removedEntityUids);
+                        PruneLoadEntityNodeReferences(entMap, removedEntityUids, knownEntityUids);
                 }
 
                 continue;
@@ -653,11 +660,11 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
 
             // Older ship saves can use a flat legacy entities list under the root `entities:` section.
             // If the parsed YAML is in that shape, each item here is already an entity node.
-            PruneLoadEntityNodeReferences(protoMap, removedEntityUids);
+            PruneLoadEntityNodeReferences(protoMap, removedEntityUids, knownEntityUids);
         }
     }
 
-    private static void PruneLoadEntityNodeReferences(MappingDataNode entMap, HashSet<string> removedEntityUids)
+    private static void PruneLoadEntityNodeReferences(MappingDataNode entMap, HashSet<string> removedEntityUids, HashSet<string> knownEntityUids)
     {
         if (!entMap.TryGet("components", out SequenceDataNode? comps) || comps == null)
             return;
@@ -704,6 +711,31 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
                 continue;
             }
 
+            if (componentType == "Actions")
+            {
+                if (!compMap.TryGet("actions", out SequenceDataNode? actionsNode) || actionsNode == null)
+                    continue;
+
+                for (var idx = actionsNode.Count - 1; idx >= 0; idx--)
+                {
+                    if (actionsNode[idx] is not ValueDataNode actionValue || actionValue.IsNull)
+                    {
+                        actionsNode.RemoveAt(idx);
+                        continue;
+                    }
+
+                    var normalized = NormalizeSerializedUidToken(actionValue.Value);
+                    if (normalized.Length == 0
+                        || IsStaleSerializedUidReference(normalized, removedEntityUids)
+                        || !knownEntityUids.Contains(normalized))
+                    {
+                        actionsNode.RemoveAt(idx);
+                    }
+                }
+
+                continue;
+            }
+
             if (componentType == "Transform")
             {
                 if (compMap.TryGet("parent", out ValueDataNode? parentNode)
@@ -734,6 +766,45 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
             foreach (var key in removeKeys)
                 storedItemsMap.Remove(key);
         }
+    }
+
+    private static HashSet<string> CollectSerializedEntityUids(MappingDataNode root)
+    {
+        var knownEntityUids = new HashSet<string>(StringComparer.Ordinal);
+
+        if (!root.TryGet("entities", out SequenceDataNode? protoSeq) || protoSeq == null)
+            return knownEntityUids;
+
+        foreach (var protoNode in protoSeq)
+        {
+            if (protoNode is not MappingDataNode protoMap)
+                continue;
+
+            if (protoMap.TryGet("entities", out SequenceDataNode? entitiesSeq) && entitiesSeq != null)
+            {
+                foreach (var entityNode in entitiesSeq)
+                {
+                    if (entityNode is MappingDataNode entMap)
+                        AddSerializedEntityUid(entMap, knownEntityUids);
+                }
+
+                continue;
+            }
+
+            AddSerializedEntityUid(protoMap, knownEntityUids);
+        }
+
+        return knownEntityUids;
+    }
+
+    private static void AddSerializedEntityUid(MappingDataNode entMap, HashSet<string> knownEntityUids)
+    {
+        if (!entMap.TryGet("uid", out ValueDataNode? uidNode) || uidNode == null || uidNode.IsNull)
+            return;
+
+        var normalized = NormalizeSerializedUidToken(uidNode.Value);
+        if (normalized.Length > 0)
+            knownEntityUids.Add(normalized);
     }
 
     // Write the edited YAML tree back out.
@@ -851,7 +922,7 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
     // Check whether a serialized UID points at something we already stripped out.
     private static bool IsStaleSerializedUidReference(string uidToken, HashSet<string> removedEntityUids)
     {
-        var normalized = uidToken.Trim().Trim('"', '\'');
+        var normalized = NormalizeSerializedUidToken(uidToken);
         if (normalized.Length == 0)
             return false;
 
@@ -859,6 +930,21 @@ public sealed partial class ShipyardSystem : SharedShipyardSystem
             return true;
 
         return StaleSerializedUidTokens.Contains(normalized);
+    }
+
+    private static string NormalizeSerializedUidToken(string uidToken)
+    {
+        return uidToken.Trim().Trim('"', '\'');
+    }
+
+    private static bool LooksLikeStandardGridYaml(string yamlData)
+    {
+        if (string.IsNullOrWhiteSpace(yamlData))
+            return false;
+
+        return yamlData.Contains("tilemap:", StringComparison.Ordinal)
+               || yamlData.Contains("orphans:", StringComparison.Ordinal)
+               || yamlData.Contains("maps:", StringComparison.Ordinal);
     }
 
     /// <summary>
