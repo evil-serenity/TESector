@@ -115,6 +115,15 @@ public sealed class HLCCVars
             desc: "Max station-side docks considered during shipyard purchase docking. <= 0 disables the cap on this side.");
 
     /// <summary>
+    /// HardLight: number of UseDelay component resets to process per tick during the post-load
+    /// sanitize phase of a freshly loaded ship. Set to 0 to disable spreading and do all resets
+    /// synchronously (original behavior).
+    /// </summary>
+    public static readonly CVarDef<int> ShipLoadDeferredUseDelayBudget =
+        CVarDef.Create("hardlight.shipload.deferred_usedelay_budget", 32, CVar.SERVERONLY,
+            desc: "Per-tick budget for deferred UseDelay resets after ship load. 0 disables deferral (sync reset).");
+
+    /// <summary>
     ///     Goobstation: Whether or not to allow mech weaponry to be used out of mechs.
     /// </summary>
     public static readonly CVarDef<bool> MechGunOutsideMech =
