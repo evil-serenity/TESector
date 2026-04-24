@@ -3103,3 +3103,11 @@ Entries:
         issues that affected ships saved before the ship-save sanitizer existed.
   id: 334
   time: '2026-04-24T19:12:46.0000000+00:00'
+- author: Kronyxxx
+  changes:
+    - type: Fix
+      message: >-
+        Loading an apartment/room save no longer leaves furniture, walls and
+        other
+  id: 335
+  time: '2026-04-24T20:42:39.0000000+00:00'
