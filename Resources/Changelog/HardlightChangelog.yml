@@ -3059,3 +3059,16 @@ Entries:
         exists.
   id: 329
   time: '2026-04-23T23:49:42.0000000+00:00'
+- author: Kronyxxx
+  changes:
+    - type: Fix
+      message: >-
+        use the existing per-station `TryGetJobSlot` helper, which already
+        returns `MIN(localSlots, globalSlots)` and gates on
+        `IsAdvertisedLateJoinJob` exactly the way `TryAssignJob` does.
+    - type: Fix
+      message: >-
+        Late-join lobby now shows the same job slot counts that the join check
+        actually enforces, so jobs that look open really are open.
+  id: 330
+  time: '2026-04-24T00:16:07.0000000+00:00'
