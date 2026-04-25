@@ -121,7 +121,8 @@ public sealed class InjectorSystem : SharedInjectorSystem
     {
         if (TryComp<BlockInjectionComponent>(target, out var blockComponent)) // DeltaV
         {
-            var msg = Loc.GetString($"injector-component-deny-{blockComponent.BlockReason}");
+            var msg = Loc.GetString($"injector-component-deny-{blockComponent.BlockReason}",
+                ("target", Identity.Entity(target, EntityManager)));
             Popup.PopupEntity(msg, target, user);
 
             if (!_playerManager.TryGetSessionByEntity(target, out var session))
