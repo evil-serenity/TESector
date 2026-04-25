@@ -111,6 +111,89 @@
         key: Target
         coordinatesKey: TargetCoordinates
 
+# Short-range shooter for derelict-style hostile ships (e.g. xenoborg
+# "byte" drones). When something with a ShipNpcTarget is within ~1200m
+# the byte opens fire; otherwise it wanders between random waypoints in
+# an annulus around the world origin (smart patrol). Pairs with mounted
+# (non-piloting) AI turrets.
+- type: htnCompound
+  id: ShooterShuttleByteCompound
+  branches:
+  # 1. Combat: a hostile shuttle is in range, shoot at it.
+  - tasks:
+    - !type:HTNPrimitiveTask
+      operator: !type:UtilityOperator
+        proto: NearbyShuttleTargetsByte
+    - !type:HTNPrimitiveTask
+      operator: !type:ShipFireGunsOperator
+        shutdownState: TaskFinished
+        removeKeyOnFinish: false
+        leadingAccuracy: 0.4 # stupid
+        maxTargetingRange: 1200
+        targetKey: TargetCoordinates
+      services:
+      - !type:UtilityService
+        id: TargetsService
+        proto: NearbyShuttleTargetsByte
+        key: Target
+        coordinatesKey: TargetCoordinates
+  # 2. Patrol: no targets, wander to a random waypoint in the 7-20 km
+  #    annulus around (0,0). Replans on completion to pick a new point.
+  - tasks:
+    - !type:HTNPrimitiveTask
+      operator: !type:PickRandomMapWaypointOperator
+        outputKey: ShipPatrolWaypoint
+        minDistance: 7000
+        maxDistance: 20000
+    - !type:HTNPrimitiveTask
+      operator: !type:ShipMoveToOperator
+        targetKey: ShipPatrolWaypoint
+        removeKeyOnFinish: true
+        mode: GoToRange
+        range: 250
+        rangeTolerance: 200
+        avoidCollisions: true
+        avoidProjectiles: false
+        leadingEnabled: false
+        requireAnchored: false
+        # Waypoints can be up to ~40 km away from the ship's current
+        # position; keep MaxTargetingRange well above that so the
+        # operator doesn't drop the waypoint mid-flight.
+        maxTargetingRange: 60000
+
+# Combined "byte" AI: stationary by default, switches to a chasing
+# attacker if the ShipAggroSystem has set the "Aggroed" blackboard key
+# (player crossed 500m or shot the ship). Aggro auto-expires after the
+# duration on ShipAggroComponent, returning the ship to passive shooter.
+- type: htnCompound
+  id: ShooterShuttleByteAggroCompound
+  branches:
+  - preconditions:
+    - !type:KeyExistsPrecondition
+      key: Aggroed
+    tasks:
+    - !type:HTNCompoundTask
+      task: AttackerShuttleSmartCompound
+  - tasks:
+    - !type:HTNCompoundTask
+      task: ShooterShuttleByteCompound
+
+- type: utilityQuery
+  id: NearbyShuttleTargetsByte
+  query:
+  - !type:NearbyHostileShuttlesQuery
+    range: 1200
+    blacklist:
+      tags:
+      - ShuttleAIIgnore
+  considerations:
+  - !type:TargetInverseDistanceCon
+    curve: !type:QuadraticCurve
+      slope: 1
+      exponent: 1
+      yOffset: 0
+      xOffset: 0
+
 - type: utilityQuery
   id: NearbyShuttleTargets
   query:

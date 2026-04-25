@@ -1,5 +1,6 @@
 using System.Numerics;
 using Content.Server._Mono.FireControl;
+using Content.Server._Mono.NPC.HTN;
 using Content.Shared.DeviceLinking.Events;
 using Content.Server.DeviceLinking.Systems;
 using Content.Server.Power.Components;
@@ -26,6 +27,7 @@ public sealed partial class SpaceArtillerySystem : EntitySystem
     [Dependency] private readonly SharedTransformSystem _xform = default!;
     [Dependency] private readonly SharedCameraRecoilSystem _recoilSystem = default!;
     [Dependency] private readonly FireControlSystem _fireControl = default!;
+    [Dependency] private readonly ShipAggroSystem _aggro = default!;
 
     private const float DISTANCE = 100;
     private const float BIG_DAMAGE = 1000;
@@ -164,6 +166,9 @@ public sealed partial class SpaceArtillerySystem : EntitySystem
         var grid = Transform(hitEvent.Target).GridUid;
         if (grid == null)
             return;
+
+        // Notify any AI ship core on the hit grid so it can wake up and chase.
+        _aggro.NotifyGridHit(grid.Value);
 
         var players = Filter.Empty();
         players.AddInGrid((EntityUid)grid);

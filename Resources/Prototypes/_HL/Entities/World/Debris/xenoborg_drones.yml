@@ -1,5 +1,5 @@
 # Xenoborg autonomous combat drone spawners for deep space encounters
-# These spawn beyond 5.5K distance as rare hostile encounters
+# These spawn beyond 5K distance from world origin as rare hostile encounters
 
 - type: entity
   id: XenoborgDroneBase
@@ -9,6 +9,8 @@
   components:
   - type: GridSpawner
     nameGrid: true
+  - type: MinSpawnDistanceFromOrigin
+    distance: 5000
   - type: IFF
     color: "#ff4444" # Red for hostile
   - type: SpaceDebris
