@@ -3163,3 +3163,14 @@ Entries:
         available.
   id: 340
   time: '2026-04-25T05:03:31.0000000+00:00'
+- author: Kronyxxx
+  changes:
+    - type: Tweak
+      message: >-
+        Radar console blip refresh and gathering have been overhauled for
+        performance — heavy combat with multiple ships loaded should see
+        noticeably smoother server tick times. Admins can live-tune
+        `hardlight.radar.min_request_ms` / `hardlight.radar.cache_ttl_ms` if
+        they want a different refresh cadence.
+  id: 341
+  time: '2026-04-25T05:08:32.0000000+00:00'
