@@ -1,0 +1,43 @@
+- type: injectorMode
+  id: InjectorModeBase
+  abstract: true
+  transferAmounts: [1, 5, 10, 15]
+  mobTime: 5
+  delayPerVolume: 0.1
+  popupUserAttempt: injector-component-injecting-user
+  popupTargetAttempt: injector-component-injecting-target
+
+- type: injectorMode
+  id: InjectorModeInject
+  parent: InjectorModeBase
+  name: injector-mode-inject-name
+  behavior: Inject
+
+- type: injectorMode
+  id: InjectorModeDraw
+  parent: InjectorModeBase
+  name: injector-mode-draw-name
+  behavior: Draw
+  popupUserAttempt: injector-component-drawing-user
+  popupTargetAttempt: injector-component-drawing-target
+
+- type: injectorMode
+  id: InjectorModeDynamicInject
+  parent: InjectorModeBase
+  name: injector-mode-dynamic-name
+  behavior: Dynamic
+  transferAmounts: [5, 10, 15]
+
+- type: injectorMode
+  id: InjectorModeDynamicInjectAdvanced
+  parent: InjectorModeBase
+  name: injector-mode-dynamic-name
+  behavior: Dynamic
+  transferAmounts: [5, 10, 15, 20]
+
+- type: injectorMode
+  id: InjectorModeDynamicInjectInterdyne
+  parent: InjectorModeBase
+  name: injector-mode-dynamic-name
+  behavior: Dynamic
+  transferAmounts: [5, 10, 15, 20, 30]

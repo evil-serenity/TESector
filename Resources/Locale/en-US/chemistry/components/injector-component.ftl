@@ -2,9 +2,14 @@
 
 injector-draw-text = Draw
 injector-inject-text = Inject
+injector-toggle-verb-text = Toggle mode
 injector-invalid-injector-toggle-mode = Invalid
 injector-volume-label = Volume: [color=white]{$currentVolume}/{$totalVolume}[/color]
     Mode: [color=white]{$modeString}[/color] ([color=white]{$transferVolume}u[/color])
+
+injector-mode-inject-name = Inject
+injector-mode-draw-name = Draw
+injector-mode-dynamic-name = Dynamic
 
 ## Entity
 
