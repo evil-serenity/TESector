@@ -3328,3 +3328,9 @@ Entries:
       message: BSO magboots
   id: 357
   time: '2026-04-28T07:37:31.0000000+00:00'
+- author: fenndragon
+  changes:
+    - type: Fix
+      message: 'caseless ammo no longer hallucinates casings '
+  id: 358
+  time: '2026-04-28T10:04:52.0000000+00:00'
