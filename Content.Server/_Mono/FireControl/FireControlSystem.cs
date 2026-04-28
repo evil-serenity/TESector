@@ -541,16 +541,16 @@ public sealed partial class FireControlSystem : EntitySystem
             var goalAngle = Angle.FromWorldVec(direction);
 
             // Align visual rotation with this gun's configured local forward direction.
-            if (hasGun && gun.DefaultDirection.LengthSquared() > float.Epsilon)
-                goalAngle -= Angle.FromWorldVec(gun.DefaultDirection);
+            if (hasGun && gun is { } rotateGun && rotateGun.DefaultDirection.LengthSquared() > float.Epsilon)
+                goalAngle -= Angle.FromWorldVec(rotateGun.DefaultDirection);
 
             _rotateToFace.TryRotateTo(weapon, goalAngle, 0f, Angle.FromDegrees(1), float.MaxValue, weaponXform);
         }
 
         // Try to get a gun component and fire the weapon
-        if (hasGun)
+        if (gun is { } fireGun)
         {
-            _gun.AttemptShots(user, weapon, gun, coords, TimeSpan.FromSeconds(0.2));
+            _gun.AttemptShots(user, weapon, fireGun, coords, TimeSpan.FromSeconds(0.2));
             return true;
         }
 
