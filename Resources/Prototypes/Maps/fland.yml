@@ -1,22 +1,21 @@
 - type: gameMap
-  id: Elkridge
-  mapName: 'Elkridge Depot'
-  mapPath: /Maps/elkridge.yml
+  id: Fland
+  mapName: 'Fland Installation'
+  mapPath: /Maps/fland.yml
   minPlayers: 0
-  #maxPlayers: 45
   stations:
-    Elkridge:
+    Fland:
       stationProto: StandardNanotrasenStation
       components:
         - type: StationNameSetup
-          mapNameTemplate: '{0} Elkridge Depot {1}'
+          mapNameTemplate: '{0} Fland Installation {1}'
           nameGenerator:
             !type:NanotrasenNameGenerator
-            prefixCreator: 'DS'
-#        - type: StationEmergencyShuttle
-#          emergencyShuttlePath: /Maps/Shuttles/emergency_elkridge.yml
-#        - type: StationCargoShuttle
-#          path: /Maps/Shuttles/cargo_elkridge.yml
+            prefixCreator: 'B'
+        #- type: StationEmergencyShuttle
+        #  emergencyShuttlePath: /Maps/Shuttles/emergency.yml
+        - type: StationCargoShuttle
+          path: /Maps/Shuttles/cargo_fland.yml
         - type: StationJobs
           availableJobs: # HardLight: Reordered + additions added
             # Command (8)
@@ -80,6 +79,6 @@
             Mime: [ 2, 2 ]
             Musician: [ 2, 2 ]
         - type: StationDeadDrop
-          maxDeadDrops: 2 # medium small station
+          maxDeadDrops: 2 # large station
         - type: StationDeadDropReporting
           messageSet: Nfsd

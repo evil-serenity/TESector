@@ -1,23 +1,23 @@
 - type: gameMap
-  id: Elkridge
-  mapName: 'Elkridge Depot'
-  mapPath: /Maps/elkridge.yml
+  id: Convex
+  mapName: 'Convex'
+  mapPath: /Maps/convex.yml
   minPlayers: 0
-  #maxPlayers: 45
   stations:
-    Elkridge:
+    Convex:
       stationProto: StandardNanotrasenStation
       components:
         - type: StationNameSetup
-          mapNameTemplate: '{0} Elkridge Depot {1}'
+          mapNameTemplate: '{0} Convex Recreational Complex {1}'
           nameGenerator:
             !type:NanotrasenNameGenerator
-            prefixCreator: 'DS'
-#        - type: StationEmergencyShuttle
-#          emergencyShuttlePath: /Maps/Shuttles/emergency_elkridge.yml
-#        - type: StationCargoShuttle
-#          path: /Maps/Shuttles/cargo_elkridge.yml
-        - type: StationJobs
+            prefixCreator: '14-SM'
+        - type: ExtraStationInformation
+          iconPath: /Textures/_HL/Logo/icon/icon-256x256.png # used the biggest one, looks better when downscaling than upscaling
+          stationSubtext: 'hardlight-lobby-hardlight-subtext'
+          stationDescription: 'hardlight-lobby-hardlight-description'
+          lobbySortOrder: 1
+        - type: StationJobs # 74 jobs total w/o latejoins & interns, 93 jobs total w/ latejoins & interns
           availableJobs: # HardLight: Reordered + additions added
             # Command (8)
             StationCaptain: [ 1, 1 ]
@@ -80,6 +80,6 @@
             Mime: [ 2, 2 ]
             Musician: [ 2, 2 ]
         - type: StationDeadDrop
-          maxDeadDrops: 2 # medium small station
+          maxDeadDrops: 2 # medium station
         - type: StationDeadDropReporting
           messageSet: Nfsd

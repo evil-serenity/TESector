@@ -1,22 +1,23 @@
 - type: gameMap
-  id: Elkridge
-  mapName: 'Elkridge Depot'
-  mapPath: /Maps/elkridge.yml
+  id: Core
+  mapName: 'Hardlight Core Station'
+  mapPath: /Maps/core.yml
   minPlayers: 0
-  #maxPlayers: 45
+  maxPlayers: 200
   stations:
-    Elkridge:
+    Core:
       stationProto: StandardNanotrasenStation
       components:
         - type: StationNameSetup
-          mapNameTemplate: '{0} Elkridge Depot {1}'
-          nameGenerator:
-            !type:NanotrasenNameGenerator
-            prefixCreator: 'DS'
-#        - type: StationEmergencyShuttle
-#          emergencyShuttlePath: /Maps/Shuttles/emergency_elkridge.yml
-#        - type: StationCargoShuttle
-#          path: /Maps/Shuttles/cargo_elkridge.yml
+          mapNameTemplate: 'HardLight Core Station'
+#          nameGenerator:
+#            !type:NanotrasenNameGenerator
+#            prefixCreator: '14'
+        - type: ExtraStationInformation
+          iconPath: /Textures/_HL/Logo/icon/icon-256x256.png # used the biggest one, looks better when downscaling than upscaling
+          stationSubtext: 'hardlight-lobby-hardlight-subtext'
+          stationDescription: 'hardlight-lobby-hardlight-description'
+          lobbySortOrder: 1
         - type: StationJobs
           availableJobs: # HardLight: Reordered + additions added
             # Command (8)
@@ -80,6 +81,6 @@
             Mime: [ 2, 2 ]
             Musician: [ 2, 2 ]
         - type: StationDeadDrop
-          maxDeadDrops: 2 # medium small station
+          maxDeadDrops: 2 # medium station
         - type: StationDeadDropReporting
           messageSet: Nfsd

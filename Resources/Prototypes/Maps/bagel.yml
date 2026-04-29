@@ -1,22 +1,20 @@
 - type: gameMap
-  id: Elkridge
-  mapName: 'Elkridge Depot'
-  mapPath: /Maps/elkridge.yml
+  id: Bagel
+  mapName: 'Bagel Station'
+  mapPath: /Maps/bagel.yml
   minPlayers: 0
-  #maxPlayers: 45
+  maxPlayers: 200
   stations:
-    Elkridge:
+    Bagel:
       stationProto: StandardNanotrasenStation
       components:
         - type: StationNameSetup
-          mapNameTemplate: '{0} Elkridge Depot {1}'
+          mapNameTemplate: '{0} Bagel Station {1}'
           nameGenerator:
             !type:NanotrasenNameGenerator
-            prefixCreator: 'DS'
-#        - type: StationEmergencyShuttle
-#          emergencyShuttlePath: /Maps/Shuttles/emergency_elkridge.yml
-#        - type: StationCargoShuttle
-#          path: /Maps/Shuttles/cargo_elkridge.yml
+            prefixCreator: '14'
+        #- type: StationEmergencyShuttle
+        #  emergencyShuttlePath: /Maps/Shuttles/emergency_lox.yml
         - type: StationJobs
           availableJobs: # HardLight: Reordered + additions added
             # Command (8)
@@ -79,7 +77,3 @@
             Clown: [ 2, 2 ]
             Mime: [ 2, 2 ]
             Musician: [ 2, 2 ]
-        - type: StationDeadDrop
-          maxDeadDrops: 2 # medium small station
-        - type: StationDeadDropReporting
-          messageSet: Nfsd

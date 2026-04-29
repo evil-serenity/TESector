@@ -1,22 +1,19 @@
 - type: gameMap
-  id: Elkridge
-  mapName: 'Elkridge Depot'
-  mapPath: /Maps/elkridge.yml
+  id: Box
+  mapName: 'Box Station'
+  mapPath: /Maps/box.yml
   minPlayers: 0
-  #maxPlayers: 45
   stations:
-    Elkridge:
+    Boxstation:
       stationProto: StandardNanotrasenStation
       components:
         - type: StationNameSetup
-          mapNameTemplate: '{0} Elkridge Depot {1}'
+          mapNameTemplate: '{0} Box Station {1}'
           nameGenerator:
             !type:NanotrasenNameGenerator
-            prefixCreator: 'DS'
-#        - type: StationEmergencyShuttle
-#          emergencyShuttlePath: /Maps/Shuttles/emergency_elkridge.yml
-#        - type: StationCargoShuttle
-#          path: /Maps/Shuttles/cargo_elkridge.yml
+            prefixCreator: 'TG'
+        #- type: StationEmergencyShuttle
+        #  emergencyShuttlePath: /Maps/Shuttles/emergency_box.yml
         - type: StationJobs
           availableJobs: # HardLight: Reordered + additions added
             # Command (8)
@@ -80,6 +77,6 @@
             Mime: [ 2, 2 ]
             Musician: [ 2, 2 ]
         - type: StationDeadDrop
-          maxDeadDrops: 2 # medium small station
+          maxDeadDrops: 2 # medium station
         - type: StationDeadDropReporting
           messageSet: Nfsd
