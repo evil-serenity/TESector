@@ -76,6 +76,13 @@ public sealed class ShipyardGridSaveSystem : EntitySystem
         "Doubloon",
     };
 
+    private static readonly HashSet<string> BlockedContainedImplantPrototypes = new(StringComparer.Ordinal)
+    {
+        "DeathRattleImplantColcomm",
+        "RadioImplantColcomm",
+        "UplinkImplant",
+    };
+
     [Dependency] private readonly IEntityManager _entityManager = default!;
     [Dependency] private readonly IEntitySystemManager _entitySystemManager = default!;
     [Dependency] private readonly IPlayerManager _playerManager = default!;
@@ -1595,6 +1602,22 @@ public sealed class ShipyardGridSaveSystem : EntitySystem
         }
 
         return false;
+    }
+
+    private static void ApplyPaintStyleToAppearance(MappingDataNode appearanceComp, string stylePrototype)
+    {
+        MappingDataNode appearanceDataInit;
+        if (appearanceComp.TryGet("appearanceDataInit", out MappingDataNode? existing) && existing != null)
+        {
+            appearanceDataInit = existing;
+        }
+        else
+        {
+            appearanceDataInit = new MappingDataNode();
+            appearanceComp["appearanceDataInit"] = appearanceDataInit;
+        }
+
+        appearanceDataInit["enum.PaintableVisuals.Prototype"] = new ValueDataNode(stylePrototype);
     }
 
     private HashSet<string> CollectBlockedContainedImplantEntityUids(SequenceDataNode protoSeq)
