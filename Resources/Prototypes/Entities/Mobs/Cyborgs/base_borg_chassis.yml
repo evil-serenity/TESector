@@ -37,6 +37,8 @@
     baseSprintSpeed : 4.5
   - type: Sprite
     sprite: Mobs/Silicon/Chassis/generic/default.rsi
+  - type: StatusIcon
+    bounds: -0.5,-0.5,0.5,0.5
   - type: RotationVisuals
     horizontalRotation: 90
   - type: MobState
@@ -123,17 +125,20 @@
     examineWhileLocked: false
     intrinsicChannels:
     - Binary
+    - Trinary # Hardlight
     - Science
     - Common
   - type: IntrinsicRadioReceiver
   - type: IntrinsicRadioTransmitter
     intrinsicChannels:
     - Binary
+    - Trinary # Hardlight
     - Science
     - Common
   - type: ActiveRadio
     intrinsicChannels:
     - Binary
+    - Trinary # Hardlight
     - Science
     - Common
   # HardLight end
@@ -157,6 +162,9 @@
         name: power-cell-slot-component-slot-name-default
   - type: StatusEffects
     allowed:
+    - Stun
+    - KnockedDown
+    - SlowedDown
     - Flashed
   - type: TypingIndicator
     proto: robot
@@ -301,7 +309,7 @@
     receiveFrequencyId: CyborgControl
     transmitFrequencyId: RoboticsConsole
     savableAddress: false
-  - type: TimerTrigger
+  - type: OnUseTimerTrigger
     delay: 10
     examinable: false
     beepSound:
@@ -309,9 +317,8 @@
       params:
         volume: -4
   # prevent any funnies if someone makes a cyborg item...
+  - type: AutomatedTimer
   - type: ExplodeOnTrigger
-    keysIn:
-    - timer
   # explosion does most of its damage in the center and less at the edges
   - type: Explosive
     explosionType: Minibomb
@@ -389,14 +396,17 @@
     examineWhileLocked: false
     intrinsicChannels:
     - Binary
+    - Trinary # Hardlight
     - Syndicate
   - type: IntrinsicRadioTransmitter
     intrinsicChannels:
     - Binary
+    - Trinary # Hardlight
     - Syndicate
   - type: ActiveRadio
     intrinsicChannels:
     - Binary
+    - Trinary # Hardlight
     - Syndicate
   # HardLight end
   - type: ShowSyndicateIcons
@@ -434,12 +444,15 @@
     examineWhileLocked: false
     intrinsicChannels:
     - Binary
+    - Trinary # Hardlight
   - type: IntrinsicRadioTransmitter
     intrinsicChannels:
     - Binary
+    - Trinary # Hardlight
   - type: ActiveRadio
     intrinsicChannels:
     - Binary
+    - Trinary # Hardlight
   # HardLight end
   - type: IonStormTarget
     chance: 1
@@ -481,15 +494,18 @@
     intrinsicChannels:
     - Xenoborg
     - Binary
+    - Trinary # Hardlight
   - type: IntrinsicRadioTransmitter # can only use binary and xenoborg channel
     intrinsicChannels:
     - Xenoborg
     - Binary
+    - Trinary # Hardlight
   - type: ActiveRadio # but can hear the mothership channel
     intrinsicChannels:
     - Mothership
     - Xenoborg
     - Binary
+    - Trinary # Hardlight
   # HardLight end
   - type: BorgChassis
     maxModules: 10

@@ -10,7 +10,6 @@ using Content.Shared.DoAfter;
 using Content.Shared.Buckle.Components;
 using Content.Shared.Hands.Components;
 using Content.Shared.Hands;
-using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Stunnable;
 using Content.Shared.Interaction.Events;
 using Content.Shared.Verbs;
@@ -48,7 +47,6 @@ namespace Content.Server.Carrying
         [Dependency] private readonly EscapeInventorySystem _escapeInventorySystem = default!;
         [Dependency] private readonly PopupSystem _popupSystem = default!;
         [Dependency] private readonly MovementSpeedModifierSystem _movementSpeed = default!;
-        [Dependency] private readonly SharedHandsSystem _handsSystem = default!;
         [Dependency] private readonly PseudoItemSystem _pseudoItem = default!;
         [Dependency] private readonly ContestsSystem _contests = default!;
         [Dependency] private readonly TransformSystem _transform = default!;
@@ -392,7 +390,7 @@ namespace Content.Server.Carrying
                 || HasComp<BeingCarriedComponent>(carrier)
                 || HasComp<BeingCarriedComponent>(carried)
                 || !TryComp<HandsComponent>(carrier, out var hands)
-                || _handsSystem.CountFreeableHands((carrier, hands)) < carriedComp.FreeHandsRequired) // HardLight
+                || hands.CountFreeHands() < carriedComp.FreeHandsRequired)
                 return false;
 
             return true;

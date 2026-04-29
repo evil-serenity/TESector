@@ -52,6 +52,7 @@ namespace Content.Shared.Movement.Systems
                 .Bind(ContentKeyFunctions.ShuttleRotateLeft, new ShuttleInputCmdHandler(this, ShuttleButtons.RotateLeft))
                 .Bind(ContentKeyFunctions.ShuttleRotateRight, new ShuttleInputCmdHandler(this, ShuttleButtons.RotateRight))
                 .Bind(ContentKeyFunctions.ShuttleBrake, new ShuttleInputCmdHandler(this, ShuttleButtons.Brake))
+                .Bind(ContentKeyFunctions.ShuttleWEP, new ShuttleInputCmdHandler(this, ShuttleButtons.Wep))
                 .Register<SharedMoverController>();
 
             SubscribeLocalEvent<InputMoverComponent, ComponentInit>(OnInputInit);
@@ -133,8 +134,7 @@ namespace Content.Shared.Movement.Systems
 
         private void OnMoverGetState(Entity<InputMoverComponent> entity, ref ComponentGetState args)
         {
-            TryGetNetEntity(entity.Comp.RelativeEntity, out NetEntity? relativeEntity);
-
+            TryGetNetEntity(entity.Comp.RelativeEntity, out var relativeEntity);
             args.State = new InputMoverComponentState()
             {
                 CanMove = entity.Comp.CanMove,
@@ -650,6 +650,7 @@ namespace Content.Shared.Movement.Systems
         RotateLeft = 1 << 4,
         RotateRight = 1 << 5,
         Brake = 1 << 6,
+        Wep = 1 << 7,
     }
 
 }

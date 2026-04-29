@@ -1,5 +1,4 @@
 using Content.Shared.Wieldable;
-using Content.Shared._HL.Traits.Physical.Systems; // HardLight
 using Robust.Shared.GameStates;
 
 namespace Content.Shared.Weapons.Ranged.Components;

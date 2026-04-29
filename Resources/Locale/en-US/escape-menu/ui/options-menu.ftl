@@ -109,6 +109,7 @@ ui-options-vp-low-res = Low-resolution viewport
 ui-options-parallax-low-quality = Low-quality Parallax (background)
 ui-options-ambient-occlusion = Show Ambient Occlusion
 ui-options-fps-counter = Show FPS counter
+ui-options-show-cyborg-subtypes = Show unique Cyborg subtype sprites
 ui-options-vp-width = Viewport width:
 ui-options-hud-layout = HUD layout:
 
@@ -145,7 +146,6 @@ ui-options-function-move-left = Move Left
 ui-options-function-move-down = Move Down
 ui-options-function-move-right = Move Right
 ui-options-function-walk = Walk
-ui-options-function-toggle-knockdown = Toggle Crawling
 
 ui-options-function-camera-rotate-left = Rotate left
 ui-options-function-camera-rotate-right = Rotate right
@@ -164,16 +164,16 @@ ui-options-function-activate-item-in-world = Activate item in world
 ui-options-function-alt-activate-item-in-world = Alternative activate item in world
 ui-options-function-drop = Drop item
 ui-options-function-examine-entity = Examine
-ui-options-function-swap-hands = Swap hands
-ui-options-function-swap-hands-reverse = Swap hands (other direction)
+# Frontier: add (next)
+ui-options-function-swap-hands = Swap hands (next)
 ui-options-function-move-stored-item = Move stored item
 ui-options-function-rotate-stored-item = Rotate stored item
-ui-options-function-save-item-location = Save item location
 
-# EE
+ui-options-function-save-item-location = Save item location
+ui-options-function-toggle-standing = Toggle standing
 ui-options-function-toggle-crawling-under = Toggle crawling under furniture
 
-# HardLight
+# _HL
 ui-options-function-offer-item = Offer something
 ui-options-function-al-open-mob-interaction = Interact With Mob
 

@@ -1,4 +1,4 @@
-﻿# Plushies!!!!
+# Plushies!!!!
 - type: entity
   id: PlushieStoneRengault
   parent: BasePlushie
@@ -25,7 +25,7 @@
   - type: EmitSoundOnCollide
     sound:
       collection: VulpkaninScreams
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
     useSound:
       collection: VulpkaninBarks
@@ -97,7 +97,7 @@
   - type: EmitSoundOnCollide
     sound:
       path: /Audio/Voice/Reptilian/reptilian_scream.ogg
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
     useSound:
       collection: Weh
@@ -215,7 +215,7 @@
   - type: EmitSoundOnCollide
     sound:
       path: /Audio/Items/Toys/weh.ogg
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
     useSound:
       path: /Audio/Items/Toys/weh.ogg
@@ -280,7 +280,7 @@
   - type: EmitSoundOnCollide
     sound:
       path: /Audio/Items/Toys/weh.ogg
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
     useSound:
       path: /Audio/Items/Toys/weh.ogg
@@ -345,7 +345,7 @@
   - type: EmitSoundOnCollide
     sound:
       path: /Audio/Items/Toys/weh.ogg
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
     useSound:
       path: /Audio/Items/Toys/weh.ogg
@@ -410,7 +410,7 @@
   - type: EmitSoundOnCollide
     sound:
       path: /Audio/Items/Toys/weh.ogg
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
     useSound:
       path: /Audio/Items/Toys/weh.ogg
@@ -475,7 +475,7 @@
   - type: EmitSoundOnCollide
     sound:
       path: /Audio/Items/Toys/weh.ogg
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
     useSound:
       path: /Audio/Items/Toys/weh.ogg
@@ -540,7 +540,7 @@
   - type: EmitSoundOnCollide
     sound:
       path: /Audio/Items/Toys/weh.ogg
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
     useSound:
       path: /Audio/Items/Toys/weh.ogg
@@ -605,7 +605,7 @@
   - type: EmitSoundOnCollide
     sound:
       path: /Audio/Items/Toys/weh.ogg
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
     useSound:
       path: /Audio/Items/Toys/weh.ogg
@@ -670,7 +670,7 @@
   - type: EmitSoundOnCollide
     sound:
       path: /Audio/Items/Toys/weh.ogg
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
     useSound:
       path: /Audio/Items/Toys/weh.ogg
@@ -735,7 +735,7 @@
   - type: EmitSoundOnCollide
     sound:
       path: /Audio/Items/Toys/weh.ogg
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
     useSound:
       path: /Audio/Items/Toys/weh.ogg
@@ -943,7 +943,7 @@
   - type: EmitSoundOnCollide
     sound:
       path: /Audio/Items/Toys/weh.ogg
-  - type: Edible
+  - type: Food
     requiresSpecialDigestion: true
     useSound:
       path: /Audio/Items/Toys/weh.ogg
@@ -969,3 +969,113 @@
           Quantity: 3
         - ReagentId: AbyssalBlood
           Quantity: 2
+
+- type: entity
+  parent: BasePlushie
+  id: PlushieMaints
+  name: Plushes-In-Maints
+  description: MARR
+  components:
+  - type: Sprite
+    sprite: _HL/Objects/Fun/HLtoys.rsi
+    state: Plushes-in-maints
+    scale: 0.8, 0.8
+  - type: Clothing
+    quickEquip: false
+    sprite: _HL/Objects/Fun/HLtoys.rsi
+    equippedPrefix: plushmaints
+    slots:
+    - HEAD
+  - type: EmitSoundOnUse
+    sound:
+      path: /Audio/_Starlight/Voice/Shadekin/marr.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_Starlight/Voice/Shadekin/marr.ogg
+  - type: EmitSoundOnActivate
+    sound:
+      path: /Audio/_Starlight/Voice/Shadekin/marr.ogg
+  - type: EmitSoundOnTrigger
+    sound:
+      path: /Audio/_Starlight/Voice/Shadekin/marr.ogg
+  - type: EmitSoundOnCollide
+    sound:
+      path: /Audio/_Starlight/Voice/Shadekin/marr.ogg
+  - type: MeleeWeapon
+    wideAnimationRotation: 180
+    soundHit:
+      path: /Audio/_Starlight/Voice/Shadekin/marr.ogg
+  - type: Item
+    heldPrefix: plushmaints
+
+# Lives-In-Maints Plushie now here :D
+
+- type: entity
+  parent: BasePlushie
+  id: PlushieShadekin
+  name: Shadekin Plushie
+  description: MARR
+  components:
+  - type: Sprite
+    sprite: _HL/Objects/Fun/HLtoys.rsi
+    state: shadekin-plushie
+    scale: 0.8, 0.8
+  - type: Clothing
+    quickEquip: false
+    sprite: _HL/Objects/Fun/HLtoys.rsi
+    equippedPrefix: shadeplush
+    slots:
+    - HEAD
+  - type: EmitSoundOnUse
+    sound:
+      path: /Audio/_Starlight/Voice/Shadekin/marr.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/_Starlight/Voice/Shadekin/marr.ogg
+  - type: EmitSoundOnActivate
+    sound:
+      path: /Audio/_Starlight/Voice/Shadekin/marr.ogg
+  - type: EmitSoundOnTrigger
+    sound:
+      path: /Audio/_Starlight/Voice/Shadekin/marr.ogg
+  - type: EmitSoundOnCollide
+    sound:
+      path: /Audio/_Starlight/Voice/Shadekin/marr.ogg
+  - type: MeleeWeapon
+    wideAnimationRotation: 180
+    soundHit:
+      path: /Audio/_Starlight/Voice/Shadekin/marr.ogg
+  - type: Item
+    heldPrefix: shadeplush
+
+# Same with a shadekin plushie
+
+- type: entity
+  parent: BasePlushie
+  id: PlushieRemiie
+  name: Remiie Plushie
+  description: A marketable plushie of Remiie in her head of personnel outfit before CC.
+  components:
+  - type: Sprite
+    sprite: _HL/Objects/Fun/HLtoys.rsi
+    state: RemiiePlush
+    scale: 0.8, 0.8
+  - type: EmitSoundOnUse
+    sound:
+      path: /Audio/_Starlight/Voice/Resomi/resomi_chirp1.ogg
+  - type: EmitSoundOnLand
+    sound:
+      path: /Audio/Voice/Resomi/resomi_scream.ogg
+  - type: EmitSoundOnActivate
+    sound:
+      path: /Audio/_Starlight/Voice/Resomi/resomi_chirp1.ogg
+  - type: EmitSoundOnTrigger
+    sound:
+      path: /Audio/_Starlight/Voice/Resomi/resomi_chirp1.ogg
+  - type: EmitSoundOnCollide
+    sound:
+      path: /Audio/Voice/Resomi/resomi_scream.ogg
+  - type: MeleeWeapon
+    wideAnimationRotation: 180
+    soundHit:
+     path: /Audio/_Starlight/Voice/Resomi/resomi_cry_1.ogg

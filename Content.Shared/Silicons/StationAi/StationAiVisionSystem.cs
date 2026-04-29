@@ -1,6 +1,4 @@
 using Content.Shared.StationAi;
-using Content.Shared.Power.EntitySystems; // HardLight
-using Content.Shared.SurveillanceCamera.Components; // HardLight
 using Robust.Shared.Map.Components;
 using Robust.Shared.Physics;
 using Robust.Shared.Threading;
@@ -19,11 +17,19 @@ public sealed class StationAiVisionSystem : EntitySystem
     [Dependency] private readonly IParallelManager _parallel = default!;
     [Dependency] private readonly EntityLookupSystem _lookup = default!;
     [Dependency] private readonly SharedMapSystem _maps = default!;
-    [Dependency] private readonly SharedPowerReceiverSystem _power = default!; // HardLight
     [Dependency] private readonly SharedTransformSystem _xforms = default!;
 
     private SeedJob _seedJob;
     private ViewJob _job;
+
+    // The system reuses a lot of mutable scratch state (`_seeds`, `_opaque`, `_viewportTiles`,
+    // `_singleTiles`, the shared `_job` struct and its per-index lists, etc.) across calls to
+    // IsAccessible/GetView, and dispatches the heavy work onto worker threads via IParallelManager.
+    // Concurrent callers (e.g. BoundUserInterfaceCheckRangeEvent fired from a parallel job and
+    // InRangeOverrideEvent on the main thread) would otherwise race on these collections and
+    // produce "Operations that change non-concurrent collections must have exclusive access"
+    // exceptions deep inside the parallel ViewJob. Serialize entry points to prevent that.
+    private readonly object _stateLock = new();
 
     private readonly HashSet<Entity<OccluderComponent>> _occluders = new();
     private readonly HashSet<Entity<StationAiVisionComponent>> _seeds = new();
@@ -68,6 +74,14 @@ public sealed class StationAiVisionSystem : EntitySystem
     /// </summary>
     public bool IsAccessible(Entity<BroadphaseComponent, MapGridComponent> grid, Vector2i tile, float expansionSize = 8.5f, bool fastPath = false)
     {
+        lock (_stateLock)
+        {
+            return IsAccessibleCore(grid, tile, expansionSize, fastPath);
+        }
+    }
+
+    private bool IsAccessibleCore(Entity<BroadphaseComponent, MapGridComponent> grid, Vector2i tile, float expansionSize, bool fastPath)
+    {
         _viewportTiles.Clear();
         _opaque.Clear();
         _seeds.Clear();
@@ -85,14 +99,6 @@ public sealed class StationAiVisionSystem : EntitySystem
         {
             if (!seed.Comp.Enabled)
                 continue;
-
-            // HardLight: Cameras can provide AI vision seeds, but unpowered cameras should not.
-            if (TryComp<CameraActiveOnCollideComponent>(seed.Owner, out var cameraCollide)
-                && cameraCollide.RequiresPower
-                && !_power.IsPowered(seed.Owner))
-            {
-                continue;
-            }
 
             _job.Data.Add(seed);
         }
@@ -156,6 +162,14 @@ public sealed class StationAiVisionSystem : EntitySystem
     /// <param name="expansionSize">How much to expand the bounds before to find vision intersecting it. Makes this the largest vision size + 1 tile.</param>
     public void GetView(Entity<BroadphaseComponent, MapGridComponent> grid, Box2Rotated worldBounds, HashSet<Vector2i> visibleTiles, float expansionSize = 8.5f)
     {
+        lock (_stateLock)
+        {
+            GetViewCore(grid, worldBounds, visibleTiles, expansionSize);
+        }
+    }
+
+    private void GetViewCore(Entity<BroadphaseComponent, MapGridComponent> grid, Box2Rotated worldBounds, HashSet<Vector2i> visibleTiles, float expansionSize)
+    {
         _viewportTiles.Clear();
         _opaque.Clear();
         _seeds.Clear();
@@ -174,14 +188,6 @@ public sealed class StationAiVisionSystem : EntitySystem
         {
             if (!seed.Comp.Enabled)
                 continue;
-
-            // HardLight: Cameras can provide AI vision seeds, but unpowered cameras should not.
-            if (TryComp<CameraActiveOnCollideComponent>(seed.Owner, out var cameraCollide)
-                && cameraCollide.RequiresPower
-                && !_power.IsPowered(seed.Owner))
-            {
-                continue;
-            }
 
             _job.Data.Add(seed);
         }

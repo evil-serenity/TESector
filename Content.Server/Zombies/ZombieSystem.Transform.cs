@@ -1,9 +1,11 @@
 using Content.Server.Atmos.Components;
+using Content.Shared._HL.Body.Components;
 using Content.Server.Body.Components;
 using Content.Server.Chat;
 using Content.Server.Chat.Managers;
 using Content.Server.Ghost.Roles.Components;
 using Content.Server.Humanoid;
+using Content.Server.IdentityManagement;
 using Content.Server.Inventory;
 using Content.Server.Mind;
 using Content.Server.Mind.Commands;
@@ -12,7 +14,6 @@ using Content.Server.NPC.HTN;
 using Content.Server.NPC.Systems;
 using Content.Server.Speech.Components;
 using Content.Server.Temperature.Components;
-using Content.Shared.Body.Components;
 using Content.Shared.CombatMode;
 using Content.Shared.CombatMode.Pacification;
 using Content.Shared.Damage;
@@ -35,7 +36,6 @@ using Content.Shared.Prying.Components;
 using Content.Shared.Traits.Assorted;
 using Robust.Shared.Audio.Systems;
 using Content.Shared.Ghost.Roles.Components;
-using Content.Shared.IdentityManagement;
 using Content.Shared.Roles;
 using Content.Shared.Tag;
 using Robust.Shared.Player;
@@ -201,8 +201,13 @@ public sealed partial class ZombieSystem
         //This makes it so the zombie doesn't take bloodloss damage.
         //NOTE: they are supposed to bleed, just not take damage
         _bloodstream.SetBloodLossThreshold(target, 0f);
-        //Give them zombie blood
-        _bloodstream.ChangeBloodReagent(target, zombiecomp.NewBloodReagent);
+        // Give them zombie blood via the shared blood modifier component path.
+        var bloodModifier = EnsureComp<BloodSolutionModifierComponent>(target);
+        bloodModifier.BloodReagent = zombiecomp.NewBloodReagent;
+        bloodModifier.ClearExisting = true;
+        bloodModifier.Solution = new();
+        Dirty(target, bloodModifier);
+        _bloodSolutionModifier.ApplyModifier((target, bloodModifier));
 
         //This is specifically here to combat insuls, because frying zombies on grilles is funny as shit.
         _inventory.TryUnequip(target, "gloves", true, true);

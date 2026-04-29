@@ -7,42 +7,43 @@
   - PositronicBrain
   - SciFlash
   - CyborgEndoskeleton
-  - Quadborgendoskeleton # Floof
+  - Quadborgendoskeleton
 
 - type: latheRecipePack
-  id: BorgModulesStatic
+  id: BorgModulesStatic #
   recipes:
+  - BorgModuleCable
   - BorgModuleTool
   # - BorgModuleFireExtinguisher # Hardlight
   - BorgModuleStun # Floof
   - BorgModuleKill # Floof
   - BorgModuleInvestigation
-  - BorgModuleSurgery # Shitmed
-  # HardLight start
+  - BorgModuleSurgery # Shitmed Change
+  # Hardlight change start
+  - BorgModuleTraversal
   - BorgModuleCleaning
   - BorgModuleCustodial
   - BorgModuleTopicals
+  - BorgModuleChemical
   - BorgModuleBureaucracy
   - BorgModuleJetpack
   - BorgModuleConstruction
   - BorgModuleRescue
   - BorgModuleDiagnosis
+  - BorgModuleNFService
   - BorgModuleClowning
   - BorgModuleMusique
+  - BorgModuleRCDShipyard
   - BorgModuleMining
-  # HardLight end
 
-- type: latheRecipePack # HardLight: Why is this up here and not merged with the dynamic BorgModules?
+- type: latheRecipePack
   id: BorgModulesDynamic
   recipes:
   - BorgModuleAdvancedSurgery
-  # HardLight start
-  - BorgModuleTopicals
-  # - BorgModuleHoS
-  # - BorgModuleWarden
-  - BorgModuleChemical
+  # Hardlight change start
+  - BorgModuleadvancedmeasures
+  - BorgModuleAdvancedChemical
   - BorgModuleAdvancedParamedic
-  # HardLight end
 
 - type: latheRecipePack
   id: SMCybernetics
@@ -69,9 +70,9 @@
   - CyberneticsPainEditor
   - CyberneticsAdrenal
   - CyberneticsCortexBomb
-  - CyberneticsHiggsCerebralTrainer
-  - CyberneticsHiggsAnchor
-  - CyberneticsHiggsDisplacer
+  # - CyberneticsHiggsCerebralTrainer
+  # - CyberneticsHiggsAnchor
+  # - CyberneticsHiggsDisplacer
   - CyberneticsBloodPump
 
 - type: latheRecipePack
@@ -125,10 +126,15 @@
   recipes:
   - BorgModuleAdvancedCleaning
   - BorgModuleAdvancedTool
-  # - BorgModuleAdvancedClowning # HardLight: We don't have most of the items in this module, so I'm commenting it out for now until we do.
-  - BorgModuleAdvancedChemical
-  - BorgModuleAdvancedMining
+  # - BorgModuleGPS # Frontier: useless
+  - BorgModuleArtifact
+  - BorgModuleAnomaly
+  - BorgModuleGardening
+  - BorgModuleHarvesting
+  #- BorgModuleDefibrillator # Frontier: base module
+  #- BorgModuleAdvancedTreatment # Frontier: base module
   - BorgModuleAdvancedParamedic # Frontier
+  - BorgModuleAdvancedMining # Frontier
   - BorgModuleChef # Frontier
   - BorgModuleRCD # Frontier
   - BorgModuleStorage # HardLight

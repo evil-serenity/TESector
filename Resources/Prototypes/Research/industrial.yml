@@ -17,6 +17,7 @@
   - ClothingMaskWeldingGas
   - ClothingShoesBootsJump
   - MechEquipmentDrill # Goobstation
+  - DebrisBag
 
 - type: technology
   id: SpaceScanning
@@ -30,6 +31,7 @@
   recipeUnlocks:
   - RadarConsoleCircuitboard
   - HandHeldMassScanner
+  # - BorgModuleGPS # Frontier: useless
 
 - type: technology
   id: AdvancedPowercells
@@ -210,10 +212,10 @@
   - OreBagOfHolding
   - MiningDrillDiamond
   - AdvancedMineralScannerEmpty
-  - BorgModuleAdvancedMining
   - NFBlueprintOreBagOfHolding # Frontier
   - NFBlueprintMiningDrillDiamond # Frontier
   - NFBlueprintAdvancedMineralScannerEmpty # Frontier
+  - BorgModuleAdvancedMining # Frontier
   - MechEquipmentDrillDiamond
 
 - type: technology
@@ -274,6 +276,9 @@
   - NFBlueprintClothingBackpackDuffelHolding # Frontier
   - NFBlueprintClothingBackpackMessengerHolding # Frontier
   - BorgModuleStorage # HardLight
+  - ClothingBackpackTacticalHolding # Hardlight
+  - DebrisBagOfHolding
+  - ClothingWalletLeatherBlackMagnet
 
 - type: technology
   id: PortableFission

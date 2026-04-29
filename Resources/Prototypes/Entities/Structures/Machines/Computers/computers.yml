@@ -172,6 +172,11 @@
   - type: ShipRepairable
     repairTime: 10
     repairCost: 30
+  - type: RadarBlip
+    visibleFromOtherGrids: true
+    radarColor: "#03f8fc"
+    scale: 1.5
+    shape: diamond
 
 - type: entity
   parent: [BaseComputerShuttle, BaseShuttleIntercom] # Frontier - BaseShuttleIntercom
@@ -648,6 +653,7 @@
       state: generic_panel_open
   - type: ResearchClient
   - type: AnalysisConsole
+    reportEntityId: PaperArtifactAnalyzer
   - type: DeviceList
   - type: DeviceNetwork
     deviceNetId: Wired
@@ -656,10 +662,10 @@
     ports:
       - ArtifactAnalyzerSender
   - type: ActivatableUI
-    key: enum.ArtifactAnalyzerUiKey.Key
+    key: enum.ArtifactAnalzyerUiKey.Key
   - type: UserInterface
     interfaces:
-      enum.ArtifactAnalyzerUiKey.Key:
+      enum.ArtifactAnalzyerUiKey.Key:
         type: AnalysisConsoleBoundUserInterface
       enum.ResearchClientUiKey.Key:
         type: ResearchClientBoundUserInterface
@@ -1350,7 +1356,7 @@
   #   guides: # Frontier
   #   - CargoBounties # Frontier
   #   - Cargo # Frontier
-
+  
 - type: entity
   parent: BaseComputerAiAccess
   id: ComputerFundingAllocation

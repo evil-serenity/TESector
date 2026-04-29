@@ -49,6 +49,8 @@ public sealed partial class FireControlSystem : EntitySystem
         SubscribeLocalEvent<FireControlServerComponent, ExaminedEvent>(OnExamined);
         SubscribeLocalEvent<FireControlServerComponent, EntityTerminatingEvent>(OnServerTerminating);
 
+        SubscribeLocalEvent<FireControlServerComponent, ComponentStartup>(OnServerStartup);
+        SubscribeLocalEvent<FireControllableComponent, ComponentStartup>(OnControllableStartup);
         SubscribeLocalEvent<FireControllableComponent, PowerChangedEvent>(OnControllablePowerChanged);
         SubscribeLocalEvent<FireControllableComponent, ComponentShutdown>(OnControllableShutdown);
         SubscribeLocalEvent<FireControllableComponent, EntParentChangedMessage>(OnControllableParentChanged);
@@ -62,6 +64,12 @@ public sealed partial class FireControlSystem : EntitySystem
         _artilleryQuery = GetEntityQuery<SpaceArtilleryComponent>();
         _fireRotateQuery = GetEntityQuery<FireControlRotateComponent>();
         _gunQuery = GetEntityQuery<GunComponent>();
+    }
+
+    private void OnServerStartup(EntityUid uid, FireControlServerComponent component, ComponentStartup args)
+    {
+        if (_power.IsPowered(uid))
+            TryConnect(uid, component);
     }
 
     private void OnPowerChanged(EntityUid uid, FireControlServerComponent component, PowerChangedEvent args)
@@ -102,6 +110,12 @@ public sealed partial class FireControlSystem : EntitySystem
             TryRegister(uid, component);
         else
             Unregister(uid, component);
+    }
+
+    private void OnControllableStartup(EntityUid uid, FireControllableComponent component, ComponentStartup args)
+    {
+        if (_power.IsPowered(uid))
+            TryRegister(uid, component);
     }
 
     private void OnControllableShutdown(EntityUid uid, FireControllableComponent component, ComponentShutdown args)
@@ -216,6 +230,19 @@ public sealed partial class FireControlSystem : EntitySystem
             UpdateUi(console);
     }
 
+    private void RefreshConsoles(EntityUid grid)
+    {
+        var query = EntityQueryEnumerator<FireControlConsoleComponent>();
+
+        while (query.MoveNext(out var consoleUid, out var consoleComp))
+        {
+            if (_xform.GetGrid(consoleUid) != grid || !_power.IsPowered(consoleUid))
+                continue;
+
+            TryRegisterConsole(consoleUid, consoleComp);
+        }
+    }
+
     private bool TryConnect(EntityUid server, FireControlServerComponent? component = null)
     {
         if (!Resolve(server, ref component))
@@ -247,6 +274,7 @@ public sealed partial class FireControlSystem : EntitySystem
         component.ConnectedGrid = grid;
 
         RefreshControllables((EntityUid)grid, controlGrid);
+        RefreshConsoles((EntityUid)grid);
 
         return true;
     }
@@ -506,16 +534,23 @@ public sealed partial class FireControlSystem : EntitySystem
         // Set the cooldown for next firing
         comp.NextFire = _timing.CurTime + TimeSpan.FromSeconds(comp.FireCooldown);
 
+        var hasGun = _gunQuery.TryComp(weapon, out var gun);
+
         if (_fireRotateQuery.HasComp(weapon))
         {
             var goalAngle = Angle.FromWorldVec(direction);
+
+            // Align visual rotation with this gun's configured local forward direction.
+            if (hasGun && gun is { } rotateGun && rotateGun.DefaultDirection.LengthSquared() > float.Epsilon)
+                goalAngle -= Angle.FromWorldVec(rotateGun.DefaultDirection);
+
             _rotateToFace.TryRotateTo(weapon, goalAngle, 0f, Angle.FromDegrees(1), float.MaxValue, weaponXform);
         }
 
         // Try to get a gun component and fire the weapon
-        if (_gunQuery.TryComp(weapon, out var gun))
+        if (gun is { } fireGun)
         {
-            _gun.AttemptShots(user, weapon, gun, coords, TimeSpan.FromSeconds(0.2));
+            _gun.AttemptShots(user, weapon, fireGun, coords, TimeSpan.FromSeconds(0.2));
             return true;
         }
 
@@ -592,6 +627,7 @@ public sealed partial class FireControlSystem : EntitySystem
         }
 
         // Check if there's any obstacles in the line of sight, only considering entities on the same grid
+        // returnOnFirstHit + GetEnumerator avoids materializing a list just to test emptiness.
         var raycastResults = _physics.IntersectRayWithPredicate(
             mapId,
             ray,
@@ -599,10 +635,10 @@ public sealed partial class FireControlSystem : EntitySystem
             IgnoreEntityNotOnSameGrid,
             rayDistance,
             returnOnFirstHit: true // We only need to know if there's ANY obstacle
-        ).ToList();
+        );
 
         // Has line of sight if there are no obstacles in the path
-        return raycastResults.Count == 0;
+        return !raycastResults.Any();
     }
 
     /// <summary>
@@ -666,19 +702,19 @@ public sealed partial class FireControlSystem : EntitySystem
             // Initialize ray collision
             var ray = new CollisionRay(position, direction, collisionMask: (int)(CollisionGroup.Opaque | CollisionGroup.Impassable));
 
-            // Check if there's any obstacles in this direction, only considering entities on the same grid
-            var raycastResults = _physics.IntersectRayWithPredicate(
+            // returnOnFirstHit + Any() avoids materializing a list per ray; we only care whether
+            // there's any obstacle in this direction, not what or how many.
+            var hasObstacle = _physics.IntersectRayWithPredicate(
                 mapId,
                 ray,
                 weapon,
                 IgnoreEntityNotOnSameGrid,
                 maxDistance,
-                returnOnFirstHit: false
-            ).ToList();
+                returnOnFirstHit: true
+            ).Any();
 
             // Direction is clear if there are no obstacles
-            var canFire = raycastResults.Count == 0;
-            directions[angle * 180 / MathF.PI] = canFire;
+            directions[angle * 180 / MathF.PI] = !hasObstacle;
         }
 
         return directions;

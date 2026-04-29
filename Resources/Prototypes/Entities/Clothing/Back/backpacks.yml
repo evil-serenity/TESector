@@ -328,10 +328,19 @@
     maxItemSize: Huge
     grid:
     - 0,0,19,9 # Frontier: Was 0,0,19,9 - FRONTIER MADE IT 0,0,7,7 AND THAT'S DUMB - Loki
+  - type: ChameleonClothing
+    slot: [back]
+    default: ClothingBackpackHolding
+  - type: UserInterface
+    interfaces:
+      enum.StorageUiKey.Key:
+        type: StorageBoundUserInterface
+      enum.ChameleonUiKey.Key:
+        type: ChameleonBoundUserInterface
   - type: Tag
     tags:
-    - Backpack
     - ScurretWearable
+    - WhitelistChameleon
 
 - type: entity
   parent: NFClothingBackpack # Frontier: ClothingBackpack<NFClothingBackpackClown
@@ -360,9 +369,9 @@
     equipDelay: 5 # to avoid accidentally falling into the trap associated with SelfUnremovableClothing
   - type: SelfUnremovableClothing
   - type: ShockOnTrigger
-    targetContainer: true
     damage: 5
     duration: 3
+    cooldown: 4
   - type: TriggerOnSignal
   - type: DeviceLinkSink
     ports:

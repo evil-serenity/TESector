@@ -14,6 +14,7 @@ using Content.Server.RoundEnd;
 using Content.Server.Screens.Components;
 using Content.Server.Shuttles.Components;
 using Content.Server.Shuttles.Events;
+using Content.Server.Station.Components;
 using Content.Server.Station.Events;
 using Content.Server.Station.Systems;
 using Content.Shared.Access.Systems;
@@ -68,6 +69,7 @@ public sealed partial class EmergencyShuttleSystem : EntitySystem
     [Dependency] private readonly StationSystem _station = default!;
     [Dependency] private readonly TransformSystem _transformSystem = default!;
     [Dependency] private readonly UserInterfaceSystem _uiSystem = default!;
+    [Dependency] private readonly Content.Server._HL.ColComm.ColcommJobSystem _colcommJobs = default!; // HardLight
 
     private const float ShuttleSpawnBuffer = 1f;
 
@@ -185,7 +187,7 @@ public sealed partial class EmergencyShuttleSystem : EntitySystem
             return;
         }
 
-        var targetGrid = _station.GetLargestGrid(station.Value);
+        var targetGrid = _station.GetLargestGrid(Comp<StationDataComponent>(station.Value));
         if (targetGrid == null)
             return;
 
@@ -274,7 +276,7 @@ public sealed partial class EmergencyShuttleSystem : EntitySystem
             return null;
         }
 
-        var targetGrid = _station.GetLargestGrid(stationUid);
+        var targetGrid = _station.GetLargestGrid(Comp<StationDataComponent>(stationUid));
 
         // UHH GOOD LUCK
         if (targetGrid == null)
@@ -405,9 +407,6 @@ public sealed partial class EmergencyShuttleSystem : EntitySystem
     {
         // This is handled on map-init, so that Colcomm has finished initializing by the time the StationPostInitEvent
         // gets raised
-        if (!_emergencyShuttleEnabled)
-            return;
-
         // Post mapinit? fancy
         if (TryComp(component.Entity, out TransformComponent? xform))
         {
@@ -415,6 +414,7 @@ public sealed partial class EmergencyShuttleSystem : EntitySystem
             return;
         }
 
+        // ColComm hosts the job registry and other station services even when evac is disabled.
         AddColcomm(uid, component);
     }
 
@@ -547,6 +547,14 @@ public sealed partial class EmergencyShuttleSystem : EntitySystem
         _metaData.SetEntityName(map, Loc.GetString("map-name-Colcomm"));
         _shuttle.TryAddFTLDestination(mapId, true, out _);
         Log.Info($"Created Colcomm grid {ToPrettyString(grid)} on map {ToPrettyString(map)} for station {ToPrettyString(station)}");
+
+        // HardLight: Seed the persistent job registry on the ColComm grid entity.
+        // SetupColcommRegistry handles the [Access] boundary for ConfiguredJobs.
+        if (component.JobRegistryConfig.Count > 0)
+        {
+            var colcommRegistry = EnsureComp<Content.Server._HL.ColComm.ColcommJobRegistryComponent>(grid.Value);
+            _colcommJobs.SetupColcommRegistry((grid.Value, colcommRegistry), component.JobRegistryConfig);
+        }
     }
 
     public HashSet<EntityUid> GetColcommMaps()

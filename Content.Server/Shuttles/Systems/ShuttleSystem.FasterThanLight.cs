@@ -89,7 +89,6 @@ public sealed partial class ShuttleSystem
 
     private EntityQuery<BodyComponent> _bodyQuery;
     private EntityQuery<BuckleComponent> _buckleQuery;
-    private EntityQuery<FTLKnockdownImmuneComponent> _knockdownImmuneQuery;
     private EntityQuery<FTLSmashImmuneComponent> _immuneQuery;
     private EntityQuery<PhysicsComponent> _physicsQuery;
     private EntityQuery<StatusEffectsComponent> _statusQuery;
@@ -102,7 +101,6 @@ public sealed partial class ShuttleSystem
 
         _bodyQuery = GetEntityQuery<BodyComponent>();
         _buckleQuery = GetEntityQuery<BuckleComponent>();
-        _knockdownImmuneQuery = GetEntityQuery<FTLKnockdownImmuneComponent>();
         _immuneQuery = GetEntityQuery<FTLSmashImmuneComponent>();
         _physicsQuery = GetEntityQuery<PhysicsComponent>();
         _statusQuery = GetEntityQuery<StatusEffectsComponent>();
@@ -665,26 +663,23 @@ public sealed partial class ShuttleSystem
         // Get enumeration exceptions from people dropping things if we just paralyze as we go
         var toKnock = new ValueList<EntityUid>();
         KnockOverKids(xform, ref toKnock);
-        if (xform.GridUid is not { } gridUid) // HardLight
-            return;
+        TryComp<MapGridComponent>(xform.GridUid, out var grid);
 
-        TryComp<MapGridComponent>(gridUid, out var grid);
-        var hasShuttleBody = TryComp<PhysicsComponent>(gridUid, out var shuttleBody); // HardLight
-
-        // HardLight start
-        foreach (var child in toKnock)
+        if (TryComp<PhysicsComponent>(xform.GridUid, out var shuttleBody))
         {
-            // Preserve Frontier's FTL knockdown immunity while keeping upstream's direct paralyze update flow.
-            if (_knockdownImmuneQuery.HasComponent(child))
-                continue;
+            foreach (var child in toKnock)
+            {
+                if (!_statusQuery.TryGetComponent(child, out var status))
+                    continue;
 
-            _stuns.TryUpdateParalyzeDuration(child, _hyperspaceKnockdownTime);
+                if (!HasComp<FTLKnockdownImmuneComponent>(child)) // Frontier: FTL knockdown immunity
+                    _stuns.TryParalyze(child, _hyperspaceKnockdownTime, true, status);
 
-            // If the guy we knocked down is on a spaced tile, throw them too
-            if (grid is { } shuttleGrid && hasShuttleBody && shuttleBody is { } body)
-                TossIfSpaced((gridUid, shuttleGrid, body), child);
+                // If the guy we knocked down is on a spaced tile, throw them too
+                if (grid != null)
+                    TossIfSpaced((xform.GridUid.Value, grid, shuttleBody), child);
+            }
         }
-        // HardLight end
     }
 
     private void LeaveNoFTLBehind(Entity<TransformComponent> grid, Matrix3x2 oldGridMatrix, EntityUid? oldMapUid)
@@ -798,6 +793,44 @@ public sealed partial class ShuttleSystem
         TryFTLProximity(shuttleUid, targetUid, shuttleXform, targetXform);
         return false;
     }
+
+    // HardLight: capped variant for the shipyard purchase fast path. See DockingSystem.Shuttle.cs
+    // for the rationale; in short, we sample a spatially-spread, priority-aware subset of docks
+    // on each side, and fall back to the full uncapped search inside GetDockingConfig if the
+    // capped pass returns nothing. All other call sites keep the original behaviour.
+    /// <summary>
+    /// HardLight: capped variant of <see cref="TryFTLDock(EntityUid, ShuttleComponent, EntityUid, out DockingConfig?, string?, DockType)"/>
+    /// for the shipyard purchase path. Caps &lt;= 0 disable the cap on that side.
+    /// </summary>
+    public bool TryFTLDock(
+        EntityUid shuttleUid,
+        ShuttleComponent component,
+        EntityUid targetUid,
+        int maxShuttleDocks,
+        int maxGridDocks,
+        string? priorityTag = null,
+        DockType dockType = DockType.Airlock)
+    {
+        if (!_xformQuery.TryGetComponent(shuttleUid, out var shuttleXform) ||
+            !_xformQuery.TryGetComponent(targetUid, out var targetXform) ||
+            targetXform.MapUid == null ||
+            !targetXform.MapUid.Value.IsValid())
+        {
+            return false;
+        }
+
+        var config = _dockSystem.GetDockingConfig(shuttleUid, targetUid, priorityTag, dockType, maxShuttleDocks, maxGridDocks);
+
+        if (config != null)
+        {
+            FTLDock((shuttleUid, shuttleXform), config);
+            return true;
+        }
+
+        TryFTLProximity(shuttleUid, targetUid, shuttleXform, targetXform);
+        return false;
+    }
+    // End HardLight
 
     /// <summary>
     /// Forces an FTL dock.

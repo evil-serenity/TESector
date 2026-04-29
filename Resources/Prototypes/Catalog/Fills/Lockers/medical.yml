@@ -131,10 +131,10 @@
     - id: ClothingHandsGlovesLatex
     - id: ClothingHeadsetMedical
     - id: ClothingMaskSterile
+    - id: JetInjector
     - id: HandheldGPSBasic
     - id: MedkitFilled
       prob: 0.3
-    - id: JetInjector
     - id: ClothingBeltMedicalEMTFilled
 
 - type: entity

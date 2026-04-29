@@ -45,7 +45,7 @@
   - BodyBag
   - WhiteCane
   - JetInjector
-  - AACTablet # ???
+  - AACTablet
 
 - type: latheRecipePack
   id: RollerBedsStatic
@@ -85,7 +85,7 @@
   # - ChemMasterMachineCircuitboard # Frontier: dynamic
   - CondenserMachineCircuitBoard
   # - HotplateMachineCircuitboard # Frontier: dynamic
-  - OperatingTableCircuitboard # Shitmed
+  - OperatingTableCircuitboard # Shitmed Change
 
 # Shitmed
 - type: latheRecipePack
@@ -103,7 +103,7 @@
   - SynthRightArm
   - SynthLeftHand
   - SynthRightHand
-  - SynthHeadEmpty # Hardlight
+  - SynthHeadEmpty # Hardlight change
 
 # Shitmed
 - type: latheRecipePack
@@ -125,8 +125,8 @@
   - BluespaceBeaker
   - SyringeBluespace
   - AdvancedJetInjector
-  - BluespaceBucket # HardLight
-  - BluespaceBarrel # HardLight
+  - BluespaceBucket
+  - BluespaceBarrel
 
 - type: latheRecipePack
   id: MedicalBoards

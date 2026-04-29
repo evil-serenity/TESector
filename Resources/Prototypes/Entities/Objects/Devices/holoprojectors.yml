@@ -39,7 +39,6 @@
   parent: Holoprojector
   id: HoloprojectorBorg
   suffix: borg
-  name: holosign projector
   description: A modified holographic sign projector for use in custodial cyborgs. Automatically self-charges.
   components:
   - type: HolosignProjector

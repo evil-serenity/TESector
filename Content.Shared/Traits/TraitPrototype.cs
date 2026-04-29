@@ -41,17 +41,9 @@ public sealed partial class TraitPrototype : IPrototype, IComparable<TraitProtot
 
     /// <summary>
     /// The components that get added to the player, when they pick this trait.
-    /// NOTE: When implementing a new trait, it's preferable to add it as a status effect instead if possible.
     /// </summary>
     [DataField]
-    [Obsolete("Use JobSpecial instead.")]
     public ComponentRegistry Components { get; private set; } = new();
-
-    /// <summary>
-    /// Special effects applied to the player who takes this Trait.
-    /// </summary>
-    [DataField(serverOnly: true)]
-    public List<JobSpecial> Specials { get; private set; } = new();
 
     /// <summary>
     /// Gear that is given to the player, when they pick this trait.
@@ -120,6 +112,13 @@ public sealed partial class TraitPrototype : IPrototype, IComparable<TraitProtot
     /// </summary>
     [DataField]
     public bool ReplaceComponents = false;
+
+    /// <summary>
+    ///     HardLight: If non-empty, this trait is visible and selectable only by players whose SS14
+    ///     login name appears in this list. Hidden entirely from all other players to prevent UI cluttering.
+    /// </summary>
+    [DataField]
+    public List<string> Logins { get; private set; } = new();
 
     /// <summary>
     ///     Comparison for sorting traits by cost.

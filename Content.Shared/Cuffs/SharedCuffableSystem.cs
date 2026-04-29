@@ -399,10 +399,6 @@ namespace Content.Shared.Cuffs
         /// </summary>
         private void OnHandCountChanged(Entity<CuffableComponent> ent, ref HandCountChangedEvent message)
         {
-            // TODO: either don't store a container ref, or make it actually nullable.
-            if (ent.Comp.Container == default!)
-                return;
-
             var dirty = false;
             var handCount = CompOrNull<HandsComponent>(ent.Owner)?.Count ?? 0;
 
@@ -427,7 +423,7 @@ namespace Content.Shared.Cuffs
         /// </summary>
         private void UpdateHeldItems(EntityUid uid, EntityUid handcuff, CuffableComponent? component = null)
         {
-            if (!Resolve(uid, ref component))
+            if (!Resolve(uid, ref component, logMissing: false))
                 return;
 
             // TODO we probably don't just want to use the generic virtual-item entity, and instead
@@ -437,19 +433,19 @@ namespace Content.Shared.Cuffs
                 return;
 
             var freeHands = 0;
-            foreach (var hand in _hands.EnumerateHands((uid, handsComponent)))
+            foreach (var hand in _hands.EnumerateHands(uid, handsComponent))
             {
-                if (!_hands.TryGetHeldItem((uid, handsComponent), hand, out var held))
+                if (hand.HeldEntity == null)
                 {
                     freeHands++;
                     continue;
                 }
 
                 // Is this entity removable? (it might be an existing handcuff blocker)
-                if (HasComp<UnremoveableComponent>(held))
+                if (HasComp<UnremoveableComponent>(hand.HeldEntity))
                     continue;
 
-                _hands.DoDrop(uid, hand, true);
+                _hands.DoDrop(uid, hand, true, handsComponent);
                 freeHands++;
                 if (freeHands == 2)
                     break;
@@ -467,7 +463,7 @@ namespace Content.Shared.Cuffs
         /// </summary>
         public bool TryAddNewCuffs(EntityUid target, EntityUid user, EntityUid handcuff, CuffableComponent? component = null, HandcuffComponent? cuff = null)
         {
-            if (!Resolve(target, ref component) || !Resolve(handcuff, ref cuff))
+            if (!Resolve(target, ref component, logMissing: false) || !Resolve(handcuff, ref cuff, logMissing: false))
                 return false;
 
             if (!_interaction.InRangeUnobstructed(handcuff, target))
@@ -490,7 +486,7 @@ namespace Content.Shared.Cuffs
         /// <returns>False if the target entity isn't cuffable.</returns>
         public bool TryCuffing(EntityUid user, EntityUid target, EntityUid handcuff, HandcuffComponent? handcuffComponent = null, CuffableComponent? cuffable = null)
         {
-            if (!Resolve(handcuff, ref handcuffComponent) || !Resolve(target, ref cuffable, false))
+            if (!Resolve(handcuff, ref handcuffComponent, logMissing: false) || !Resolve(target, ref cuffable, logMissing: false))
                 return false;
 
             if (!TryComp<HandsComponent>(target, out var hands))
@@ -656,7 +652,7 @@ namespace Content.Shared.Cuffs
             if (!_doAfter.TryStartDoAfter(doAfterEventArgs))
                 return;
 
-            _adminLog.Add(LogType.Action, LogImpact.High, $"{ToPrettyString(user):player} is trying to uncuff {ToPrettyString(target):subject}");
+            _adminLog.Add(LogType.Action, LogImpact.Medium, $"{ToPrettyString(user):player} is trying to uncuff {ToPrettyString(target):subject}"); // Hardlight | High -> Medium. Someone uncuffing themselves is not a round-affecting action, is not always related to station activities, and frequently spams chat if someone attempts many breakouts
 
             var popupText = user == target
                 ? "cuffable-component-start-uncuffing-self-observer"

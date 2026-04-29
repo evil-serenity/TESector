@@ -114,7 +114,6 @@
       - id: ToySkeleton
       - id: Basketball
       - id: Football
-      - id: TennisBall
       - id: BalloonNT
       - id: BalloonCorgi
       - id: MysteryFigureBox
@@ -285,6 +284,8 @@
       - id: ModularReceiver
       - id: WeaponFlareGun
       - id: BarberScissors
+      - id: PlushieMaints
+      - id: PlushieShadekin
       - !type:GroupSelector
         children:
         - id: DrinkSpaceGlue
