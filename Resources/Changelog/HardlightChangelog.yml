@@ -3334,3 +3334,9 @@ Entries:
       message: 'caseless ammo no longer hallucinates casings '
   id: 358
   time: '2026-04-28T10:04:52.0000000+00:00'
+- author: Jerulean
+  changes:
+    - type: Add
+      message: Added about 45 new foods and 40 new drinks.
+  id: 359
+  time: '2026-04-29T20:19:46.0000000+00:00'
