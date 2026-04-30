@@ -178,6 +178,9 @@
   - type: HTN
     rootTask:
       task: ShooterShuttleByteAggroCompound
+  - type: ShipEmpDisableGuns
+    # Medium tier: 1.0x EMP duration (baseline; weakest weapon gives 10s)
+    durationMultiplier: 1.0
   - type: ShipAggro
     aggroProximityRange: 500
     aggroLeashRange: 1000
@@ -200,6 +203,8 @@
   - type: HTN
     rootTask:
       task: ShooterShuttleByteSmallAggroCompound
+  - type: ShipEmpDisableGuns
+    # Small tier: 2.0x EMP duration (least hardened; weakest weapon gives 20s)
 
 # Large-rank byte (e.g. lbyte/lgbyte): faster orbit cruise, perfect
 # target leading, rarely peels off.
@@ -212,6 +217,9 @@
   - type: HTN
     rootTask:
       task: ShooterShuttleByteLargeAggroCompound
+  - type: ShipEmpDisableGuns
+    # Large tier / transistor hub: 0.5x EMP duration (heavily shielded electronics; weakest weapon gives 5s)
+    durationMultiplier: 0.5
 
 #region Drone AIs
 
