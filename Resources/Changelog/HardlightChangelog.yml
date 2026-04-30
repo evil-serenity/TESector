@@ -3390,3 +3390,33 @@ Entries:
       message: Mantis should no longer spawn duplicate equipment on spawn.
   id: 363
   time: '2026-04-30T00:14:18.0000000+00:00'
+- author: Kronyxxx
+  changes:
+    - type: Fix
+      message: >-
+        Set `transferAmounts: []` on all three Dynamic modes.
+        `AddSetTransferVerbs` exits early on an empty list; `GetTransferAmount`
+        falls back to the solution's current volume, so the full contents are
+        always injected.
+    - type: Fix
+      message: >-
+        Added `AudioSystem` dependency to `InjectorSystem` and a `PlayPvs` call
+        after a successful bloodstream injection when the active mode defines an
+        `injectSound`. Wired `injectSound:
+        /Audio/Items/Medical/jet_injector.ogg` into all three Dynamic modes.
+    - type: Fix
+      message: >-
+        Added `AdvancedJetInjector` to the `AdvancedTreatment` technology in
+        `civilianservices.yml`.
+    - type: Fix
+      message: >-
+        Jet injector no longer shows selectable 5u/15u transfer amounts; always
+        injects full reservoir.
+    - type: Fix
+      message: Jet injector now plays its unique injection sound on use.
+    - type: Fix
+      message: >-
+        Advanced Jet Injector is now researchable via Advanced Treatment
+        (CivilianServices tier 2).
+  id: 364
+  time: '2026-04-30T20:20:54.0000000+00:00'
