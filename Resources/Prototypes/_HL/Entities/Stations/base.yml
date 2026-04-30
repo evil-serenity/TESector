@@ -200,6 +200,12 @@
     - type: StationNews
 
 - type: entity
+  id: BaseStationLaws
+  abstract: true
+  components:
+  - type: StationLaws
+
+- type: entity
   id: BaseStationDeliveries
   abstract: true
   components:
@@ -257,6 +263,13 @@
   abstract: true
   components:
   - type: StationSectorServiceHost
+
+# Sector-wide news access, should be on stations with comms (radio station, telecomms)
+- type: entity
+  id: BaseStationSectorLaws
+  abstract: true
+  components:
+  - type: SectorLaws
 
 - type: entity
   id: BaseStationDampening
