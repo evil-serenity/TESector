@@ -3334,3 +3334,59 @@ Entries:
       message: 'caseless ammo no longer hallucinates casings '
   id: 358
   time: '2026-04-28T10:04:52.0000000+00:00'
+- author: Jerulean
+  changes:
+    - type: Add
+      message: Added about 45 new foods and 40 new drinks.
+  id: 359
+  time: '2026-04-29T20:19:46.0000000+00:00'
+- author: re-silvered
+  changes:
+    - type: Fix
+      message: Fixed bluespace syringe draw amount.
+  id: 360
+  time: '2026-04-29T23:43:35.0000000+00:00'
+- author: NotLivyathan
+  changes:
+    - type: Add
+      message: Icon smoothing can now be toggled in user graphics settings.
+  id: 361
+  time: '2026-04-29T23:44:47.0000000+00:00'
+- author: NotLivyathan
+  changes:
+    - type: Add
+      message: Harbor Masters now have new icons better representing their department.
+    - type: Remove
+      message: Harbor Masters no longer have All Access.
+    - type: Tweak
+      message: Harbor Masters now have accesses relevant to their jobs.
+    - type: Tweak
+      message: >-
+        Harbor Masters and Freelancers now occupy the Frontier category in the
+        Crew Manifest.
+    - type: Tweak
+      message: >-
+        The Crew Manifest's categories and layouts have been reorganized for
+        better readability.
+    - type: Tweak
+      message: >-
+        The loadout menu's categories and layouts have been reorganized for
+        better readability.
+    - type: Fix
+      message: >-
+        Two empty categories have been removed from the loadout menu to reduce
+        clutter.
+  id: 362
+  time: '2026-04-29T23:47:07.0000000+00:00'
+- author: NotLivyathan
+  changes:
+    - type: Add
+      message: Mantis loadouts can now actually be customized.
+    - type: Fix
+      message: >-
+        Passengers and Barkeepers should no longer spawn with survival boxes in
+        place of their backpacks.
+    - type: Fix
+      message: Mantis should no longer spawn duplicate equipment on spawn.
+  id: 363
+  time: '2026-04-30T00:14:18.0000000+00:00'

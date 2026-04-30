@@ -3,7 +3,14 @@
   name: job-name-warden
   description: job-description-warden
   playTimeTracker: JobWarden
-  # weight: 5 # Frontier
+  requirements:
+    - !type:RoleTimeRequirement
+      role: JobSecurityOfficer
+      time: 18000 # 5 hrs
+    - !type:DepartmentTimeRequirement
+      department: Security
+      time: 36000 # 10 hrs
+  weight: 50 # HardLight: 5<50
   startingGear: WardenGear
   icon: "JobIconWarden"
   supervisors: job-supervisors-hos
