@@ -1,4 +1,5 @@
 using System.Linq;
+using Content.Server._HL.ColComm;
 using Content.Server.Station.Systems;
 using Content.Server.StationRecords.Components;
 using Content.Server.Access.Systems;
@@ -24,6 +25,7 @@ public sealed class GeneralStationRecordConsoleSystem : EntitySystem
     [Dependency] private readonly StationRecordsSystem _stationRecords = default!;
     [Dependency] private readonly StationJobsSystem _stationJobsSystem = default!; // Frontier
     [Dependency] private readonly IdCardSystem _idCard = default!;
+    [Dependency] private readonly ColcommJobSystem _colcommJobs = default!; // HardLight
     [Dependency] private readonly AccessReaderSystem _access = default!; // Frontier
     [Dependency] private readonly IPrototypeManager _proto = default!; // Frontier
     [Dependency] private readonly IAdminLogManager _adminLog = default!; // Frontier
@@ -162,6 +164,8 @@ public sealed class GeneralStationRecordConsoleSystem : EntitySystem
         // Frontier: jobs, advertisements
         IReadOnlyDictionary<ProtoId<JobPrototype>, int?>? jobList = null;
         string? advertisement = null;
+        if (_colcommJobs.TryGetColcommRegistry(out var colcomm)) // HardLight
+            jobList = colcomm.Comp.CurrentSlots;
 
         if (owningStation != null)
         {
