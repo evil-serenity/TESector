@@ -63,9 +63,9 @@
   # - ForensicMantisPlasmamanGear
   equipment:
     jumpsuit: ClothingUniformJumpsuitMantis
-    back: ClothingBackpackScience
-    shoes: ClothingShoesBootsMantis
-    head: ClothingHeadHatFezMantis
+    # back: ClothingBackpackScience
+    # shoes: ClothingShoesBootsMantis
+    # head: ClothingHeadHatFezMantis
     id: ForensicMantisPDA
     eyes: ClothingEyesGlassesSunglasses
     ears: ClothingHeadsetScience # Delta V: Mantis is part of Epistemics
