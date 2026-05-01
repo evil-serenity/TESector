@@ -1,59 +1,60 @@
 - type: gameMap
-  id: Bagel
-  mapName: 'Bagel Station'
-  mapPath: /Maps/bagel.yml
+  id: Train
+  mapName: 'Train'
+  mapPath: /Maps/train.yml
+  maxRandomOffset: 0
+  randomRotation: false
   minPlayers: 0
   maxPlayers: 200
   stations:
-    Bagel:
+    Train:
       stationProto: StandardNanotrasenStation
       components:
         - type: StationNameSetup
-          mapNameTemplate: '{0} Bagel Station {1}'
+          mapNameTemplate: 'Train "Sentipode" {0}-{1}'
           nameGenerator:
             !type:NanotrasenNameGenerator
-            prefixCreator: '14'
+            prefixCreator: 'ED'
         #- type: StationEmergencyShuttle
-        #  emergencyShuttlePath: /Maps/Shuttles/emergency_lox.yml
+        #  emergencyShuttlePath: /Maps/Shuttles/emergency_omega.yml # TODO - add railway station
         - type: StationJobs
-          availableJobs: # 60 jobs total w/o latejoins & interns, 77 jobs total w/ latejoins & interns
+          availableJobs: # 53 jobs total w/o latejoins & interns, 65 jobs total w/ latejoins & interns
             #command (7)
-            StationTrafficController: [ 1, 1 ]
-            StationCaptain: [ 1, 1 ]
+            Captain: [ 1, 1 ]
             HeadOfPersonnel: [ 1, 1 ]
             HeadOfSecurity: [ 1, 1 ]
             ChiefMedicalOfficer: [ 1, 1 ]
             ChiefEngineer: [ 1, 1 ]
             ResearchDirector: [ 1, 1 ]
             Quartermaster: [ 1, 1 ]
-            #service (13 - 14)
-            Bartender: [ 1, 2 ]
+            #service (11 - 12)
+            Bartender: [ 1, 1 ]
             Botanist: [ 2, 2 ]
-            Chef: [ 2, 2 ]
+            Chef: [ 1, 1 ]
             Janitor: [ 2, 2 ]
             Chaplain: [ 1, 1 ]
             Librarian: [ 1, 1 ]
-            ServiceWorker: [ 2, 2 ]
-            Reporter: [ 2, 2 ]
-            #engineering (7)
-            AtmosphericTechnician: [ 3, 3 ]
+            ServiceWorker: [ 2, 3 ]
+            Reporter: [ 1, 1 ]
+            #engineering (6)
+            AtmosphericTechnician: [ 2, 2 ]
             StationEngineer: [ 4, 4 ]
-            TechnicalAssistant: [ 4, 4 ] #intern, not counted
-            #medical (6)
+            TechnicalAssistant: [ 3, 3 ] #intern, not counted
+            #medical (5)
             Chemist: [ 2, 2 ]
-            MedicalDoctor: [ 3, 3 ]
+            MedicalDoctor: [ 2, 2 ]
+            MedicalIntern: [ 2, 2 ] #intern, not counted
             Paramedic: [ 1, 1 ]
-            MedicalIntern: [ 4, 4 ] #intern, not counted
             Psychologist: [ 1, 1 ]
-            #science (5)
-            Scientist: [ 5, 5 ]
-            ResearchAssistant: [ 4, 4 ] #intern, not counted
-            #security (10)
+            #science (4)
+            Scientist: [ 4, 4 ]
+            ResearchAssistant: [ 2, 2 ] #intern, not counted
+            #security (9 - 10)
             Warden: [ 1, 1 ]
             SecurityOfficer: [ 6, 6 ]
+            SecurityCadet: [ 3, 3 ] #intern, not counted
+            Lawyer: [ 1, 2 ]
             Detective: [ 1, 1 ]
-            SecurityCadet: [ 4, 4 ] #intern, not counted
-            Lawyer: [ 2, 2 ]
             #supply (6)
             SalvageSpecialist: [ 3, 3 ]
             CargoTechnician: [ 3, 3 ]
@@ -62,12 +63,11 @@
             Clown: [ 1, 1 ]
             Mime: [ 1, 1 ]
             Musician: [ 1, 1 ]
-            #silicon (3)
-            StationAi: [ 1, 1 ]
+            #silicon (2)
             Borg: [ 2, 2 ]
             Contractor: [ -1, -1 ]
-            #Pilot: [ 5, 5 ]
-            Mercenary: [ -1, -1 ]
+            Pilot: [ 5, 5 ]
+            Mercenary: [ 5, 5 ]
             MedicalQuadBorg: [ 3, 3 ]
             ServiceQuadBorg: [ 3, 3 ]
             SalvageQuadBorg: [ 3, 3 ]
