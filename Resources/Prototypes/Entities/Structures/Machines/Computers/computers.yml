@@ -134,7 +134,7 @@
           type: WiresBoundUserInterface
   - type: RadarConsole
   - type: WorldLoader
-    radius: 64 # Mono
+    radius: 656 # Mono
   - type: PointLight
     radius: 1.5
     energy: 1.6
@@ -240,8 +240,9 @@
     tags:
       - Syndicate
   - type: RadarConsole
+    maxRange: 756
   - type: WorldLoader
-    radius: 64
+    radius: 656
   - type: PointLight
     radius: 1.5
     energy: 1.6
@@ -272,6 +273,7 @@
     components:
       - type: CargoShuttle
   - type: RadarConsole
+    maxRange: 512
   - type: PointLight
     radius: 1.5
     energy: 1.6
@@ -439,6 +441,42 @@
   - type: GuideHelp
     guides:
     - CriminalRecords
+
+- type: entity
+  parent: BaseComputerAiAccess
+  id: ComputerLaws
+  name: laws manager console
+  description: Write your laws! Only Head of Security can modify them.
+  components:
+  - type: Sprite
+    layers:
+    - map: ["computerLayerBody"]
+      state: computer
+    - map: ["computerLayerKeyboard"]
+      state: generic_keyboard
+    - map: ["computerLayerScreen"]
+      state: security
+    - map: ["computerLayerKeys"]
+      state: security_key
+    - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      state: generic_panel_open
+  - type: Computer
+    board: ComputerLawsCircuitboard
+  - type: DeviceNetworkRequiresPower
+  - type: LawsWriter
+  - type: AccessReader
+    access: [["HeadOfSecurity"]]
+  - type: ActivatableUI
+    key: enum.LawsWriterUiKey.Key
+  - type: ActivatableUIRequiresVision
+  - type: Transform
+    anchored: true
+  - type: UserInterface
+    interfaces:
+      enum.LawsWriterUiKey.Key:
+        type: LawsWriterBoundUserInterface
+      enum.WiresUiKey.Key:
+        type: WiresBoundUserInterface
 
 - type: entity
   parent: BaseComputerAiAccess
@@ -923,6 +961,8 @@
     - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
       state: generic_panel_open
   - type: RadarConsole
+    maxRange: 512 # Frontier
+    maxIffRange: 512 # Frontier
   - type: ActivatableUI
     key: enum.RadarConsoleUiKey.Key
   - type: UserInterface
