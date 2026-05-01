@@ -167,6 +167,8 @@ public sealed class MoverController : SharedMoverController
             // UpdateBeforeSolve runs, so the guard won't fire for those cases.
             if (!body.Awake
                 && mover.HeldMoveButtons == MoveButtons.None
+                && mover.CurTickWalkMovement.LengthSquared() == 0f
+                && mover.CurTickSprintMovement.LengthSquared() == 0f
                 && mover.TargetRelativeRotation == mover.RelativeRotation)
                 continue;
 
