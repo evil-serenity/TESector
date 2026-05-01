@@ -1,6 +1,7 @@
 using Content.Shared.Shuttles.Components;
 using Content.Shared.Procedural;
 using Content.Shared.Salvage.Expeditions;
+using Content.Shared.Salvage.Expeditions.Modifiers;
 using Content.Shared.Dataset;
 using Robust.Shared.Prototypes;
 using Content.Shared.Popups; // Frontier
@@ -166,8 +167,23 @@ public sealed partial class SalvageSystem
         {
             var filter = Filter.Empty().AddInGrid(consoleXform.GridUid.Value);
             var announcement = Loc.GetString("salvage-expedition-announcement-claimed");
+            var biomeProto = _prototypeManager.Index<SalvageBiomeModPrototype>(mission.Biome);
+            var biome = string.IsNullOrWhiteSpace(Loc.GetString(biomeProto.Description))
+                ? Loc.GetString(biomeProto.ID)
+                : Loc.GetString(biomeProto.Description);
+            var objective = Loc.GetString($"salvage-expedition-type-{missionparams.MissionType}");
+            var difficulty = Loc.GetString($"salvage-expedition-difficulty-{missionparams.Difficulty}");
             _chatSystem.DispatchFilteredAnnouncement(filter, announcement, uid,
                 sender: "Expedition Console", colorOverride: Color.LightBlue);
+            _chatSystem.DispatchFilteredAnnouncement(
+                filter,
+                Loc.GetString("salvage-expedition-announcement-briefing",
+                    ("objective", objective),
+                    ("difficulty", difficulty),
+                    ("biome", biome)),
+                uid,
+                sender: "Expedition Console",
+                colorOverride: Color.LightBlue);
         }
 
         Log.Info($"Mission {args.Index} successfully claimed on independent console {ToPrettyString(uid)}");
@@ -257,11 +273,10 @@ public sealed partial class SalvageSystem
     /// </summary>
     public bool TryEndExpeditionEarlyFromConsole(EntityUid consoleUid)
     {
-        if (!TryComp(consoleUid, out TransformComponent? xform) || xform.MapUid == null)
+        if (!TryComp(consoleUid, out TransformComponent? xform))
             return false;
 
-        var expeditionMapUid = xform.MapUid.Value;
-        if (!TryComp(expeditionMapUid, out SalvageExpeditionComponent? expedition))
+        if (!TryGetExpeditionForEntity(consoleUid, out var expeditionMapUid, out SalvageExpeditionComponent? expedition, xform))
             return false;
 
         // HardLight: Return has already been queued; treat this as handled to avoid duplicate countdown timers.
@@ -318,7 +333,7 @@ public sealed partial class SalvageSystem
         // Find shuttles on the expedition map and FTL them home
         while (shuttleQuery.MoveNext(out var shuttleUid, out var shuttle, out var shuttleXform, out _))
         {
-            if (shuttleXform.MapUid != expeditionMapUid || TryComp(shuttleUid, out FTLComponent? _))
+            if (!IsEntityOnExpedition(shuttleUid, expeditionMapUid, shuttleXform) || TryComp(shuttleUid, out FTLComponent? _))
                 continue;
 
             var dropLocation = PickExpeditionReturnDropLocation(existingPositions); // HardLight
@@ -434,14 +449,17 @@ public sealed partial class SalvageSystem
             EntityManager,
             _timing,
             _logManager,
+            _mapManager,
             _prototypeManager,
             _anchorable,
+            _audio,
             _biome,
             _dungeon,
             _metaData,
             _mapSystem,
             _station,
             _shuttle,
+            _sectorWorld,
             this,
             missionStation,
             consoleUid, // HARDLIGHT: Pass console reference for FTL targeting

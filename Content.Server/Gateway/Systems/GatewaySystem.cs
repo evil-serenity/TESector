@@ -94,8 +94,11 @@ public sealed class GatewaySystem : EntitySystem
         // - If our map is a generated destination then use the generator that made it
 
         if (TryComp(_stations.GetOwningStation(uid), out GatewayGeneratorComponent? generatorComp) ||
-            (TryComp(xform.MapUid, out GatewayGeneratorDestinationComponent? generatorDestination) &&
-             TryComp(generatorDestination.Generator, out generatorComp)))
+            (xform.GridUid != null &&
+             TryComp(xform.GridUid.Value, out GatewayGeneratorDestinationComponent? generatorDestination) &&
+             TryComp(generatorDestination.Generator, out generatorComp)) ||
+            (TryComp(xform.MapUid, out GatewayGeneratorDestinationComponent? mapGeneratorDestination) &&
+             TryComp(mapGeneratorDestination.Generator, out generatorComp)))
         {
             nextUnlock = generatorComp.NextUnlock;
             unlockTime = generatorComp.UnlockCooldown;
@@ -110,7 +113,11 @@ public sealed class GatewaySystem : EntitySystem
                 continue;
 
             // Show destination if either no destination comp on the map or it's ours.
-            TryComp<GatewayGeneratorDestinationComponent>(destXform.MapUid, out var gatewayDestination);
+            GatewayGeneratorDestinationComponent? gatewayDestination = CompOrNull<GatewayGeneratorDestinationComponent>(destUid);
+            if (destXform.GridUid != null)
+                gatewayDestination ??= CompOrNull<GatewayGeneratorDestinationComponent>(destXform.GridUid.Value);
+
+            gatewayDestination ??= CompOrNull<GatewayGeneratorDestinationComponent>(destXform.MapUid);
             var isDockingArm = TryComp<DockingArmDestinationComponent>(destUid, out var dockingArmDestination);
 
             if (isDockingArm)
@@ -269,8 +276,12 @@ public sealed class GatewaySystem : EntitySystem
         if (!Resolve(dest, ref destXform) || destXform.MapUid == null)
             return;
 
+        var destinationTarget = destXform.GridUid ?? destXform.MapUid.Value;
         var ev = new AttemptGatewayOpenEvent(destXform.MapUid.Value, dest);
-        RaiseLocalEvent(destXform.MapUid.Value, ref ev);
+        RaiseLocalEvent(dest, ref ev);
+
+        if (!ev.Cancelled)
+            RaiseLocalEvent(destinationTarget, ref ev);
 
         if (ev.Cancelled)
             return;
@@ -287,7 +298,8 @@ public sealed class GatewaySystem : EntitySystem
         targetPortal.RandomTeleport = false;
 
         var openEv = new GatewayOpenEvent(destXform.MapUid.Value, dest);
-        RaiseLocalEvent(destXform.MapUid.Value, ref openEv);
+        RaiseLocalEvent(dest, ref openEv);
+        RaiseLocalEvent(destinationTarget, ref openEv);
 
         // for ui
         comp.NextReady = _timing.CurTime + comp.Cooldown;
