@@ -3390,3 +3390,72 @@ Entries:
       message: Mantis should no longer spawn duplicate equipment on spawn.
   id: 363
   time: '2026-04-30T00:14:18.0000000+00:00'
+- author: Kronyxxx
+  changes:
+    - type: Fix
+      message: >-
+        Set `transferAmounts: []` on all three Dynamic modes.
+        `AddSetTransferVerbs` exits early on an empty list; `GetTransferAmount`
+        falls back to the solution's current volume, so the full contents are
+        always injected.
+    - type: Fix
+      message: >-
+        Added `AudioSystem` dependency to `InjectorSystem` and a `PlayPvs` call
+        after a successful bloodstream injection when the active mode defines an
+        `injectSound`. Wired `injectSound:
+        /Audio/Items/Medical/jet_injector.ogg` into all three Dynamic modes.
+    - type: Fix
+      message: >-
+        Added `AdvancedJetInjector` to the `AdvancedTreatment` technology in
+        `civilianservices.yml`.
+    - type: Fix
+      message: >-
+        Jet injector no longer shows selectable 5u/15u transfer amounts; always
+        injects full reservoir.
+    - type: Fix
+      message: Jet injector now plays its unique injection sound on use.
+    - type: Fix
+      message: >-
+        Advanced Jet Injector is now researchable via Advanced Treatment
+        (CivilianServices tier 2).
+  id: 364
+  time: '2026-04-30T20:20:54.0000000+00:00'
+- author: Kronyxxx
+  changes:
+    - type: Fix
+      message: >-
+        Medicated sutures and regenerative meshes can again be crafted in the
+        medical assembler using lathe-produced bruise packs and ointments.
+  id: 365
+  time: '2026-04-30T20:31:44.0000000+00:00'
+- author: Kronyxxx
+  changes:
+    - type: Fix
+      message: >-
+        Switchable-type cyborgs (SecBorg, MediBorg, etc.) no longer lose their
+        built-in department radio channel when an encryption key is added to or
+        removed from them.
+  id: 366
+  time: '2026-04-30T20:35:57.0000000+00:00'
+- author: IngvarJackal
+  changes:
+    - type: Tweak
+      message: CTLA drives have correct speeds
+    - type: Tweak
+      message: gunnery console has shield status and draws shields
+  id: 367
+  time: '2026-04-30T20:59:38.0000000+00:00'
+- author: NotLivyathan
+  changes:
+    - type: Add
+      message: Handheld fax machines can now be spawned by admins.
+    - type: Add
+      message: >-
+        Service Cyborgs now have access to fax machines as part of the
+        bureaucracy module.
+    - type: Add
+      message: Service Cyborgs can now fabricate blank sheets of paper.
+    - type: Tweak
+      message: Fax machine UI has received minor improvements for better clarity.
+  id: 368
+  time: '2026-05-01T00:19:28.0000000+00:00'

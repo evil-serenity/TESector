@@ -26,6 +26,7 @@
             ChiefEngineer: [ 1, 1 ]
             ResearchDirector: [ 1, 1 ]
             Quartermaster: [ 1, 1 ]
+            StationRepresentative: [ 1, 1 ] # Harbor Master
             #service (13 - 14)
             Bartender: [ 1, 2 ]
             Botanist: [ 2, 2 ]
@@ -43,6 +44,7 @@
             Chemist: [ 2, 2 ]
             MedicalDoctor: [ 3, 3 ]
             Paramedic: [ 1, 1 ]
+            Psychologist: [ 1, 1 ]
             MedicalIntern: [ 4, 4 ] #intern, not counted
             Psychologist: [ 1, 1 ]
             #science (5)
@@ -66,7 +68,8 @@
             StationAi: [ 1, 1 ]
             Borg: [ 2, 2 ]
             Contractor: [ -1, -1 ]
-            #Pilot: [ 5, 5 ]
+            Mercenary: [ 0, 40 ]
+            Pilot: [ 5, 5 ]
             Mercenary: [ -1, -1 ]
             MedicalQuadBorg: [ 3, 3 ]
             ServiceQuadBorg: [ 3, 3 ]
@@ -77,3 +80,4 @@
             MailCarrier: [ 1, 1 ]
             Prisoner: [ 3, 3 ]
             ForensicMantis: [ 1, 1 ]
+            Anomaly: [ 5, 5 ]
