@@ -927,14 +927,11 @@ public partial class ShuttleNavControl : BaseShuttleControl // Mono
         var shields = EntManager.AllEntityQueryEnumerator<ShipShieldVisualsComponent, FixturesComponent, TransformComponent>();
         while (shields.MoveNext(out var uid, out var visuals, out var fixtures, out var xform))
         {
-            if (!EntManager.TryGetComponent<TransformComponent>(xform.GridUid, out var parentXform))
-                continue;
-
             if (xform.MapID != consoleXform.MapID)
                 continue;
 
             // Don't draw shields when in FTL
-            if (xform.GridUid == null)
+            if (xform.GridUid == null || !EntManager.HasComponent<TransformComponent>(xform.GridUid.Value))
                 continue;
 
             var parentGridUid = xform.GridUid.Value;
@@ -987,7 +984,9 @@ public partial class ShuttleNavControl : BaseShuttleControl // Mono
             if (count < 2)
                 continue;
 
-            var center = _transform.WithEntityId(xform.Coordinates, xform.GridUid.Value).Position;
+            // The fixture vertices are grid-local, so the shield center must stay grid-local too.
+            // Converting Coordinates to map-space here and then applying parentWorldMatrix double-transforms the ring.
+            var center = xform.LocalPosition;
             var parentWorldMatrix = _transform.GetWorldMatrix(parentGridUid);
 
             for (int i = 1; i < count; i++)
