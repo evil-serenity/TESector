@@ -84,25 +84,17 @@ public sealed class GeneralStationRecordConsoleSystem : EntitySystem
                 return;
             }
 
-            if (!_stationJobsSystem.IsShipCrewHiringStation(station))
-            {
-                UpdateUserInterface(ent);
-                return;
-            }
-
             if (!CanEditStationJobs(msg.Actor, ent.Owner, station, stationJobs))
             {
                 UpdateUserInterface(ent);
                 return;
             }
 
-            if (!_stationJobsSystem.IsAdvertisedLateJoinJob(station, msg.JobProto))
+            if (_colcommJobs.TryGetColcommRegistry(out var colcomm)) // HardLight
             {
-                UpdateUserInterface(ent);
-                return;
+                _colcommJobs.TryAdjustJobSlot(colcomm, msg.JobProto, msg.Amount, clamp: true);
+                _stationJobsSystem.UpdateJobsAvailable();
             }
-
-            _stationJobsSystem.TryAdjustJobCapacity(station, msg.JobProto, msg.Amount, clamp: true, stationJobs: stationJobs);
 
             UpdateUserInterface(ent);
         }
