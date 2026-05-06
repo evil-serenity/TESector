@@ -10,11 +10,14 @@ using Content.Server.CriminalRecords.Systems;
 using Content.Server.PsionicsRecords.Systems;
 using Content.Server.StationRecords.Systems;
 using Content.Server.Store.Components; // HardLight
-using Content.Server._HL.Shipyard; // HardLight
+using Content.Server._HL.Shipyard;
+using Content.Server.Nutrition.Components; // HardLight
 using Content.Shared._Common.Consent; // HardLight
 using Content.Shared._HL.Shipyard; // HardLight
 using Content.Shared._NF.Shipyard.Components;
 using Content.Shared._NF.Shipyard.Events;
+using Content.Shared.Atmos.Rotting;
+using Content.Shared.Body.Part;
 using Content.Shared.Chemistry.Components;
 using Content.Shared.Chemistry.Components.SolutionManager;
 using Content.Shared.Chemistry.EntitySystems;
@@ -22,7 +25,9 @@ using Content.Shared.DeviceLinking;
 using Content.Shared.DeviceLinking.Components;
 using Content.Shared.Implants.Components; // HardLight
 using Content.Shared.Light.Components; // HardLight
-using Content.Shared.Mind.Components; // HardLight
+using Content.Shared.Mind.Components;
+using Content.Shared.Paper;
+using Content.Shared.Shuttles.Components; // HardLight
 using Content.Shared.Shuttles.Save; // For SendShipSaveDataClientMessage
 using Content.Shared.SprayPainter.Components; // HardLight
 using Content.Shared.SprayPainter.Prototypes; // HardLight
@@ -728,36 +733,23 @@ public sealed class ShipyardGridSaveSystem : EntitySystem
             return true;
         if (_secretStashQuery.HasComp(uid) || _persistOnSaveQuery.HasComp(uid))
             return false; // preserve stash root outright
-        if (_gridQuery.HasComp(uid))
-            return false; // never delete grid root or nested grids here
-        // Preserve wall-mounted fixtures (buttons, posters, etc.) regardless of anchored state
-        if (HasComp<WallMountComponent>(uid))
-            return false;
-        // Preserve levers
-        if (HasComp<TwoWayLeverComponent>(uid))
-            return false;
-        // Preserve entities with static body types, such as drains or sinks.
-        if (TryComp<PhysicsComponent>(uid, out var physics) && physics.BodyType == BodyType.Static)
-            return false;
-        // Preserve solutions
-        if (HasComp<ContainedSolutionComponent>(uid) || HasComp<SolutionComponent>(uid))
-            return false;
         var anchored = false;
         if (_transformQuery.TryComp(uid, out var xform))
             anchored = xform.Anchored;
-        var inContainer = _containerSystem.IsEntityInContainer(uid);
         // Per updated requirements: anchored entities must never be deleted under any circumstance.
         if (anchored)
             return false;
-        if (inContainer)
-        {
-            // If this entity (at any ancestor depth) is ultimately inside a secret stash preserve it.
-            if (IsInsideSecretStash(uid))
-                return false;
-        }
+        // Remove entities with Food component, except paper.
+        if (TryComp<FoodComponent>(uid, out _) && !TryComp<PaperComponent>(uid, out _))
+            return true;
+        if (TryComp<BodyPartComponent>(uid, out _))
+            return true;
+        if (TryComp<PerishableComponent>(uid, out _))
+            return true;
+        if(TryComp<SpaceGarbageComponent>(uid, out _) && !TryComp<LightBulbComponent>(uid, out _))
+            return true;
 
-        // Only unanchored entities are eligible for deletion. If it's unanchored (loose) or unanchored-in-container, delete.
-        return true;
+        return false;
     }
 
     // HardLight start
